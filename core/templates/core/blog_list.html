@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Blog{% endblock %}
+{% block nav_media %}active{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Stories from the Field</span>
+      <h1>Our Blog</h1>
+      <p class="about-banner-sub">Testimonies, field reports, and reflections from across Nigeria's unreached communities.</p>
+      <nav class="breadcrumb-nav"><a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>Blog</span></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Posts -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="row g-4">
+      {% for post in posts %}
+      <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
+        <a href="{{ post.get_absolute_url }}" class="post-card text-decoration-none">
+          <div class="pc-thumb">
+            {% if post.featured_image %}<img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy">{% endif %}
+          </div>
+          <div class="pc-body">
+            <div class="pc-meta"><span class="pc-tag">{{ post.author }}</span><span>{{ post.published_date|date:"M d, Y" }}</span></div>
+            <h3>{{ post.title }}</h3>
+            <p class="pc-excerpt">{{ post.excerpt|truncatechars:120 }}</p>
+            <span class="pc-link">Read More <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="fas fa-newspaper fa-3x mb-3" style="color:var(--gold);opacity:0.5;"></i>
+        <p style="color:var(--gray-500);">No posts yet. Check back soon.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+    <ul class="pagination-wrap">
+      {% if posts.has_previous %}
+      <li><a href="?page={{ posts.previous_page_number }}" class="page-btn"><i class="fas fa-chevron-left"></i></a></li>
+      {% endif %}
+      {% for num in posts.paginator.page_range %}
+      <li><a href="?page={{ num }}" class="page-btn {% if posts.number == num %}active{% endif %}">{{ num }}</a></li>
+      {% endfor %}
+      {% if posts.has_next %}
+      <li><a href="?page={{ posts.next_page_number }}" class="page-btn"><i class="fas fa-chevron-right"></i></a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

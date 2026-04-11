@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact Us{% endblock %}
+{% block nav_contact %}active{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Reach Out</span>
+      <h1>Contact Us</h1>
+      <p class="about-banner-sub">We'd love to hear from you — whether you have questions, want to partner, or simply want to learn more.</p>
+      <nav class="breadcrumb-nav"><a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>Contact</span></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Contact body -->
+<section class="section bg-cream">
+  <div class="container">
+    <div class="row g-5 align-items-stretch">
+
+      <!-- Info panel -->
+      <div class="col-lg-4" data-animate>
+        <div class="contact-info-panel">
+          <div class="cip-glow"></div>
+          <span class="section-eyebrow" style="color:var(--gold-light);">Get in Touch</span>
+          <h3 style="color:var(--white);margin-bottom:0.5rem;">We'd Love to<br>Hear From You</h3>
+          <div class="divider" style="background:var(--gold);"></div>
+          <p style="color:rgba(255,255,255,0.68);font-size:0.95rem;line-height:1.8;">
+            Whether you have questions, want to partner with us, or just want to learn more — reach out anytime.
+          </p>
+          <div class="cip-items mt-4">
+            <div class="cip-item">
+              <div class="cip-icon"><i class="fas fa-envelope"></i></div>
+              <div><h6>Email</h6><p>info@lightoflifeafrica.org</p></div>
+            </div>
+            <div class="cip-item">
+              <div class="cip-icon"><i class="fas fa-phone"></i></div>
+              <div><h6>Phone</h6><p>+234 816 480 7904</p></div>
+            </div>
+            <div class="cip-item">
+              <div class="cip-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div><h6>Location</h6><p>Northern Nigeria</p></div>
+            </div>
+          </div>
+          <div class="cip-socials mt-4">
+            <a href="https://www.facebook.com/profile.php?id=100065205799702" class="cip-social" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/haske_project" class="cip-social" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@HaskeProject" class="cip-social" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/+4jsirMTmyn43ODBk" class="cip-social" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="col-lg-8" data-animate data-animate-delay="1">
+        <div class="contact-form-card">
+          <span class="section-eyebrow">Send a Message</span>
+          <h3 style="margin-bottom:0.5rem;">How Can We Help?</h3>
+          <div class="divider"></div>
+          <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label">Your Name *</label>
+                <input type="text" name="name" class="form-control" required placeholder="Full name">
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">Email Address *</label>
+                <input type="email" name="email" class="form-control" required placeholder="your@email.com">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message *</label>
+                <textarea name="message" class="form-control" rows="7" required placeholder="Tell us how we can help…"></textarea>
+              </div>
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

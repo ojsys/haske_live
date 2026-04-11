@@ -1,0 +1,38 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      {% if section.image_position == 'left' %}
+      <div class="col-lg-6" data-animate>
+        {% if section.image %}
+        <div style="border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-xl);">
+          <img src="{{ section.image.url }}" alt="{{ section.title }}" style="width:100%;object-fit:cover;">
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-lg-6" data-animate data-animate-delay="1">
+      {% else %}
+      <div class="col-lg-6" data-animate>
+      {% endif %}
+        {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+        {% if section.title %}<h2>{{ section.title }}</h2><div class="divider"></div>{% endif %}
+        {% if section.body %}<div class="rich-content">{{ section.body|safe }}</div>{% endif %}
+        {% if section.button_text or section.button2_text %}
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          {% if section.button_text %}<a href="{{ section.button_url }}" class="btn btn-primary">{{ section.button_text }}</a>{% endif %}
+          {% if section.button2_text %}<a href="{{ section.button2_url }}" class="btn btn-outline-navy">{{ section.button2_text }}</a>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+      {% if section.image_position == 'right' %}
+      <div class="col-lg-6" data-animate data-animate-delay="1">
+        {% if section.image %}
+        <div style="border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-xl);">
+          <img src="{{ section.image.url }}" alt="{{ section.title }}" style="width:100%;object-fit:cover;">
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

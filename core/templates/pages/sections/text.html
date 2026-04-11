@@ -1,0 +1,18 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+        {% if section.title %}<h2>{{ section.title }}</h2><div class="divider"></div>{% endif %}
+        {% if section.body %}<div class="rich-content">{{ section.body|safe }}</div>{% endif %}
+        {% if section.button_text or section.button2_text %}
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          {% if section.button_text %}<a href="{{ section.button_url }}" class="btn btn-primary">{{ section.button_text }}</a>{% endif %}
+          {% if section.button2_text %}<a href="{{ section.button2_url }}" class="btn btn-outline-navy">{{ section.button2_text }}</a>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

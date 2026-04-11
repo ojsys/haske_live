@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block nav_media %}active{% endblock %}
+{% block meta_description %}{{ post.excerpt }}{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  {% if post.featured_image %}<img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="bg-img">{% endif %}
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Blog</span>
+      <h1 style="font-size:clamp(1.6rem,4vw,2.6rem);max-width:780px;">{{ post.title }}</h1>
+      <nav class="breadcrumb-nav">
+        <a href="{% url 'home' %}">Home</a><span class="sep">/</span>
+        <a href="{% url 'blog-list' %}">Blog</a><span class="sep">/</span>
+        <span>{{ post.title|truncatechars:40 }}</span>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<section class="section bg-white">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Post content -->
+      <div class="col-lg-8" data-animate>
+        <!-- Author bar -->
+        <div class="blog-author-bar">
+          <div class="bab-avatar"><i class="fas fa-user"></i></div>
+          <div>
+            <div class="bab-name">{{ post.author }}</div>
+            <div class="bab-date">{{ post.published_date|date:"F j, Y" }}</div>
+          </div>
+        </div>
+        <div class="blog-content">{{ post.content|safe }}</div>
+        <!-- Back link -->
+        <div class="mt-5 pt-4" style="border-top:1px solid var(--gray-200);">
+          <a href="{% url 'blog-list' %}" class="btn btn-outline-navy">
+            <i class="fas fa-arrow-left me-2"></i> Back to Blog
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4" data-animate data-animate-delay="1">
+        <div style="position:sticky;top:6rem;display:flex;flex-direction:column;gap:1.5rem;">
+
+          {% if recent_posts %}
+          <div class="blog-sidebar-card">
+            <h5 class="bsc-title">Recent Posts</h5>
+            <div class="d-flex flex-column gap-3">
+              {% for recent in recent_posts %}
+              <a href="{{ recent.get_absolute_url }}" class="bsc-post">
+                {% if recent.featured_image %}
+                <div class="bsc-thumb">
+                  <img src="{{ recent.featured_image.url }}" alt="{{ recent.title }}">
+                </div>
+                {% endif %}
+                <div>
+                  <div class="bsc-post-title">{{ recent.title|truncatechars:55 }}</div>
+                  <div class="bsc-post-date">{{ recent.published_date|date:"M d, Y" }}</div>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="blog-sidebar-give">
+            <div class="bsg-glow"></div>
+            <i class="fas fa-heart bsg-icon"></i>
+            <h5>Support the Mission</h5>
+            <p>Help us reach more unreached communities across Nigeria.</p>
+            <a href="{% url 'give' %}" class="btn btn-primary w-100"><i class="fas fa-heart"></i> Give Now</a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<!-- Add Chart.js -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active">{{ state_name }} State</li>
+        </ol>
+    </nav>
+
+
+
+    <div class="row mb-4">
+        <div class="col">
+            <h2>{{ state_name }} State Statistics</h2>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Total Villages</h6>
+                    <h3 class="card-title">{{ summary.village_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Total Population</h6>
+                    <h3 class="card-title">{{ summary.total_population|default:0 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Total Converts</h6>
+                    <h3 class="card-title">{{ summary.total_converts|default:0 }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Film Attendance</h6>
+                    <h3 class="card-title">{{ summary.film_attendance|default:0 }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card h-100"> <!-- Added h-50 class -->
+                <div class="card-body d-flex flex-column"> <!-- Added d-flex and flex-column -->
+                    <h5 class="card-title">Religious Distribution</h5>
+                    <div class="flex-grow-1"> <!-- Added wrapper div with flex-grow-1 -->
+                        <canvas id="religionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100"> <!-- Added h-100 class -->
+                <div class="card-body d-flex flex-column"> <!-- Added d-flex and flex-column -->
+                    <h5 class="card-title">Village Statistics</h5>
+                    <div class="flex-grow-1"> <!-- Added wrapper div with flex-grow-1 -->
+                        <canvas id="villageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Data Table -->
+    <div class="card">
+        <div class="card-body">
+            <table id="detailTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>LGA</th>
+                        <th>Ward</th>
+                        <th>Village</th>
+                        <th>Population</th>
+                        <th>Christians</th>
+                        <th>Muslims</th>
+                        <th>Traditional</th>
+                        <th>Converts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in detailed_data %}
+                    <tr>
+                        <td>{{ data.lga }}</td>
+                        <td>{{ data.ward }}</td>
+                        <td>{{ data.village }}</td>
+                        <td>{{ data.total_village_population }}</td>
+                        <td>{{ data.christian_population }}</td>
+                        <td>{{ data.muslim_population }}</td>
+                        <td>{{ data.traditional_population }}</td>
+                        <td>{{ data.converts }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DataTable
+    $('#detailTable').DataTable({
+        pageLength: 10,
+        order: [[0, 'asc']],
+    });
+
+    // Religion Distribution Chart
+    const religionCtx = document.getElementById('religionChart').getContext('2d');
+    new Chart(religionCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Christians', 'Muslims', 'Traditional'],
+            datasets: [{
+                data: [
+                    {{ summary.total_christian|default:0 }},
+                    {{ summary.total_muslim|default:0 }},
+                    {{ summary.total_traditional|default:0 }}
+                ],
+                backgroundColor: ['#28a745', '#007bff', '#ffc107']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2,  
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Village Statistics Chart
+    const villageCtx = document.getElementById('villageChart').getContext('2d');
+    new Chart(villageCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Population', 'Film Attendance', 'Converts'],
+            datasets: [{
+                data: [
+                    {{ summary.total_population|default:0 }},
+                    {{ summary.film_attendance|default:0 }},
+                    {{ summary.total_converts|default:0 }}
+                ],
+                backgroundColor: ['#20c997', '#6f42c1', '#fd7e14']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+
+// Export function
+function exportToExcel() {
+    // Implementation for Excel export
+    // We can add this later if you want
+}
+</script>
+{% endblock %}

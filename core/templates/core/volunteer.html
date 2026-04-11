@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Volunteer{% endblock %}
+{% block nav_work %}active{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  {% if page and page.header_image %}<img src="{{ page.header_image.url }}" alt="Volunteer" class="bg-img">{% endif %}
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Get Involved</span>
+      <h1>{% if page %}{{ page.title }}{% else %}Volunteer{% endif %}</h1>
+      <p class="about-banner-sub">Step into the field. Your time and skills can change eternity for Nigeria's unreached.</p>
+      <nav class="breadcrumb-nav"><a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>Volunteer</span></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Intro band -->
+{% if page %}
+<section class="home-statement-section">
+  <div class="container">
+    <div class="home-statement" data-animate>
+      <i class="fas fa-quote-left home-statement-icon"></i>
+      <p>{{ page.introduction }}</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Two volunteer paths -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="section-header center" data-animate>
+      <span class="section-eyebrow">Two Ways to Serve</span>
+      <h2>Choose Your Path</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="row g-4 mt-2">
+
+      {% if go_team %}
+      <div class="col-md-6" data-animate data-animate-delay="1">
+        <div class="vol-path-card vol-path-dark">
+          {% if go_team.image %}
+          <div class="vpc-img">
+            <img src="{{ go_team.image.url }}" alt="{{ go_team.title }}">
+            <div class="vpc-img-overlay"></div>
+          </div>
+          {% endif %}
+          <div class="vpc-body">
+            <div class="vpc-icon"><i class="fas fa-map-marked-alt"></i></div>
+            <span class="section-eyebrow" style="color:var(--gold-light);">Field Ministry</span>
+            <h3 style="color:var(--white);">{{ go_team.title }}</h3>
+            <div class="divider" style="background:var(--gold);"></div>
+            <p style="color:rgba(255,255,255,0.78);">{{ go_team.description }}</p>
+            <a href="#volunteerForm" class="btn btn-primary mt-3">
+              Apply for Go-Team <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if prayer_partner %}
+      <div class="col-md-6" data-animate data-animate-delay="2">
+        <div class="vol-path-card vol-path-light">
+          {% if prayer_partner.image %}
+          <div class="vpc-img">
+            <img src="{{ prayer_partner.image.url }}" alt="{{ prayer_partner.title }}">
+            <div class="vpc-img-overlay vpc-img-overlay-light"></div>
+          </div>
+          {% endif %}
+          <div class="vpc-body">
+            <div class="vpc-icon vpc-icon-gold"><i class="fas fa-praying-hands"></i></div>
+            <span class="section-eyebrow">Intercession</span>
+            <h3>{{ prayer_partner.title }}</h3>
+            <div class="divider"></div>
+            <p style="color:var(--gray-500);">{{ prayer_partner.description }}</p>
+            <a href="#volunteerForm" class="btn btn-secondary mt-3">
+              Become a Prayer Partner <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+<!-- Why volunteer strip -->
+<section class="vol-why-section">
+  <div class="vol-why-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-3 col-md-6" data-animate>
+        <div class="vol-why-item">
+          <i class="fas fa-heart"></i>
+          <h5>Make an Eternal Difference</h5>
+          <p>Every step into the field carries the gospel where it has never been heard.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-animate data-animate-delay="1">
+        <div class="vol-why-item">
+          <i class="fas fa-users"></i>
+          <h5>Join a Committed Team</h5>
+          <p>You'll serve alongside passionate believers united by one mission.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-animate data-animate-delay="2">
+        <div class="vol-why-item">
+          <i class="fas fa-map-marked-alt"></i>
+          <h5>See Nigeria's Hidden Villages</h5>
+          <p>Engage directly with communities rarely touched by the outside world.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-animate data-animate-delay="3">
+        <div class="vol-why-item">
+          <i class="fas fa-book-open"></i>
+          <h5>Grow in Faith</h5>
+          <p>Witnessing lives transformed on the field will deepen your own walk with God.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Application Form -->
+<section class="section bg-cream" id="volunteerForm">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+
+      <div class="col-lg-5" data-animate>
+        <span class="section-eyebrow">Take the Step</span>
+        <h2>Apply to Volunteer</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">Fill in the form and our team will reach out within a few days to connect you with the right role.</p>
+        <div class="vol-form-info mt-4">
+          <div class="vfi-item"><i class="fas fa-clock"></i><span>We respond within <strong>2–3 business days</strong></span></div>
+          <div class="vfi-item"><i class="fas fa-shield-alt"></i><span>Your information is <strong>100% private</strong></span></div>
+          <div class="vfi-item"><i class="fas fa-globe-africa"></i><span>Serving <strong>Northern Nigeria</strong> and beyond</span></div>
+        </div>
+      </div>
+
+      <div class="col-lg-7" data-animate data-animate-delay="1">
+        <form id="volunteerApplyForm" class="vol-form-card">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label">Full Name *</label>
+              <input type="text" name="full_name" class="form-control" required placeholder="Your full name">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Email Address *</label>
+              <input type="email" name="email" class="form-control" required placeholder="you@email.com">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" name="phone" class="form-control" required placeholder="+234…">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Area of Interest *</label>
+              <select name="area_of_interest" class="form-control" required>
+                <option value="">— Select —</option>
+                <option value="go_team">Go-Team Member</option>
+                <option value="prayer">Prayer Partner</option>
+                <option value="medical">Medical Outreach</option>
+                <option value="education">Education Support</option>
+                <option value="community">Community Development</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Skills &amp; Experience *</label>
+              <textarea name="skills" class="form-control" rows="3" required placeholder="Tell us about your relevant skills…"></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Availability *</label>
+              <textarea name="availability" class="form-control" rows="2" required placeholder="When are you available? Weekends, full-time…"></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Additional Message</label>
+              <textarea name="message" class="form-control" rows="2" placeholder="Anything else you'd like us to know…"></textarea>
+            </div>
+            <div class="col-12 mt-2">
+              <button type="submit" class="btn btn-primary w-100 btn-lg">
+                <i class="fas fa-paper-plane"></i> Submit Application
+              </button>
+            </div>
+          </div>
+          <div id="applyMsg" class="mt-3" style="display:none;"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script>
+document.getElementById('volunteerApplyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msg = document.getElementById('applyMsg');
+  const btn = this.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting…';
+  fetch('/volunteer/apply/', {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(r => r.json())
+  .then(d => {
+    msg.style.display = 'block';
+    msg.className = `alert alert-${d.status === 'success' ? 'success' : 'danger'}`;
+    msg.innerHTML = d.message;
+    if (d.status === 'success') this.reset();
+  })
+  .catch(() => {
+    msg.style.display = 'block';
+    msg.className = 'alert alert-danger';
+    msg.textContent = 'An error occurred. Please try again.';
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "admin/index.html" %}
+
+{% block sidebar %}
+{{ block.super }}
+<div class="module">
+    <h2>Audit Tools</h2>
+    <ul class="actionlist">
+        <li>
+            <a href="{% url 'audit_log' %}">View Audit Log</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

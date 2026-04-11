@@ -1,0 +1,374 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="about-hero">
+    {% if about.header_image %}
+    <div class="hero-container">
+        <div class="hero-image" style="background-image: url('{{ about.header_image.url }}');">
+            <div class="overlay"></div>
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-lg-8" style="padding-left: 50px; padding-top: 150px;">
+                        <h1 class="hero-title mb-4">{{ about.title }}</h1>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<section>
+    <p class="hero-text mt-5 mb-5 text-center text-black">{{ about.introduction }}</p>
+</section>
+
+<!-- Ministry Section -->
+<section class="ministry-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Our Ministry</h2>
+        <p class="text-center mt-5 mb-5"> {{ about.ministry_goal }}</p>
+        <div class="row">
+            {% for ministry in ministries %}
+            <div class="col-md-6 mb-4">
+                <div class="ministry-card">
+                    {% if ministry.image %}
+                    <div class="ministry-image">
+                        <img src="{{ ministry.image.url }}" alt="{{ ministry.title }}" class="img-fluid">
+                    </div>
+                    {% endif %}
+                    <div class="ministry-content">
+                        <h3>{{ ministry.title }}</h3>
+                        <p>{{ ministry.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-vision-section py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="mission-card">
+                    {% if mission_vision.mission_image %}
+                    <img src="{{ mission_vision.mission_image.url }}" class="img-fluid mb-3" alt="Mission" width="80">
+                    {% endif %}
+                    <h2>{{ mission_vision.mission_title }}</h2>
+                    <p>{{ mission_vision.mission_text }}</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="vision-card">
+                    {% if mission_vision.vision_image %}
+                    <img src="{{ mission_vision.vision_image.url }}" class="img-fluid mb-3" alt="Vision" width="80">
+                    {% endif %}
+                    <h2>{{ mission_vision.vision_title }}</h2>
+                    <p>{{ mission_vision.vision_text }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Challenges Section -->
+<section class="challenges-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">{{ challenge.title }}</h2>
+        <p class="text-center mb-5">{{ challenge.description }}</p>
+        
+        <div class="row">
+            <!-- Challenge 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="challenge-card">
+                    {% if challenge.challenge1_image %}
+                    <img src="{{ challenge.challenge1_image.url }}" class="img-fluid mb-3" alt="{{ challenge.challenge1_title }}">
+                    {% endif %}
+                    <h3>{{ challenge.challenge1_title }}</h3>
+                    <p>{{ challenge.challenge1_desc }}</p>
+                </div>
+            </div>
+            
+            <!-- Challenge 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="challenge-card">
+                    {% if challenge.challenge2_image %}
+                    <img src="{{ challenge.challenge2_image.url }}" class="img-fluid mb-3" alt="{{ challenge.challenge2_title }}">
+                    {% endif %}
+                    <h3>{{ challenge.challenge2_title }}</h3>
+                    <p>{{ challenge.challenge2_desc }}</p>
+                </div>
+            </div>
+            
+            <!-- Challenge 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="challenge-card">
+                    {% if challenge.challenge3_image %}
+                    <img src="{{ challenge.challenge3_image.url }}" class="img-fluid mb-3" alt="{{ challenge.challenge3_title }}">
+                    {% endif %}
+                    <h3>{{ challenge.challenge3_title }}</h3>
+                    <p>{{ challenge.challenge3_desc }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Board Members Section -->
+<section class="board-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Our Board</h2>
+        <div class="row">
+            {% for member in board_members %}
+            <div class="col-md-4 mb-4">
+                <div class="board-card text-center">
+                    {% if member.image %}
+                    <img src="{{ member.image.url }}" class="rounded-circle mb-3" alt="{{ member.name }}">
+                    {% endif %}
+                    <h3>{{ member.name }}</h3>
+                    <p class="text-muted">{{ member.position }}</p>
+                    <p class="bio-preview">{{ member.bio|truncatewords:30 }}</p>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bioModal{{ member.id }}">
+                        Read More
+                    </button>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="bioModal{{ member.id }}" tabindex="-1" aria-labelledby="bioModalLabel{{ member.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bioModalLabel{{ member.id }}">{{ member.name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="text-center mb-3">
+                                    {% if member.image %}
+                                    <img src="{{ member.image.url }}" class="rounded-circle" alt="{{ member.name }}" style="width: 100px; height: 100px; object-fit: cover;">
+                                    {% endif %}
+                                </div>
+                                <h6 class="text-muted text-center mb-3">{{ member.position }}</h6>
+                                <p>{{ member.bio|linebreaks }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+.about-header {
+    position: relative;
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+.bio-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 1rem;
+}
+
+.board-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.board-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.modal-dialog {
+    max-width: 500px;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+.ministry-card,
+.challenge-card,
+.board-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 100%;
+    background: white;
+}
+
+.board-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.challenge-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.mission-card,
+.vision-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 100%;
+    background: white;
+}
+</style>
+<style>
+    /* Hero Section Styles */
+    .about-hero {
+        position: relative;
+        height: 500px; /* Fixed height as requested */
+        overflow: hidden;
+    }
+    
+    .hero-container {
+        height: 100%;
+        width: 100%;
+    }
+    
+    .hero-image {
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+    
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3); /* Dark overlay for better text readability */
+    }
+    
+    .hero-title {
+        color: white;
+        font-size: 3.5rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-text {
+        color: white;
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+    }
+
+    .ministry-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .ministry-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .ministry-image {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .ministry-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .ministry-card:hover .ministry-image img {
+        transform: scale(1.05);
+    }
+
+    .ministry-content {
+        padding: 20px;
+    }
+
+    .ministry-content h3 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+    }
+
+    .ministry-content p {
+        color: #666;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .hero-text {
+            font-size: 1rem;
+            padding: 0 15px;
+        }
+    }
+    </style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize all modals
+        var modals = document.querySelectorAll('.modal');
+        modals.forEach(function(modal) {
+            new bootstrap.Modal(modal);
+        });
+    
+        // Add click handlers for the open modal buttons
+        document.querySelectorAll('.open-modal').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                var memberId = this.getAttribute('data-member-id');
+                var modal = new bootstrap.Modal(document.getElementById('bioModal' + memberId));
+                modal.show();
+            });
+        });
+    });
+</script>
+{% endblock %}

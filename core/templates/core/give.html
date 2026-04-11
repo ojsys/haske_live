@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Give{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  {% if page and page.header_image %}<img src="{{ page.header_image.url }}" alt="Give" class="bg-img">{% endif %}
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Support the Mission</span>
+      <h1>{% if page %}{{ page.title }}{% else %}Give{% endif %}</h1>
+      <p class="about-banner-sub">Your generosity sends the gospel to Nigeria's 75 million unreached — one gift at a time.</p>
+      <nav class="breadcrumb-nav"><a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>Give</span></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Why give -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-6" data-animate>
+        <span class="section-eyebrow">Your Impact</span>
+        <h2>Why Your Gift Matters</h2>
+        <div class="divider"></div>
+        {% if page %}<p class="section-subtitle">{{ page.description }}</p>{% endif %}
+        <div class="give-impact-list mt-4">
+          <div class="gil-item">
+            <div class="gil-icon"><i class="fas fa-bible"></i></div>
+            <div>
+              <h5>Bibles &amp; Resources</h5>
+              <p>Fund Bible distribution, audio Bibles, and SD cards for villages that have never had scripture.</p>
+            </div>
+          </div>
+          <div class="gil-item">
+            <div class="gil-icon"><i class="fas fa-film"></i></div>
+            <div>
+              <h5>Film Outreaches</h5>
+              <p>Sponsor gospel film showings that draw entire communities to hear the good news.</p>
+            </div>
+          </div>
+          <div class="gil-item">
+            <div class="gil-icon"><i class="fas fa-user-friends"></i></div>
+            <div>
+              <h5>Go-Team Support</h5>
+              <p>Send and sustain missionary teams into Nigeria's most unreached communities.</p>
+            </div>
+          </div>
+          <div class="gil-item">
+            <div class="gil-icon"><i class="fas fa-medkit"></i></div>
+            <div>
+              <h5>Medical Outreach</h5>
+              <p>Demonstrate God's love through healthcare in communities with no access to clinics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6" data-animate data-animate-delay="1">
+        <div class="give-online-card">
+          <div class="goc-glow"></div>
+          <div class="goc-icon"><i class="fas fa-heart"></i></div>
+          <h3>Give Online</h3>
+          <p>Give securely via Flutterwave — quick and easy from anywhere in the world. Every amount makes a difference.</p>
+          <a href="https://flutterwave.com" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 mb-3">
+            <i class="fas fa-lock"></i> Give Securely Online
+          </a>
+          <div class="goc-trust">
+            <span><i class="fas fa-shield-alt"></i> Secure &amp; Encrypted</span>
+            <span><i class="fas fa-globe"></i> International Supported</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Scripture break -->
+<section class="home-verse-section">
+  <div class="home-verse-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="home-verse-inner" data-animate>
+      <i class="fas fa-cross home-verse-cross"></i>
+      <blockquote>"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."</blockquote>
+      <cite>— 2 Corinthians 9:7</cite>
+    </div>
+  </div>
+</section>
+
+<!-- Bank accounts -->
+{% if bank_accounts %}
+<section class="section bg-cream">
+  <div class="container">
+    <div class="section-header center" data-animate>
+      <span class="section-eyebrow">Bank Transfer</span>
+      <h2>Give via Bank Transfer</h2>
+      <div class="divider center"></div>
+      <p class="section-subtitle">Transfer directly to any account below and send us proof of payment.</p>
+    </div>
+    <div class="row g-4 justify-content-center mt-2">
+      {% for account in bank_accounts %}
+      <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
+        <div class="give-bank-card">
+          <div class="gbc-header">
+            <div class="gbc-bank-icon"><i class="fas fa-university"></i></div>
+            <div class="gbc-type">{{ account.description|default:"Bank Account" }}</div>
+          </div>
+          <div class="gbc-body">
+            <div class="gbc-bank">{{ account.bank_name|default:"Bank" }}</div>
+            <div class="gbc-number">{{ account.account_number }}</div>
+            <div class="gbc-name">{{ account.account_name }}</div>
+          </div>
+          <button class="gbc-copy" onclick="navigator.clipboard.writeText('{{ account.account_number }}');this.innerHTML='<i class=\'fas fa-check\'></i> Copied!'">
+            <i class="fas fa-copy"></i> Copy Number
+          </button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-5" data-animate>
+      <div class="give-bank-note">
+        <i class="fas fa-info-circle"></i>
+        After transferring, please send your name and amount to <strong>info@lightoflifeafrica.org</strong> or call <strong>+234 816 480 7904</strong>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="about-cta-section">
+  <div class="about-cta-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7" data-animate>
+        <span class="section-eyebrow" style="color:var(--gold-light);">Together</span>
+        <h2 style="color:var(--white);font-size:clamp(1.9rem,3.5vw,2.9rem);margin-bottom:1rem;">Every Gift Changes Lives</h2>
+        <p style="color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.8;">
+          Your generosity enables us to reach the unreached, disciple believers, and shine God's light in the darkest corners of Nigeria.
+        </p>
+      </div>
+      <div class="col-lg-5" data-animate data-animate-delay="1">
+        <div class="about-cta-cards">
+          <a href="{% url 'contact' %}" class="about-cta-card">
+            <div class="acta-icon"><i class="fas fa-envelope"></i></div>
+            <div><strong>Contact Us</strong><span>Questions about giving? We're here.</span></div>
+            <i class="fas fa-arrow-right acta-arrow"></i>
+          </a>
+          <a href="{% url 'volunteer' %}" class="about-cta-card about-cta-card-gold">
+            <div class="acta-icon"><i class="fas fa-hands-helping"></i></div>
+            <div><strong>Volunteer</strong><span>Give your time — not just your money</span></div>
+            <i class="fas fa-arrow-right acta-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

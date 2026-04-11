@@ -1,0 +1,27 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    {% if section.title or section.subtitle %}
+    <div class="section-header center" data-animate>
+      {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+      {% if section.title %}<h2>{{ section.title }}</h2><div class="divider center"></div>{% endif %}
+    </div>
+    {% endif %}
+    <div class="gallery-grid" id="pbGallery{{ section.pk }}">
+      {% for item in gallery_items %}
+      <a class="gallery-item"
+         href="{{ item.image.url }}"
+         data-pswp-width="{{ item.image.width }}"
+         data-pswp-height="{{ item.image.height }}"
+         target="_blank">
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+        <div class="gal-overlay"><i class="fas fa-expand"></i></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<script>
+const _lb{{ section.pk }} = new PhotoSwipeLightbox({ gallery: '#pbGallery{{ section.pk }}', children: 'a', pswpModule: PhotoSwipe });
+_lb{{ section.pk }}.init();
+</script>

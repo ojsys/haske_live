@@ -1,0 +1,30 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    {% if section.title or section.subtitle %}
+    <div class="section-header center" data-animate>
+      {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+      {% if section.title %}<h2>{{ section.title }}</h2><div class="divider center"></div>{% endif %}
+    </div>
+    {% endif %}
+    <div class="row g-4">
+      {% for card in section.cards.all %}
+      <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
+        <div class="pb-card">
+          {% if card.icon %}<div class="pb-icon"><i class="{{ card.icon }}"></i></div>{% endif %}
+          {% if card.image and not card.icon %}
+          <div style="width:64px;height:64px;border-radius:var(--radius-md);overflow:hidden;margin:0 auto 1.25rem;">
+            <img src="{{ card.image.url }}" alt="{{ card.title }}" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          {% endif %}
+          <h4>{{ card.title }}</h4>
+          {% if card.body %}<p>{{ card.body }}</p>{% endif %}
+          {% if card.link_text %}<a href="{{ card.link_url }}" class="btn btn-outline-gold btn-sm mt-2">{{ card.link_text }}</a>{% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12"><p class="text-muted text-center">No cards added yet.</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+
+{% block content %}
+    {{ block.super }}
+    <div style="padding: 20px;">
+        <a href="{% url 'admin:demographic-data-export' %}" class="button default" style="background: #417690; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">
+            <i class="fas fa-file-excel"></i> Export All Data
+        </a>
+    </div>
+    
+{% endblock %}
+
+{% block object-tools-items %}
+    {% if show_template_download %}
+    <li>
+        <a href="{% url 'admin:demographic-data-template' %}" class="btn btn-high btn-success">
+            {% trans "Download Template" %}
+        </a>
+    </li>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}

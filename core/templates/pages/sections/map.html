@@ -1,0 +1,39 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    {% if section.title or section.subtitle %}
+    <div class="section-header center mb-4" data-animate>
+      {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+      {% if section.title %}<h2>{{ section.title }}</h2>{% endif %}
+      {% if section.body %}<div class="section-subtitle">{{ section.body|safe }}</div>{% endif %}
+    </div>
+    {% endif %}
+    <div id="pbMap{{ section.pk }}" style="height:460px;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);" data-animate></div>
+    <div class="map-legend">
+      <div class="legend-item"><div class="legend-dot reached"></div> States with data</div>
+      <div class="legend-item"><div class="legend-dot not-reached"></div> Not yet reached</div>
+    </div>
+  </div>
+</section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+  const m = L.map('pbMap{{ section.pk }}').setView([9.082, 8.675], 6);
+  fetch('/api/states-with-data/')
+    .then(r => r.json())
+    .then(sd => {
+      fetch("{% static 'js/nigeria_map.geojson' %}")
+        .then(r => r.json())
+        .then(gd => {
+          L.geoJSON(gd, {
+            style: f => ({ fillColor: sd[f.properties.name] ? '#2ecc71' : '#e74c3c', weight:1.5, color:'white', fillOpacity:0.7 }),
+            onEachFeature: (f, l) => {
+              const n = f.properties.name, d = sd[n];
+              l.bindTooltip(d ? `<strong>${n}</strong>` : `<strong>${n}</strong><br>No data`, { className:'state-tooltip' });
+              l.on('click', () => window.location.href = `/state/${n}/`);
+            }
+          }).addTo(m);
+        });
+    });
+})();
+</script>

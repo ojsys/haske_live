@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block meta_description %}{{ page.meta_description }}{% endblock %}
+
+{% block content %}
+
+<!-- Page Banner -->
+<div class="page-banner">
+  {% if page.header_image %}
+  <img src="{{ page.header_image.url }}" alt="{{ page.title }}" class="bg-img">
+  {% endif %}
+  <div class="container">
+    <div class="inner">
+      <span class="section-eyebrow">HASKE Project</span>
+      <h1>{{ page.title }}</h1>
+      <nav class="breadcrumb-nav" aria-label="breadcrumb">
+        <a href="{% url 'home' %}">Home</a>
+        <span class="sep">/</span>
+        <span>{{ page.title }}</span>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Page Sections -->
+{% for section in sections %}
+  {% with bg=section.background %}
+  <div class="page-section {% if bg == 'navy' or bg == 'green' or bg == 'gold' %}text-white{% endif %} {% if bg == 'navy' %}bg-navy{% elif bg == 'cream' %}bg-cream{% elif bg == 'gray' %}bg-gray{% elif bg == 'gold' %}bg-gold{% elif bg == 'green' %}bg-green{% else %}bg-white{% endif %} {{ section.css_class }}">
+    {% with tmpl="pages/sections/"|add:section.section_type|add:".html" %}
+      {% include tmpl %}
+    {% endwith %}
+  </div>
+  {% endwith %}
+{% empty %}
+<div class="section bg-white">
+  <div class="container">
+    <p class="text-muted">This page has no content yet. Check back soon.</p>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

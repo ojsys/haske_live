@@ -1,0 +1,33 @@
+{% load static %}
+<section class="section-sm newsletter-section text-white">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6">
+        <h3 style="color:var(--white);font-family:var(--font-heading);">
+          {% if section.title %}{{ section.title }}{% else %}Stay Updated{% endif %}
+        </h3>
+        {% if section.subtitle %}<p style="color:rgba(255,255,255,0.78);margin:0;">{{ section.subtitle }}</p>{% endif %}
+      </div>
+      <div class="col-md-6">
+        <form id="nlForm{{ section.pk }}" class="newsletter-form">
+          {% csrf_token %}
+          <input type="email" name="email" class="form-control" placeholder="Your email address" required>
+          <button type="submit" class="btn btn-secondary">Subscribe</button>
+        </form>
+        <div id="nlMsg{{ section.pk }}" class="mt-2" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+document.getElementById('nlForm{{ section.pk }}').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msg = document.getElementById('nlMsg{{ section.pk }}');
+  const btn = this.querySelector('button');
+  btn.disabled = true;
+  fetch('/subscribe/', { method: 'POST', body: new FormData(this), headers: {'X-Requested-With':'XMLHttpRequest'} })
+    .then(r => r.json())
+    .then(d => { msg.style.display='block'; msg.className=`alert alert-${d.status==='success'?'success':'danger'}`; msg.textContent=d.message; if(d.status==='success') this.reset(); })
+    .finally(() => { btn.disabled=false; setTimeout(()=>{ msg.style.display='none'; },5000); });
+});
+</script>

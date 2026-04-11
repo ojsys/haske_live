@@ -1,0 +1,23 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    {% if section.title or section.subtitle %}
+    <div class="section-header center mb-4" data-animate>
+      {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+      {% if section.title %}<h2>{{ section.title }}</h2>{% endif %}
+    </div>
+    {% endif %}
+    {% if section.button_url %}
+    <div class="row justify-content-center" data-animate>
+      <div class="col-lg-8">
+        <div class="video-wrap">
+          <div class="video-embed">
+            <iframe src="{{ section.button_url }}" title="{{ section.title }}" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+        {% if section.body %}<div class="rich-content mt-3">{{ section.body|safe }}</div>{% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>

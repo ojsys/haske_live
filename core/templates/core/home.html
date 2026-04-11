@@ -1,0 +1,615 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Home{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+
+<!-- ============================================================
+     HERO CAROUSEL
+     ============================================================ -->
+<section class="hero hero-carousel" id="hero">
+
+  {% for slide in slides %}
+  <div class="hero-slide {% if forloop.first %}active{% endif %}"
+       style="position:absolute;inset:0;opacity:{% if forloop.first %}1{% else %}0{% endif %};transition:opacity 1s ease;">
+    <img src="{{ slide.image.url }}" alt="{{ slide.title }}" class="hero-bg">
+  </div>
+  {% empty %}
+  <div class="hero-slide active" style="position:absolute;inset:0;background:var(--navy);"></div>
+  {% endfor %}
+
+  <div class="hero-overlay"></div>
+  <div class="hero-pattern"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow-wrap">
+        <span class="hero-eyebrow-line"></span>
+        <span class="section-eyebrow">Light of Life — HASKE Project</span>
+      </div>
+      {% for slide in slides %}
+      <div class="hero-slide-content {% if not forloop.first %}d-none{% endif %}" id="heroContent{{ forloop.counter0 }}">
+        <h1>{{ slide.title }}</h1>
+        {% if slide.subtitle %}<p class="hero-subtitle">{{ slide.subtitle }}</p>{% endif %}
+        <div class="hero-actions mt-4">
+          {% if slide.button_text %}
+          <a href="{{ slide.button_link }}" class="btn btn-primary btn-lg">
+            {{ slide.button_text }} <i class="fas fa-arrow-right"></i>
+          </a>
+          {% else %}
+          <a href="{% url 'about' %}" class="btn btn-primary btn-lg">
+            Our Mission <i class="fas fa-arrow-right"></i>
+          </a>
+          {% endif %}
+          <a href="{% url 'give' %}" class="btn btn-outline btn-lg">
+            <i class="fas fa-heart"></i> Give Now
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Floating stat bar -->
+  {% if statistics %}
+  <div class="hero-stat-bar">
+    <div class="container">
+      <div class="hsb-inner">
+        <div class="hsb-item">
+          <span class="hsb-num" data-counter>{{ statistics.villages|intcomma }}</span>
+          <span class="hsb-label">Villages Reached</span>
+        </div>
+        <div class="hsb-divider"></div>
+        <div class="hsb-item">
+          <span class="hsb-num" data-counter>{{ statistics.states|intcomma }}</span>
+          <span class="hsb-label">States</span>
+        </div>
+        <div class="hsb-divider"></div>
+        <div class="hsb-item">
+          <span class="hsb-num" data-counter>{{ statistics.converts|intcomma }}</span>
+          <span class="hsb-label">Converts</span>
+        </div>
+        <div class="hsb-divider"></div>
+        <div class="hsb-item">
+          <span class="hsb-num" data-counter>{{ statistics.people_reached|intcomma }}</span>
+          <span class="hsb-label">People Reached</span>
+        </div>
+        <div class="hsb-cta">
+          <a href="{% url 'about' %}" class="btn btn-outline btn-sm">Our Story <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Carousel controls -->
+  {% if slides|length > 1 %}
+  <div class="carousel-indicators-custom">
+    {% for slide in slides %}
+    <button class="carousel-dot {% if forloop.first %}active{% endif %}"
+            data-slide="{{ forloop.counter0 }}" aria-label="Slide {{ forloop.counter }}"></button>
+    {% endfor %}
+  </div>
+  <button class="carousel-prev" id="carPrev"><i class="fas fa-chevron-left"></i></button>
+  <button class="carousel-next" id="carNext"><i class="fas fa-chevron-right"></i></button>
+  {% endif %}
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll-hint">
+    <div class="hsh-dot"></div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     MISSION STATEMENT
+     ============================================================ -->
+<section class="home-statement-section">
+  <div class="container">
+    <div class="home-statement" data-animate>
+      <i class="fas fa-quote-left home-statement-icon"></i>
+      <p>Reaching Nigeria's <strong>75 million unreached</strong> people with the light and love of Jesus Christ — one village, one tribe, one life at a time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPLORE — Map + Stats
+     ============================================================ -->
+{% if statistics %}
+<section class="section bg-white">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-6" data-animate>
+        <span class="section-eyebrow">The Field</span>
+        <h2>{{ statistics.title }}</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">{{ statistics.stat_desc1 }}</p>
+        <div class="home-stat-grid mt-4">
+          <div class="hsg-card hsg-navy">
+            <span class="hsg-num" data-counter>{{ statistics.total_population|intcomma }}</span>
+            <span class="hsg-label">Est. Population</span>
+          </div>
+          <div class="hsg-card hsg-gold">
+            <span class="hsg-num" data-counter>{{ statistics.people_groups|intcomma }}</span>
+            <span class="hsg-label">People Groups</span>
+          </div>
+          <div class="hsg-card hsg-light">
+            <span class="hsg-num" data-counter>{{ statistics.lgas|intcomma }}</span>
+            <span class="hsg-label">LGAs</span>
+          </div>
+          <div class="hsg-card hsg-light">
+            <span class="hsg-num" data-counter>{{ statistics.wards|intcomma }}</span>
+            <span class="hsg-label">Wards</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6" data-animate data-animate-delay="1">
+        <div class="home-map-wrap">
+          <div class="home-map-label">
+            <span>{{ statistics.stat_title2 }}</span>
+            <p>{{ statistics.stat_desc2 }}</p>
+          </div>
+          <div id="map" style="border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-xl);"></div>
+          <div class="map-legend mt-3">
+            <div class="legend-item"><div class="legend-dot reached"></div> States with data</div>
+            <div class="legend-item"><div class="legend-dot not-reached"></div> Not yet reached</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ============================================================
+     WHAT WE DO — dark glass pillars
+     ============================================================ -->
+<section class="section home-ministries-section">
+  <div class="home-ministries-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+
+    <div class="row align-items-end g-4 mb-5">
+      <div class="col-lg-7" data-animate>
+        <span class="section-eyebrow" style="color:var(--gold-light);">Our Ministry</span>
+        <h2 style="color:var(--white);margin-bottom:0;">
+          {% if ministry_section %}{{ ministry_section.title }}{% else %}What We Do{% endif %}
+        </h2>
+      </div>
+      <div class="col-lg-5 text-lg-end" data-animate data-animate-delay="1">
+        {% if ministry_section %}
+        <p style="color:rgba(255,255,255,0.68);font-size:0.96rem;margin:0;">{{ ministry_section.description }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row g-4">
+      {% for ministry in ministries %}
+      <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
+        <div class="home-ministry-pillar">
+          <div class="hmp-icon">
+            {% if ministry.icon %}
+            <img src="{{ ministry.icon.url }}" alt="{{ ministry.title }}">
+            {% else %}
+            <i class="fas fa-cross"></i>
+            {% endif %}
+          </div>
+          <h4>{{ ministry.title }}</h4>
+          <p>{{ ministry.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if ministry_section and ministry_section.image %}
+    <div class="home-ministries-img-strip mt-5" data-animate>
+      <img src="{{ ministry_section.image.url }}" alt="{{ ministry_section.title }}">
+      <div class="hmis-overlay"></div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- ============================================================
+     IMPACT NUMBERS — cinematic dark panel
+     ============================================================ -->
+{% if achievement %}
+<section class="section home-impact-section">
+  <div class="home-impact-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-4" data-animate>
+        <span class="section-eyebrow" style="color:var(--gold-light);">By the Numbers</span>
+        <h2 style="color:var(--white);font-size:clamp(1.8rem,3vw,2.6rem);">Our Impact Across Nigeria</h2>
+        <div class="divider" style="background:var(--gold);"></div>
+        <p style="color:rgba(255,255,255,0.72);line-height:1.8;">
+          Through the grace of God, lives are being transformed across Nigeria's unreached communities.
+        </p>
+        <a href="{% url 'about' %}" class="btn btn-outline btn-lg mt-2">
+          Read Our Story <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="col-lg-8" data-animate data-animate-delay="1">
+        <div class="home-impact-grid">
+
+          <div class="home-impact-card">
+            <div class="hic-icon"><i class="fas fa-map-marked-alt"></i></div>
+            <div class="hic-num" data-counter>{{ achievement.villages|intcomma }}</div>
+            <div class="hic-label">Villages Reached</div>
+            <p class="hic-desc">{{ achievement.villages_description }}</p>
+            <div class="hic-sub">
+              <div><span data-counter>{{ achievement.states_reached }}</span><small>States</small></div>
+              <div><span data-counter>{{ achievement.lgas_reached }}</span><small>LGAs</small></div>
+              <div><span data-counter>{{ achievement.wards_reached }}</span><small>Wards</small></div>
+            </div>
+          </div>
+
+          <div class="home-impact-card home-impact-card-gold">
+            <div class="hic-icon"><i class="fas fa-cross"></i></div>
+            <div class="hic-num" data-counter>{{ achievement.people_saved|intcomma }}</div>
+            <div class="hic-label">People Saved</div>
+            <p class="hic-desc">{{ achievement.people_saved_description }}</p>
+            <div class="hic-sub">
+              <div><span data-counter>{{ achievement.people_baptized }}</span><small>Baptized</small></div>
+              <div><span data-counter>{{ achievement.people_discipled }}</span><small>Discipled</small></div>
+              <div><span data-counter>{{ achievement.started_discipleship }}</span><small>In Program</small></div>
+            </div>
+          </div>
+
+          <div class="home-impact-card">
+            <div class="hic-icon"><i class="fas fa-book-open"></i></div>
+            <div class="hic-num" data-counter>{{ achievement.people_reached|intcomma }}</div>
+            <div class="hic-label">People Reached</div>
+            <p class="hic-desc">{{ achievement.people_reached_description }}</p>
+            <div class="hic-sub">
+              <div><span data-counter>{{ achievement.bibles_shared }}</span><small>Bibles</small></div>
+              <div><span data-counter>{{ achievement.audiobibles_shared }}</span><small>Audio</small></div>
+              <div><span data-counter>{{ achievement.sdcards_shared }}</span><small>SD Cards</small></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ============================================================
+     STORIES FROM THE FIELD — horizontal scroll carousel
+     ============================================================ -->
+{% if recent_posts %}
+<section class="section hscroll-section" id="storiesCarousel">
+  <div class="container">
+    <div class="hscroll-header" data-animate>
+      <div>
+        <span class="section-eyebrow">From the Field</span>
+        <h2 class="hscroll-title">Stories &amp; Updates</h2>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="hscroll-arrows">
+          <button class="hscroll-btn" id="hsPrev" aria-label="Previous" disabled>
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <button class="hscroll-btn" id="hsNext" aria-label="Next">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <a href="{% url 'blog-list' %}" class="btn btn-outline-navy btn-sm d-none d-md-inline-flex">
+          View All <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+    <div class="hscroll-track-wrap" data-animate data-animate-delay="1">
+      <div class="hscroll-track" id="hsTrack">
+        {% for post in recent_posts %}
+        <a href="{{ post.get_absolute_url }}" class="hscroll-card">
+          <div class="hscroll-card-thumb">
+            {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy">
+            {% else %}
+            <div style="width:100%;height:100%;background:var(--navy);display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-newspaper" style="font-size:2rem;color:rgba(255,255,255,0.2);"></i>
+            </div>
+            {% endif %}
+            <span class="hc-badge">Blog</span>
+          </div>
+          <div class="hscroll-card-body">
+            <div class="hc-meta">
+              <i class="fas fa-calendar-alt"></i>
+              {{ post.published_date|date:"M d, Y" }}
+              &nbsp;&middot;&nbsp;
+              <i class="fas fa-user"></i>
+              {{ post.author }}
+            </div>
+            <h4>{{ post.title|truncatechars:70 }}</h4>
+            <p>{{ post.excerpt|truncatechars:110 }}</p>
+            <span class="hc-read-more">Read Story <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="hscroll-progress-wrap">
+      <div class="hscroll-progress-bar" id="hsProgress"></div>
+    </div>
+    <div class="text-center mt-4 d-md-none" data-animate>
+      <a href="{% url 'blog-list' %}" class="btn btn-outline-navy">View All Stories</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ============================================================
+     GET INVOLVED — full-bleed split with masonry gallery
+     ============================================================ -->
+<section class="home-involve-section">
+  <div class="home-involve-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row g-5 align-items-center">
+
+      <div class="col-lg-5" data-animate>
+        <span class="section-eyebrow" style="color:var(--gold-light);">Join Us</span>
+        <h2 style="color:var(--white);font-size:clamp(1.9rem,3.5vw,2.7rem);margin-bottom:1rem;">What You Can Do</h2>
+        <div class="divider" style="background:var(--gold);"></div>
+        <p style="color:rgba(255,255,255,0.72);font-size:1rem;line-height:1.8;margin-bottom:2rem;">
+          Every Christian can play a vital role in reaching Nigeria's unreached people groups. Here's how:
+        </p>
+        <div class="home-involve-list">
+          <div class="hil-item">
+            <div class="hil-icon"><i class="fas fa-pray"></i></div>
+            <div>
+              <strong>Pray</strong>
+              <span>Intercede for the unreached people groups of Northern Nigeria</span>
+            </div>
+          </div>
+          <div class="hil-item">
+            <div class="hil-icon"><i class="fas fa-user-friends"></i></div>
+            <div>
+              <strong>Volunteer</strong>
+              <span>Join a Go-Team or become a dedicated Prayer Partner</span>
+            </div>
+          </div>
+          <div class="hil-item">
+            <div class="hil-icon"><i class="fas fa-gift"></i></div>
+            <div>
+              <strong>Give</strong>
+              <span>Sponsor ministry operations and resource deployment</span>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          <a href="{% url 'volunteer' %}" class="btn btn-outline btn-lg">
+            <i class="fas fa-hands-helping"></i> Volunteer
+          </a>
+          <a href="{% url 'give' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-heart"></i> Give Now
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-7" data-animate data-animate-delay="1">
+        <div class="home-gallery-masonry" id="pswpGallery">
+          {% for item in gallery_items %}
+          <a class="hgm-item hgm-item-{{ forloop.counter }}"
+             href="{{ item.image.url }}"
+             data-pswp-width="{{ item.image.width }}"
+             data-pswp-height="{{ item.image.height }}"
+             target="_blank">
+            <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+            <div class="hgm-overlay"><i class="fas fa-expand-alt"></i></div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCRIPTURE BREAK
+     ============================================================ -->
+<section class="home-verse-section">
+  <div class="home-verse-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="home-verse-inner" data-animate>
+      <i class="fas fa-cross home-verse-cross"></i>
+      <blockquote>
+        "Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit."
+      </blockquote>
+      <cite>— Matthew 28:19</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NEWSLETTER
+     ============================================================ -->
+<section class="home-newsletter-section">
+  <div class="container">
+    <div class="home-newsletter-card" data-animate>
+      <div class="row align-items-center g-4">
+        <div class="col-md-6">
+          <span class="section-eyebrow" style="color:var(--gold-light);">Stay Connected</span>
+          <h3 style="color:var(--white);margin-bottom:0.4rem;">Get Stories from the Field</h3>
+          <p style="color:rgba(255,255,255,0.72);margin:0;font-size:0.95rem;">
+            Subscribe to receive news, testimonies, and updates from our mission work across Nigeria.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <form id="subscribeForm" class="newsletter-form">
+            {% csrf_token %}
+            <input type="email" name="email" class="form-control" placeholder="Your email address" required>
+            <button type="submit" class="btn btn-secondary">Subscribe</button>
+          </form>
+          <div id="subscribeMessage" class="mt-2" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ============================================================
+   Hero Carousel
+   ============================================================ */
+(function() {
+  const slides   = document.querySelectorAll('.hero-slide');
+  const contents = document.querySelectorAll('[id^="heroContent"]');
+  const dots     = document.querySelectorAll('.carousel-dot');
+  if (!slides.length) return;
+  let current = 0, timer;
+
+  function goTo(idx) {
+    slides[current].style.opacity = '0';
+    contents[current]?.classList.add('d-none');
+    dots[current]?.classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].style.opacity = '1';
+    contents[current]?.classList.remove('d-none');
+    dots[current]?.classList.add('active');
+  }
+
+  function start() { timer = setInterval(() => goTo(current + 1), 5500); }
+  function stop()  { clearInterval(timer); }
+
+  dots.forEach(d => d.addEventListener('click', () => { stop(); goTo(+d.dataset.slide); start(); }));
+  document.getElementById('carPrev')?.addEventListener('click', () => { stop(); goTo(current - 1); start(); });
+  document.getElementById('carNext')?.addEventListener('click', () => { stop(); goTo(current + 1); start(); });
+  start();
+})();
+
+/* ============================================================
+   Leaflet Map
+   ============================================================ */
+const map = L.map('map').setView([9.0820, 8.6753], 6);
+fetch('/api/states-with-data/')
+  .then(r => r.json())
+  .then(statesData => {
+    fetch("{% static 'js/nigeria_map.geojson' %}")
+      .then(r => r.json())
+      .then(geoData => {
+        L.geoJSON(geoData, {
+          style: feature => ({
+            fillColor: statesData.hasOwnProperty(feature.properties.name) ? '#2ecc71' : '#e74c3c',
+            weight: 1.5, opacity: 1, color: 'white', dashArray: '3', fillOpacity: 0.7
+          }),
+          onEachFeature: (feature, layer) => {
+            const name = feature.properties.name;
+            const d = statesData[name];
+            const tip = d
+              ? `<strong>${name}</strong><br>Pop: ${(d.total_population||0).toLocaleString()}<br>Villages: ${d.village_count}<br>Converts: ${(d.total_converts||0).toLocaleString()}`
+              : `<strong>${name}</strong><br>No data`;
+            layer.bindTooltip(tip, { permanent: false, direction: 'center', className: 'state-tooltip' });
+            layer.on({
+              mouseover: e => { e.target.setStyle({ fillOpacity: 0.92, weight: 2.5, color: '#aaa' }); },
+              mouseout:  e => { e.target.setStyle({ fillOpacity: 0.7,  weight: 1.5, color: 'white' }); },
+              click:     () => window.location.href = `/state/${name}/`
+            });
+          }
+        }).addTo(map);
+      });
+  })
+  .catch(err => console.warn('Map error:', err));
+
+/* ============================================================
+   Newsletter
+   ============================================================ */
+document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msgDiv = document.getElementById('subscribeMessage');
+  const btn = this.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Subscribing…';
+  fetch('/subscribe/', {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(r => r.json())
+  .then(data => {
+    msgDiv.style.display = 'block';
+    msgDiv.className = `alert alert-${data.status === 'success' ? 'success' : 'danger'}`;
+    msgDiv.innerHTML = data.message;
+    if (data.status === 'success') this.reset();
+  })
+  .catch(() => {
+    msgDiv.style.display = 'block';
+    msgDiv.className = 'alert alert-danger';
+    msgDiv.textContent = 'An error occurred. Please try again.';
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Subscribe';
+    setTimeout(() => { msgDiv.style.display = 'none'; }, 6000);
+  });
+});
+
+/* ============================================================
+   PhotoSwipe Gallery
+   ============================================================ */
+const lightbox = new PhotoSwipeLightbox({
+  gallery: '#pswpGallery',
+  children: 'a',
+  pswpModule: PhotoSwipe
+});
+lightbox.init();
+
+/* ============================================================
+   Horizontal Scroll Carousel
+   ============================================================ */
+(function () {
+  const track    = document.getElementById('hsTrack');
+  const btnPrev  = document.getElementById('hsPrev');
+  const btnNext  = document.getElementById('hsNext');
+  const progress = document.getElementById('hsProgress');
+  if (!track) return;
+  const CARD_GAP = 24;
+  let offset = 0;
+
+  function cardWidth() {
+    const card = track.querySelector('.hscroll-card');
+    return card ? card.offsetWidth + CARD_GAP : 344;
+  }
+  function maxOffset() { return track.scrollWidth - track.parentElement.offsetWidth; }
+  function updateUI() {
+    const max = maxOffset();
+    btnPrev.disabled = offset <= 0;
+    btnNext.disabled = offset >= max;
+    if (progress) progress.style.width = (max > 0 ? Math.min(100, (offset / max) * 100) : 0) + '%';
+  }
+  function slideTo(v) {
+    offset = Math.max(0, Math.min(v, maxOffset()));
+    track.style.transform = `translateX(-${offset}px)`;
+    updateUI();
+  }
+
+  btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 2));
+  btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 2));
+
+  let startX = 0, startOffset = 0, dragging = false;
+  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });
+  document.addEventListener('mousemove', e => { if (!dragging) return; slideTo(startOffset - (e.clientX - startX)); });
+  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; }, { passive: true });
+  track.addEventListener('touchmove', e => { slideTo(startOffset - (e.touches[0].clientX - startX)); }, { passive: true });
+  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); });
+  window.addEventListener('resize', () => slideTo(offset));
+  updateUI();
+})();
+</script>
+{% endblock %}

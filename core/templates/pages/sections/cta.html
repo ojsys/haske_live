@@ -1,0 +1,16 @@
+{% load static %}
+<section class="section cta-section">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8 text-white" data-animate>
+        {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+        {% if section.title %}<h2 style="color:var(--white);">{{ section.title }}</h2>{% endif %}
+        {% if section.body %}<div class="rich-content mt-2" style="color:rgba(255,255,255,0.78);">{{ section.body|safe }}</div>{% endif %}
+      </div>
+      <div class="col-lg-4 d-flex flex-column gap-3" data-animate data-animate-delay="1">
+        {% if section.button_text %}<a href="{{ section.button_url }}" class="btn btn-primary btn-lg">{{ section.button_text }}</a>{% endif %}
+        {% if section.button2_text %}<a href="{{ section.button2_url }}" class="btn btn-outline btn-lg">{{ section.button2_text }}</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>

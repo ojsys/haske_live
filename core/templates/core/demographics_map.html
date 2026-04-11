@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- This is where your Nigeria map will go -->
+            <div id="nigeria-map"></div>
+        </div>
+        <div class="col-md-6">
+            <!-- Data display area -->
+            <div id="state-data" class="card">
+                <div class="card-body">
+                    <h3 id="state-name">Select a state</h3>
+                    <div id="state-summary"></div>
+                    <div id="detailed-data"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch and display state data
+    function fetchStateData(stateName) {
+        fetch(`/api/demographics/${stateName}/`)
+            .then(response => response.json())
+            .then(data => {
+                // Update summary data
+                const summary = data.state_summary;
+                document.getElementById('state-name').textContent = stateName;
+                document.getElementById('state-summary').innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Population Summary</h5>
+                            <p>Total Population: ${summary.total_population}</p>
+                            <p>Christians: ${summary.total_christian}</p>
+                            <p>Muslims: ${summary.total_muslim}</p>
+                            <p>Traditional: ${summary.total_traditional}</p>
+                            <p>Converts: ${summary.total_converts}</p>
+                            <p>Film Attendance: ${summary.total_film_attendance}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Create a table for detailed data
+                let tableHTML = `
+                    <h5>Detailed Data</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>LGA</th>
+                                <th>Ward</th>
+                                <th>Village</th>
+                                <th>Population</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                data.detailed_data.forEach(item => {
+                    tableHTML += `
+                        <tr>
+                            <td>${item.lga}</td>
+                            <td>${item.ward}</td>
+                            <td>${item.village}</td>
+                            <td>${item.total_village_population}</td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += '</tbody></table>';
+                document.getElementById('detailed-data').innerHTML = tableHTML;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Add click event listeners to your map
+    // This will depend on how you implement your map (e.g., using D3.js, SVG, or a mapping library)
+    // Example:
+    document.querySelectorAll('.state-path').forEach(statePath => {
+        statePath.addEventListener('click', (e) => {
+            const stateName = e.target.getAttribute('data-state');
+            fetchStateData(stateName);
+        });
+    });
+});
+</script>
+{% endblock %}

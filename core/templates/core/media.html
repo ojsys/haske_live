@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Media{% endblock %}
+{% block nav_media %}active{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  {% if page and page.header_image %}<img src="{{ page.header_image.url }}" alt="Media" class="bg-img">{% endif %}
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Stories &amp; Updates</span>
+      <h1>{% if page %}{{ page.title }}{% else %}Media Center{% endif %}</h1>
+      <p class="about-banner-sub">Watch, listen, and read stories of transformed lives from across Northern Nigeria.</p>
+      <nav class="breadcrumb-nav"><a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>Media</span></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Posts -->
+{% if blog_posts %}
+<section class="section bg-white">
+  <div class="container">
+    <div class="section-header center" data-animate>
+      <span class="section-eyebrow">Latest Stories</span>
+      <h2>{% if page %}{{ page.blog_section_title }}{% else %}From the Field{% endif %}</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="row g-4 mt-2">
+      {% for post in blog_posts %}
+      <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
+        <a href="{{ post.get_absolute_url }}" class="post-card text-decoration-none">
+          <div class="pc-thumb">
+            {% if post.featured_image %}<img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy">{% endif %}
+          </div>
+          <div class="pc-body">
+            <div class="pc-meta"><span class="pc-tag">Blog</span><span>{{ post.published_date|date:"M d, Y" }}</span></div>
+            <h3>{{ post.title }}</h3>
+            <p class="pc-excerpt">{{ post.excerpt|truncatechars:120 }}</p>
+            <span class="pc-link">Read More <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-5" data-animate>
+      <a href="{% url 'blog-list' %}" class="btn btn-outline-navy btn-lg">View All Posts</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Videos -->
+{% if videos %}
+<section class="section bg-cream">
+  <div class="container">
+    <div class="section-header center" data-animate>
+      <span class="section-eyebrow">Watch</span>
+      <h2>{% if page %}{{ page.youtube_section_title }}{% else %}Video Messages{% endif %}</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="row g-4 mt-2">
+      {% for video in videos %}
+      <div class="col-md-6" data-animate data-animate-delay="{{ forloop.counter }}">
+        <div class="media-video-card">
+          <div class="mvc-embed">
+            <iframe src="{{ video.embed_url }}" title="{{ video.title }}" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="mvc-body">
+            <h4>{{ video.title }}</h4>
+            <p>{{ video.description|truncatechars:120 }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Podcasts -->
+{% if podcasts %}
+<section class="section bg-white">
+  <div class="container">
+    <div class="section-header center" data-animate>
+      <span class="section-eyebrow">Listen</span>
+      <h2>{% if page %}{{ page.podcast_section_title }}{% else %}Audio Messages{% endif %}</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="row g-3 mt-2">
+      {% for podcast in podcasts %}
+      <div class="col-md-6" data-animate data-animate-delay="{{ forloop.counter }}">
+        <div class="media-podcast-card">
+          <div class="mpc-play"><i class="fas fa-play"></i></div>
+          <div class="mpc-info">
+            <h5>{{ podcast.title }}</h5>
+            <span class="mpc-dur"><i class="fas fa-clock me-1"></i>{{ podcast.duration }}</span>
+          </div>
+          <div class="mpc-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="about-cta-section">
+  <div class="about-cta-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8" data-animate>
+        <span class="section-eyebrow" style="color:var(--gold-light);">Support the Mission</span>
+        <h2 style="color:var(--white);margin-bottom:1rem;">Help Us Tell More Stories</h2>
+        <p style="color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.8;">
+          Your giving enables our teams to go further, reach more, and document the transformation for the world to see.
+        </p>
+      </div>
+      <div class="col-lg-4 d-flex flex-column gap-3" data-animate data-animate-delay="1">
+        <a href="{% url 'give' %}" class="btn btn-primary btn-lg"><i class="fas fa-heart"></i> Give Now</a>
+        <a href="{% url 'contact' %}" class="btn btn-outline btn-lg">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

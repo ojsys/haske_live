@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Projects{% endblock %}
+{% block nav_work %}active{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  {% if page and page.header_image %}<img src="{{ page.header_image.url }}" alt="Projects" class="bg-img">{% endif %}
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Our Work</span>
+      <h1>{% if page %}{{ page.title }}{% else %}HASKE Projects{% endif %}</h1>
+      <p class="about-banner-sub">Active ministry projects transforming unreached communities across Northern Nigeria.</p>
+      <nav class="breadcrumb-nav"><a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>Projects</span></nav>
+    </div>
+  </div>
+</div>
+
+<!-- Intro -->
+{% if page %}
+<section class="home-statement-section">
+  <div class="container">
+    <div class="home-statement" data-animate>
+      <i class="fas fa-quote-left home-statement-icon"></i>
+      <p>{{ page.introduction }}</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Projects grid -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="row g-4">
+      {% for project in projects %}
+      <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
+        <div class="proj-stunning-card">
+          <div class="psc-thumb">
+            {% if project.image %}<img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy">{% endif %}
+            <div class="psc-thumb-overlay"></div>
+            <span class="psc-badge"><i class="fas fa-circle me-1" style="font-size:0.45rem;vertical-align:middle;"></i> Active</span>
+          </div>
+          <div class="psc-body">
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.description }}</p>
+            {% if project.location or project.beneficiaries %}
+            <div class="psc-meta">
+              {% if project.location %}<span><i class="fas fa-map-marker-alt"></i> {{ project.location }}</span>{% endif %}
+              {% if project.beneficiaries %}<span><i class="fas fa-users"></i> {{ project.beneficiaries|floatformat:"0" }} beneficiaries</span>{% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center py-5">
+        <i class="fas fa-folder-open fa-3x mb-3" style="color:var(--gold);opacity:0.5;"></i>
+        <p style="color:var(--gray-500);">Projects coming soon.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="about-cta-section">
+  <div class="about-cta-bg"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7" data-animate>
+        <span class="section-eyebrow" style="color:var(--gold-light);">Make a Difference</span>
+        <h2 style="color:var(--white);font-size:clamp(1.9rem,3.5vw,2.9rem);margin-bottom:1rem;">Support These Projects</h2>
+        <p style="color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.8;">
+          Your gift directly funds ministry operations on the ground — Bibles, teams, outreach events, and discipleship programs.
+        </p>
+      </div>
+      <div class="col-lg-5" data-animate data-animate-delay="1">
+        <div class="about-cta-cards">
+          <a href="{% url 'give' %}" class="about-cta-card about-cta-card-gold">
+            <div class="acta-icon"><i class="fas fa-heart"></i></div>
+            <div><strong>Donate Now</strong><span>Give online or via bank transfer</span></div>
+            <i class="fas fa-arrow-right acta-arrow"></i>
+          </a>
+          <a href="{% url 'volunteer' %}" class="about-cta-card">
+            <div class="acta-icon"><i class="fas fa-hands-helping"></i></div>
+            <div><strong>Volunteer</strong><span>Join a Go-Team or Prayer Partner network</span></div>
+            <i class="fas fa-arrow-right acta-arrow"></i>
+          </a>
+          <a href="{% url 'contact' %}" class="about-cta-card">
+            <div class="acta-icon"><i class="fas fa-envelope"></i></div>
+            <div><strong>Get in Touch</strong><span>Ask us anything about our work</span></div>
+            <i class="fas fa-arrow-right acta-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Impact Map{% endblock %}
+{% block nav_work %}active{% endblock %}
+
+{% block content %}
+
+<!-- Banner -->
+<div class="page-banner about-banner">
+  <div class="about-banner-overlay"></div>
+  <div class="container">
+    <div class="about-banner-inner">
+      <span class="section-eyebrow">Our Reach</span>
+      <h1>Impact Map</h1>
+      <p class="about-banner-sub">Explore where the gospel is advancing — and where the need remains — across Nigeria's 36 states.</p>
+      <nav class="breadcrumb-nav">
+        <a href="{% url 'home' %}">Home</a><span class="sep">/</span>
+        <a href="#">Our Work</a><span class="sep">/</span>
+        <span>Impact Map</span>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Stats strip -->
+{% if statistics %}
+<section class="home-statement-section" style="padding:2rem 0;">
+  <div class="container">
+    <div class="row g-0 justify-content-center">
+      <div class="col-6 col-md-3">
+        <div style="text-align:center;padding:1rem 1.5rem;border-right:1px solid rgba(255,255,255,0.08);">
+          <span class="hsb-num" data-counter>{{ statistics.states|intcomma }}</span>
+          <span class="hsb-label">States with Data</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="text-align:center;padding:1rem 1.5rem;border-right:1px solid rgba(255,255,255,0.08);">
+          <span class="hsb-num" data-counter>{{ statistics.villages|intcomma }}</span>
+          <span class="hsb-label">Villages Reached</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="text-align:center;padding:1rem 1.5rem;border-right:1px solid rgba(255,255,255,0.08);">
+          <span class="hsb-num" data-counter>{{ statistics.converts|intcomma }}</span>
+          <span class="hsb-label">Converts</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div style="text-align:center;padding:1rem 1.5rem;">
+          <span class="hsb-num" data-counter>{{ statistics.total_population|intcomma }}</span>
+          <span class="hsb-label">Est. Population</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Map section -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <!-- Map -->
+      <div class="col-lg-8" data-animate>
+        <div class="imap-wrap">
+          <div class="imap-header">
+            <div>
+              <span class="section-eyebrow">Interactive</span>
+              <h3 style="margin:0;">Nigeria Ministry Map</h3>
+            </div>
+            <div class="imap-legend">
+              <span class="iml-dot iml-reached"></span> Reached
+              <span class="iml-dot iml-unreached ms-3"></span> Not yet reached
+            </div>
+          </div>
+          <div id="map"></div>
+          <p class="imap-hint"><i class="fas fa-hand-pointer me-1" style="color:var(--gold);"></i> Click any state to view detailed impact data.</p>
+        </div>
+      </div>
+
+      <!-- Side panel -->
+      <div class="col-lg-4" data-animate data-animate-delay="1">
+        <div style="position:sticky;top:6rem;display:flex;flex-direction:column;gap:1.25rem;">
+
+          <div class="imap-info-card">
+            <h5><i class="fas fa-globe-africa me-2" style="color:var(--gold);"></i>About the Map</h5>
+            <p>This map shows all 36 states of Nigeria. <strong style="color:var(--green);">Green states</strong> have active ministry data. <strong style="color:#e74c3c;">Red states</strong> represent unreached areas still waiting for the gospel.</p>
+            <p>Click any state to view village-level statistics, population estimates, and convert counts.</p>
+          </div>
+
+          {% if statistics %}
+          <div class="imap-info-card imap-info-dark">
+            <div class="imap-stat-row">
+              <div class="isr-icon"><i class="fas fa-map-marked-alt"></i></div>
+              <div>
+                <span class="isr-num" data-counter>{{ statistics.lgas|intcomma }}</span>
+                <span class="isr-label">Local Govt. Areas</span>
+              </div>
+            </div>
+            <div class="imap-stat-row">
+              <div class="isr-icon"><i class="fas fa-users"></i></div>
+              <div>
+                <span class="isr-num" data-counter>{{ statistics.people_groups|intcomma }}</span>
+                <span class="isr-label">People Groups</span>
+              </div>
+            </div>
+            <div class="imap-stat-row">
+              <div class="isr-icon"><i class="fas fa-bookmark"></i></div>
+              <div>
+                <span class="isr-num" data-counter>{{ statistics.wards|intcomma }}</span>
+                <span class="isr-label">Wards Covered</span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <a href="{% url 'give' %}" class="about-cta-card about-cta-card-gold" style="text-decoration:none;">
+            <div class="acta-icon"><i class="fas fa-heart"></i></div>
+            <div>
+              <strong>Support the Mission</strong>
+              <span>Help us reach every unreached state</span>
+            </div>
+            <i class="fas fa-arrow-right acta-arrow"></i>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map('map', { scrollWheelZoom: false }).setView([9.0820, 8.6753], 6);
+
+fetch('/api/states-with-data/')
+  .then(r => r.json())
+  .then(statesData => {
+    fetch("{% static 'js/nigeria_map.geojson' %}")
+      .then(r => r.json())
+      .then(geoData => {
+        L.geoJSON(geoData, {
+          style: feature => ({
+            fillColor: statesData.hasOwnProperty(feature.properties.name) ? '#27ae60' : '#e74c3c',
+            weight: 1.5, opacity: 1, color: 'white', dashArray: '3', fillOpacity: 0.72
+          }),
+          onEachFeature: (feature, layer) => {
+            const name = feature.properties.name;
+            const d = statesData[name];
+            const tip = d
+              ? `<strong>${name}</strong><br>Population: ${(d.total_population||0).toLocaleString()}<br>Villages: ${d.village_count}<br>Converts: ${(d.total_converts||0).toLocaleString()}`
+              : `<strong>${name}</strong><br><em>No data yet</em>`;
+            layer.bindTooltip(tip, { permanent: false, direction: 'center', className: 'state-tooltip' });
+            layer.on({
+              mouseover: e => { e.target.setStyle({ fillOpacity: 0.95, weight: 2.5, color: '#fff' }); },
+              mouseout:  e => { e.target.setStyle({ fillOpacity: 0.72, weight: 1.5, color: 'white' }); },
+              click:     () => { window.location.href = `/state/${name}/`; }
+            });
+          }
+        }).addTo(map);
+      });
+  })
+  .catch(err => console.warn('Map error:', err));
+</script>
+{% endblock %}

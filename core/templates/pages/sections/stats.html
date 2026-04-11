@@ -1,0 +1,55 @@
+{% load static humanize %}
+<section class="section">
+  <div class="container">
+    {% if section.title or section.subtitle %}
+    <div class="section-header center" data-animate>
+      {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+      {% if section.title %}<h2>{{ section.title }}</h2><div class="divider center"></div>{% endif %}
+    </div>
+    {% endif %}
+
+    {% if achievement %}
+    <div class="row g-4">
+      <div class="col-md-4" data-animate data-animate-delay="1">
+        <div class="impact-card">
+          <div class="ic-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <div class="ic-number" data-counter>{{ achievement.villages|intcomma }}</div>
+          <div class="ic-label">Villages Reached</div>
+          <p class="ic-desc">{{ achievement.villages_description }}</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-animate data-animate-delay="2">
+        <div class="impact-card">
+          <div class="ic-icon"><i class="fas fa-cross"></i></div>
+          <div class="ic-number" data-counter>{{ achievement.people_saved|intcomma }}</div>
+          <div class="ic-label">People Saved</div>
+          <p class="ic-desc">{{ achievement.people_saved_description }}</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-animate data-animate-delay="3">
+        <div class="impact-card">
+          <div class="ic-icon"><i class="fas fa-book-open"></i></div>
+          <div class="ic-number" data-counter>{{ achievement.people_reached|intcomma }}</div>
+          <div class="ic-label">People Reached</div>
+          <p class="ic-desc">{{ achievement.people_reached_description }}</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% with extra=section.get_extra_data %}
+    {% if extra %}
+    <div class="row g-4 mt-3">
+      {% for stat in extra %}
+      <div class="col-6 col-md-3" data-animate>
+        <div class="state-stat-card">
+          <div class="value">{{ stat.number }}</div>
+          <div class="label">{{ stat.label }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+  </div>
+</section>

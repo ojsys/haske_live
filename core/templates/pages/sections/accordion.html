@@ -1,0 +1,41 @@
+{% load static %}
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        {% if section.title or section.subtitle %}
+        <div class="section-header" data-animate>
+          {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
+          {% if section.title %}<h2>{{ section.title }}</h2><div class="divider"></div>{% endif %}
+        </div>
+        {% endif %}
+
+        {% with items=section.get_extra_data %}
+        {% if items %}
+        <div class="accordion" id="acc{{ section.pk }}">
+          {% for item in items %}
+          <div class="accordion-item border mb-2" style="border-radius:var(--radius-md)!important;overflow:hidden;">
+            <h2 class="accordion-header">
+              <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#acc{{ section.pk }}q{{ forloop.counter }}">
+                {{ item.question }}
+              </button>
+            </h2>
+            <div id="acc{{ section.pk }}q{{ forloop.counter }}"
+                 class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                 data-bs-parent="#acc{{ section.pk }}">
+              <div class="accordion-body" style="color:var(--gray-600);">{{ item.answer }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% if section.body %}<div class="rich-content mt-4">{{ section.body|safe }}</div>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
