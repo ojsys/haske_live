@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HASKE Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1825;--surface:#14253d;--surface-2:#1a2e47;--surface-3:#1f3553;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
+  --gold:#C8922A;--gold-dim:#b8821f;--green:#1D6A4A;--red:#e74c3c;
+  --text:#dde6f0;--text-muted:#6e8caa;--text-dim:#4a6480;
+  --radius:10px;--radius-lg:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+
+/* ---- Top bar ---- */
+.topbar{height:58px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:1rem;position:sticky;top:0;z-index:100}
+.topbar-logo{font-weight:700;font-size:1rem;letter-spacing:.08em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.topbar-logo i{font-size:.85rem}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:1rem}
+.topbar-link{color:var(--text-muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.35rem;transition:color .15s}
+.topbar-link:hover{color:var(--text)}
+.topbar-user{font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:.4rem}
+
+/* ---- Content ---- */
+.content{max-width:1160px;margin:0 auto;padding:2.5rem 2rem}
+
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2.25rem;gap:1rem}
+.dash-header h1{font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+.dash-header p{font-size:.83rem;color:var(--text-muted);margin-top:.3rem}
+
+/* ---- Buttons ---- */
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.2rem;border-radius:7px;font-size:.83rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;white-space:nowrap;font-family:inherit}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-dim);color:#fff}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}.btn-outline:hover{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.2)}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid transparent}.btn-ghost:hover{background:rgba(255,255,255,0.04);color:var(--text)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.25)}.btn-danger:hover{background:rgba(231,76,60,.1)}
+.btn-sm{padding:.32rem .7rem;font-size:.77rem}
+
+/* ---- Pages grid ---- */
+.pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem}
+
+.page-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;transition:border-color .2s,transform .2s;cursor:default}
+.page-card:hover{border-color:rgba(200,146,42,.35);transform:translateY(-2px)}
+.page-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.page-card-title{font-weight:600;font-size:.95rem;line-height:1.3}
+.page-card-slug{font-size:.73rem;color:var(--text-muted);font-family:monospace;margin-top:.25rem}
+.badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:20px;font-size:.69rem;font-weight:700;letter-spacing:.05em;white-space:nowrap}
+.badge-pub{background:rgba(29,106,74,.2);color:#4dba87;border:1px solid rgba(29,106,74,.35)}
+.badge-draft{background:rgba(200,146,42,.15);color:var(--gold);border:1px solid rgba(200,146,42,.3)}
+.page-card-meta{font-size:.77rem;color:var(--text-dim);margin-bottom:1.25rem;line-height:1.5}
+.page-card-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+
+.empty-state{grid-column:1/-1;text-align:center;padding:5rem 2rem;color:var(--text-muted)}
+.empty-state .empty-icon{font-size:3.5rem;margin-bottom:1.25rem;opacity:.2;display:block}
+.empty-state p{margin-bottom:1.75rem;font-size:.9rem}
+
+/* ---- Modal ---- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface-2);border:1px solid var(--border-2);border-radius:var(--radius-lg);padding:2rem;width:100%;max-width:440px;transform:translateY(24px);transition:transform .25s}
+.overlay.open .modal{transform:translateY(0)}
+.modal-title{font-size:1.05rem;font-weight:600;margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+.modal-title i{color:var(--gold)}
+.modal-footer{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem}
+
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{display:block;font-size:.77rem;font-weight:500;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.02em;text-transform:uppercase}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;background:var(--surface);border:1px solid var(--border-2);border-radius:7px;padding:.6rem .875rem;color:var(--text);font-family:inherit;font-size:.875rem;outline:none;transition:border-color .15s}
+.fgroup input:focus,.fgroup textarea:focus{border-color:var(--gold)}
+.fgroup select option{background:var(--surface-2)}
+
+/* ---- Toast ---- */
+.toast{position:fixed;bottom:1.75rem;right:1.75rem;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:.8rem 1.2rem;font-size:.83rem;z-index:1000;display:flex;align-items:center;gap:.5rem;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(29,106,74,.6);color:#4dba87}
+.toast.error{border-color:rgba(231,76,60,.6);color:var(--red)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/editor/" class="topbar-logo"><i class="fas fa-layer-group"></i> HASKE Editor</a>
+  <nav class="topbar-right">
+    <span class="topbar-user"><i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}</span>
+    <a href="/" target="_blank" class="topbar-link"><i class="fas fa-external-link-alt"></i> View Site</a>
+    <a href="/admin/" class="topbar-link"><i class="fas fa-cog"></i> Admin</a>
+  </nav>
+</header>
+
+<div class="content">
+  <div class="dash-header">
+    <div>
+      <h1>Pages</h1>
+      <p>Create and manage custom pages for the site</p>
+    </div>
+    <button class="btn btn-gold" onclick="openModal()">
+      <i class="fas fa-plus"></i> New Page
+    </button>
+  </div>
+
+  <div class="pages-grid">
+    {% for page in pages %}
+    <div class="page-card" id="pc-{{ page.id }}">
+      <div class="page-card-top">
+        <div>
+          <div class="page-card-title">{{ page.title }}</div>
+          <div class="page-card-slug">/pages/{{ page.slug }}/</div>
+        </div>
+        {% if page.is_published %}
+          <span class="badge badge-pub">Published</span>
+        {% else %}
+          <span class="badge badge-draft">Draft</span>
+        {% endif %}
+      </div>
+      <div class="page-card-meta">
+        <i class="fas fa-th-list" style="margin-right:.3rem;opacity:.5"></i>
+        {{ page.sections.count }} section{{ page.sections.count|pluralize }}
+        &nbsp;&bull;&nbsp;
+        <i class="fas fa-clock" style="margin-right:.3rem;opacity:.5"></i>
+        Updated {{ page.updated_at|timesince }} ago
+        {% if page.show_in_nav %}
+          &nbsp;&bull;&nbsp;<i class="fas fa-compass" style="margin-right:.3rem;opacity:.5"></i>In nav
+        {% endif %}
+      </div>
+      <div class="page-card-actions">
+        <a href="/editor/page/{{ page.id }}/" class="btn btn-gold btn-sm">
+          <i class="fas fa-edit"></i> Edit
+        </a>
+        <a href="{{ page.get_absolute_url }}" target="_blank" class="btn btn-outline btn-sm">
+          <i class="fas fa-eye"></i> Preview
+        </a>
+        <button class="btn btn-danger btn-sm" onclick="deletePage({{ page.id }}, event)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <i class="fas fa-file-alt empty-icon"></i>
+      <p>No pages yet. Create your first page to get started.</p>
+      <button class="btn btn-gold" onclick="openModal()">
+        <i class="fas fa-plus"></i> Create First Page
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- New Page Modal -->
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <div class="modal-title"><i class="fas fa-file-circle-plus"></i> Create New Page</div>
+    <div class="fgroup">
+      <label>Page Title</label>
+      <input type="text" id="inp-title" placeholder="e.g. Our History" autocomplete="off">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="createPage()"><i class="fas fa-plus"></i> Create</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CSRF = '{{ csrf_token }}';
+
+function openModal() {
+  document.getElementById('overlay').classList.add('open');
+  setTimeout(() => document.getElementById('inp-title').focus(), 120);
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('inp-title').value = '';
+}
+function overlayClick(e) { if (e.target === e.currentTarget) closeModal(); }
+
+document.getElementById('inp-title').addEventListener('keydown', e => {
+  if (e.key === 'Enter') createPage();
+  if (e.key === 'Escape') closeModal();
+});
+
+function createPage() {
+  const title = document.getElementById('inp-title').value.trim();
+  if (!title) { document.getElementById('inp-title').focus(); return; }
+  const fd = new FormData();
+  fd.append('title', title);
+  fetch('/editor/api/pages/create/', { method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd })
+    .then(r => r.json())
+    .then(d => { window.location.href = `/editor/page/${d.id}/`; })
+    .catch(() => toast('Failed to create page', 'error'));
+}
+
+function deletePage(id, e) {
+  e.stopPropagation();
+  if (!confirm('Delete this page? All sections and content will be lost.')) return;
+  const fd = new FormData();
+  fetch(`/editor/api/pages/${id}/delete/`, { method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd })
+    .then(r => r.json())
+    .then(() => { document.getElementById(`pc-${id}`)?.remove(); toast('Page deleted'); })
+    .catch(() => toast('Failed to delete', 'error'));
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>
