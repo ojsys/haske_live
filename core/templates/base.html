@@ -32,6 +32,69 @@
 </head>
 <body>
 
+{% if show_admin_bar %}
+<!-- ======================================================
+     ADMIN BAR (staff only — like WordPress' top toolbar)
+     ====================================================== -->
+<div id="haske-admin-bar" style="
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  height:34px;
+  background:#0d1825;
+  border-bottom:1px solid rgba(200,146,42,.35);
+  display:flex;align-items:center;
+  padding:0 1rem;gap:.25rem;
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:.74rem;font-weight:500;
+">
+  <!-- Brand mark -->
+  <a href="/editor/" style="color:#C8922A;text-decoration:none;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;gap:.3rem;padding:.2rem .5rem;border-radius:4px;margin-right:.25rem">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#C8922A" stroke-width="1.5"/><path d="M4 6l2-3 2 3-2 1.5L4 6z" fill="#C8922A" opacity=".7"/></svg>
+    HASKE
+  </a>
+
+  <div style="width:1px;height:16px;background:rgba(255,255,255,.12);margin:0 .25rem"></div>
+
+  <!-- Dashboard -->
+  <a href="/editor/" style="color:#8aa8c8;text-decoration:none;padding:.2rem .5rem;border-radius:4px;display:flex;align-items:center;gap:.3rem;transition:color .12s" onmouseover="this.style.color='#dde6f0'" onmouseout="this.style.color='#8aa8c8'">
+    <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x=".5" y=".5" width="4" height="4" rx="1" stroke="currentColor"/><rect x="6.5" y=".5" width="4" height="4" rx="1" stroke="currentColor"/><rect x=".5" y="6.5" width="4" height="4" rx="1" stroke="currentColor"/><rect x="6.5" y="6.5" width="4" height="4" rx="1" stroke="currentColor"/></svg>
+    Pages
+  </a>
+
+  <!-- Blog -->
+  <a href="/editor/blog/" style="color:#8aa8c8;text-decoration:none;padding:.2rem .5rem;border-radius:4px;display:flex;align-items:center;gap:.3rem;transition:color .12s" onmouseover="this.style.color='#dde6f0'" onmouseout="this.style.color='#8aa8c8'">
+    <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x=".5" y="2.5" width="10" height="1.2" rx=".6" fill="currentColor"/><rect x=".5" y="5.2" width="10" height="1.2" rx=".6" fill="currentColor"/><rect x=".5" y="7.9" width="7" height="1.2" rx=".6" fill="currentColor"/></svg>
+    Blog
+  </a>
+
+  {% if admin_bar_edit_url %}
+  <div style="width:1px;height:16px;background:rgba(255,255,255,.12);margin:0 .25rem"></div>
+  <!-- Edit this page -->
+  <a href="{{ admin_bar_edit_url }}" style="color:#C8922A;text-decoration:none;padding:.2rem .6rem;border-radius:4px;display:flex;align-items:center;gap:.3rem;border:1px solid rgba(200,146,42,.35);transition:background .12s" onmouseover="this.style.background='rgba(200,146,42,.12)'" onmouseout="this.style.background='transparent'">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 7.5L7.5 1 9 2.5 2.5 9H1V7.5z" stroke="#C8922A" stroke-width="1.2"/></svg>
+    Edit Page
+  </a>
+  {% endif %}
+
+  <!-- Right side -->
+  <div style="margin-left:auto;display:flex;align-items:center;gap:.25rem">
+    <a href="/admin/" style="color:#8aa8c8;text-decoration:none;padding:.2rem .5rem;border-radius:4px;display:flex;align-items:center;gap:.3rem;transition:color .12s" onmouseover="this.style.color='#dde6f0'" onmouseout="this.style.color='#8aa8c8'">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="3.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M1 10c0-2.5 2-4 4.5-4S10 7.5 10 10" stroke="currentColor" stroke-width="1.1"/></svg>
+      Admin
+    </a>
+    <div style="width:1px;height:16px;background:rgba(255,255,255,.12);margin:0 .1rem"></div>
+    <a href="/admin/logout/" style="color:#6e8caa;text-decoration:none;padding:.2rem .5rem;border-radius:4px;font-size:.7rem;transition:color .12s" onmouseover="this.style.color='#dde6f0'" onmouseout="this.style.color='#6e8caa'">
+      Log out
+    </a>
+  </div>
+</div>
+<style>
+  /* Push everything down so the admin bar doesn't overlap site header */
+  #haske-admin-bar ~ * .site-header,
+  body:has(#haske-admin-bar) .site-header { top: 34px !important; }
+  body:has(#haske-admin-bar) { padding-top: 34px; }
+</style>
+{% endif %}
+
 <!-- Mobile overlay (closes nav drawer) -->
 <div class="mob-overlay" id="mobOverlay"></div>
 

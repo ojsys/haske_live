@@ -6,6 +6,7 @@
 
 {% block content %}
 
+{% if page.show_header %}
 <!-- Page Banner -->
 <div class="page-banner">
   {% if page.header_image %}
@@ -23,6 +24,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 
 <!-- Page Sections -->
 {% for section in sections %}

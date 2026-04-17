@@ -5,12 +5,12 @@
   {% endif %}
   <div class="hero-overlay"></div>
   <div class="container">
-    <div class="hero-content text-white" style="padding-top:7rem;padding-bottom:4rem;">
+    <div class="hero-content text-white" style="padding-top:7rem;padding-bottom:4rem;text-align:left;margin:0;max-width:700px;">
       {% if section.subtitle %}<span class="section-eyebrow">{{ section.subtitle }}</span>{% endif %}
       {% if section.title %}<h1>{{ section.title }}</h1>{% endif %}
-      {% if section.body %}<div class="rich-content" style="color:rgba(255,255,255,0.82);max-width:600px;font-size:1.1rem;">{{ section.body|safe }}</div>{% endif %}
+      {% if section.body %}<div class="rich-content" style="color:rgba(255,255,255,0.82);font-size:1.1rem;">{{ section.body|safe }}</div>{% endif %}
       {% if section.button_text or section.button2_text %}
-      <div class="hero-actions mt-4">
+      <div class="hero-actions mt-4" style="justify-content:flex-start;">
         {% if section.button_text %}<a href="{{ section.button_url }}" class="btn btn-primary btn-lg">{{ section.button_text }}</a>{% endif %}
         {% if section.button2_text %}<a href="{{ section.button2_url }}" class="btn btn-outline btn-lg">{{ section.button2_text }}</a>{% endif %}
       </div>

@@ -5,154 +5,523 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HASKE Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0d1825;--surface:#14253d;--surface-2:#1a2e47;--surface-3:#1f3553;
-  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
-  --gold:#C8922A;--gold-dim:#b8821f;--green:#1D6A4A;--red:#e74c3c;
-  --text:#dde6f0;--text-muted:#6e8caa;--text-dim:#4a6480;
-  --radius:10px;--radius-lg:14px;
+  --bg:#0b1520;
+  --surface:#111f30;
+  --surface-2:#172840;
+  --surface-3:#1d3050;
+  --surface-hover:#1a2e46;
+  --border:rgba(255,255,255,0.06);
+  --border-2:rgba(255,255,255,0.11);
+  --border-3:rgba(255,255,255,0.18);
+  --gold:#C8922A;--gold-dim:#b8821f;--gold-glow:rgba(200,146,42,0.15);
+  --green:#1D6A4A;--green-light:#4dba87;
+  --red:#e74c3c;
+  --blue:#2b7de9;
+  --text:#d8e8f5;--text-muted:#5e7d9a;--text-dim:#3d5870;
+  --radius:10px;--radius-lg:14px;--radius-xl:18px;
 }
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
 
-/* ---- Top bar ---- */
-.topbar{height:58px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:1rem;position:sticky;top:0;z-index:100}
-.topbar-logo{font-weight:700;font-size:1rem;letter-spacing:.08em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:.5rem}
-.topbar-logo i{font-size:.85rem}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:1rem}
-.topbar-link{color:var(--text-muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.35rem;transition:color .15s}
-.topbar-link:hover{color:var(--text)}
-.topbar-user{font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:.4rem}
+/* ========== TOPBAR ========== */
+.topbar{
+  height:56px;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 2rem;gap:.75rem;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 20px rgba(0,0,0,.25);
+}
+.topbar-logo{
+  font-weight:800;font-size:.95rem;letter-spacing:.06em;
+  color:var(--gold);text-decoration:none;
+  display:flex;align-items:center;gap:.5rem;
+  padding-right:1.25rem;
+  border-right:1px solid var(--border-2);
+}
+.topbar-logo .logo-dot{
+  width:26px;height:26px;border-radius:8px;
+  background:linear-gradient(135deg,var(--gold),#f0b740);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;color:#fff;font-weight:800;
+  box-shadow:0 2px 8px rgba(200,146,42,.4);
+}
+.topbar-nav{display:flex;align-items:center;gap:.25rem;margin-left:.5rem}
+.topbar-nav a{
+  color:var(--text-muted);text-decoration:none;font-size:.82rem;font-weight:500;
+  padding:.35rem .7rem;border-radius:6px;
+  display:flex;align-items:center;gap:.4rem;
+  transition:all .15s;
+}
+.topbar-nav a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:.75rem}
+.topbar-user{
+  font-size:.8rem;color:var(--text-muted);
+  display:flex;align-items:center;gap:.5rem;
+  padding:.3rem .8rem;border-radius:20px;
+  background:var(--surface-2);border:1px solid var(--border);
+}
+.topbar-user .avatar{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#f0b740);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;color:#fff;
+}
+.topbar-action{
+  color:var(--text-muted);text-decoration:none;font-size:.8rem;font-weight:500;
+  padding:.35rem .75rem;border-radius:7px;border:1px solid var(--border-2);
+  display:flex;align-items:center;gap:.4rem;transition:all .15s;background:transparent;
+  cursor:pointer;font-family:inherit;
+}
+.topbar-action:hover{color:var(--text);border-color:var(--border-3);background:var(--surface-2)}
+.topbar-action.primary{background:var(--gold);color:#fff;border-color:var(--gold)}
+.topbar-action.primary:hover{background:var(--gold-dim)}
 
-/* ---- Content ---- */
-.content{max-width:1160px;margin:0 auto;padding:2.5rem 2rem}
+/* ========== LAYOUT ========== */
+.shell{display:flex;min-height:calc(100vh - 56px)}
 
-.dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2.25rem;gap:1rem}
-.dash-header h1{font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
-.dash-header p{font-size:.83rem;color:var(--text-muted);margin-top:.3rem}
+/* ========== SIDEBAR ========== */
+.sidebar{
+  width:220px;flex-shrink:0;
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:1.5rem 0;
+  position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+}
+.sidebar-section{margin-bottom:1.75rem}
+.sidebar-label{
+  font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-dim);padding:.25rem 1.25rem .6rem;
+}
+.sidebar-link{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.55rem 1.25rem;color:var(--text-muted);text-decoration:none;
+  font-size:.835rem;font-weight:500;transition:all .15s;
+  border-left:2px solid transparent;
+}
+.sidebar-link:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sidebar-link.active{color:var(--gold);background:var(--gold-glow);border-left-color:var(--gold)}
+.sidebar-link .si{width:18px;text-align:center;font-size:.85rem;opacity:.75}
+.sidebar-link.active .si{opacity:1}
 
-/* ---- Buttons ---- */
-.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.55rem 1.2rem;border-radius:7px;font-size:.83rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;white-space:nowrap;font-family:inherit}
-.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-dim);color:#fff}
-.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}.btn-outline:hover{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.2)}
-.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid transparent}.btn-ghost:hover{background:rgba(255,255,255,0.04);color:var(--text)}
-.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.25)}.btn-danger:hover{background:rgba(231,76,60,.1)}
-.btn-sm{padding:.32rem .7rem;font-size:.77rem}
+/* ========== MAIN CONTENT ========== */
+.main{flex:1;min-width:0;padding:2.25rem 2.5rem;max-width:1040px}
 
-/* ---- Pages grid ---- */
-.pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.25rem}
+/* ========== WELCOME STRIP ========== */
+.welcome{
+  background:linear-gradient(135deg, var(--surface-2) 0%, var(--surface-3) 100%);
+  border:1px solid var(--border-2);border-radius:var(--radius-xl);
+  padding:1.6rem 2rem;margin-bottom:2.25rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  position:relative;overflow:hidden;
+}
+.welcome::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,146,42,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.welcome-text h2{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.3rem}
+.welcome-text p{font-size:.84rem;color:var(--text-muted);line-height:1.5}
+.welcome-stats{display:flex;gap:1.5rem;flex-shrink:0}
+.welcome-stat{text-align:center}
+.welcome-stat .num{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1}
+.welcome-stat .lbl{font-size:.72rem;color:var(--text-muted);margin-top:.25rem;white-space:nowrap}
 
-.page-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;transition:border-color .2s,transform .2s;cursor:default}
-.page-card:hover{border-color:rgba(200,146,42,.35);transform:translateY(-2px)}
-.page-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
-.page-card-title{font-weight:600;font-size:.95rem;line-height:1.3}
-.page-card-slug{font-size:.73rem;color:var(--text-muted);font-family:monospace;margin-top:.25rem}
-.badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:20px;font-size:.69rem;font-weight:700;letter-spacing:.05em;white-space:nowrap}
-.badge-pub{background:rgba(29,106,74,.2);color:#4dba87;border:1px solid rgba(29,106,74,.35)}
-.badge-draft{background:rgba(200,146,42,.15);color:var(--gold);border:1px solid rgba(200,146,42,.3)}
-.page-card-meta{font-size:.77rem;color:var(--text-dim);margin-bottom:1.25rem;line-height:1.5}
-.page-card-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+/* ========== SECTION HEADER ========== */
+.section-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.1rem;
+}
+.section-hd-left{display:flex;align-items:center;gap:.6rem}
+.section-hd h2{font-size:.92rem;font-weight:700;letter-spacing:.01em}
+.section-hd .count{
+  font-size:.7rem;font-weight:600;color:var(--text-muted);
+  background:var(--surface-2);border:1px solid var(--border);
+  padding:.1rem .5rem;border-radius:20px;
+}
 
-.empty-state{grid-column:1/-1;text-align:center;padding:5rem 2rem;color:var(--text-muted)}
-.empty-state .empty-icon{font-size:3.5rem;margin-bottom:1.25rem;opacity:.2;display:block}
-.empty-state p{margin-bottom:1.75rem;font-size:.9rem}
+/* ========== SITE PAGES LIST ========== */
+.site-pages{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-xl);overflow:hidden;margin-bottom:2.25rem;
+}
+.site-page-row{
+  display:flex;align-items:center;gap:1.25rem;
+  padding:1rem 1.5rem;border-bottom:1px solid var(--border);
+  text-decoration:none;color:inherit;
+  transition:background .15s;
+}
+.site-page-row:last-child{border-bottom:none}
+.site-page-row:hover{background:var(--surface-hover)}
+.site-page-row:hover .sp-edit{opacity:1;transform:translateX(0)}
+.sp-icon{
+  width:42px;height:42px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+.sp-icon.home{background:rgba(200,146,42,.12);color:var(--gold)}
+.sp-icon.about{background:rgba(43,125,233,.12);color:#5fa3f5}
+.sp-icon.projects{background:rgba(29,106,74,.15);color:#4dba87}
+.sp-icon.volunteer{background:rgba(155,89,182,.12);color:#c39be0}
+.sp-icon.give{background:rgba(231,76,60,.1);color:#f07f73}
+.sp-icon.media{background:rgba(230,126,34,.12);color:#f0a460}
+.sp-body{flex:1;min-width:0}
+.sp-name{font-weight:600;font-size:.9rem;margin-bottom:.2rem}
+.sp-desc{font-size:.77rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-url{
+  font-size:.72rem;font-family:monospace;color:var(--text-dim);
+  background:var(--surface-2);border:1px solid var(--border);
+  padding:.15rem .5rem;border-radius:5px;white-space:nowrap;flex-shrink:0;
+}
+.sp-edit{
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-size:.77rem;font-weight:600;color:var(--gold);
+  padding:.3rem .7rem;border-radius:6px;
+  border:1px solid rgba(200,146,42,.3);
+  background:rgba(200,146,42,.06);
+  opacity:0;transform:translateX(6px);transition:all .18s;
+  white-space:nowrap;flex-shrink:0;
+}
+.sp-view{
+  color:var(--text-dim);font-size:.82rem;padding:.3rem .5rem;
+  border-radius:6px;flex-shrink:0;transition:color .15s;
+}
+.site-page-row:hover .sp-view{color:var(--text-muted)}
 
-/* ---- Modal ---- */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .2s}
+/* ========== BLOG SHORTCUT ========== */
+.blog-bar{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-xl);padding:1.1rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+  margin-bottom:2.25rem;
+  transition:border-color .2s;
+}
+.blog-bar:hover{border-color:rgba(200,146,42,.25)}
+.blog-bar-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(200,146,42,.1);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;flex-shrink:0;
+}
+.blog-bar-body{flex:1}
+.blog-bar-body strong{font-size:.9rem;font-weight:600;display:block;margin-bottom:.15rem}
+.blog-bar-body span{font-size:.77rem;color:var(--text-muted)}
+.blog-bar-actions{display:flex;gap:.5rem}
+
+/* ========== CUSTOM PAGES GRID ========== */
+.pages-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:1rem;
+  margin-bottom:2.25rem;
+}
+.page-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:1.35rem 1.5rem;
+  transition:border-color .2s,transform .18s,box-shadow .18s;
+  cursor:default;position:relative;overflow:hidden;
+}
+.page-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.page-card:hover{
+  border-color:rgba(200,146,42,.3);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+.page-card:hover::after{opacity:1}
+.page-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.85rem}
+.page-card-title{font-weight:600;font-size:.92rem;line-height:1.3;margin-bottom:.25rem}
+.page-card-slug{font-size:.7rem;color:var(--text-dim);font-family:monospace}
+.badge{
+  display:inline-flex;align-items:center;padding:.15rem .5rem;
+  border-radius:20px;font-size:.67rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;
+}
+.badge-pub{background:rgba(29,106,74,.18);color:var(--green-light);border:1px solid rgba(29,106,74,.3)}
+.badge-draft{background:rgba(200,146,42,.12);color:var(--gold);border:1px solid rgba(200,146,42,.25)}
+.page-card-meta{font-size:.75rem;color:var(--text-dim);margin-bottom:1.1rem;line-height:1.6;display:flex;flex-wrap:wrap;gap:.15rem .6rem}
+.page-card-meta span{display:flex;align-items:center;gap:.3rem}
+.page-card-actions{display:flex;gap:.4rem;flex-wrap:wrap}
+
+/* ========== EMPTY STATE ========== */
+.empty-state{
+  grid-column:1/-1;text-align:center;
+  padding:4rem 2rem;color:var(--text-muted);
+  background:var(--surface);border:1px dashed var(--border-2);
+  border-radius:var(--radius-xl);
+}
+.empty-state .empty-icon{
+  font-size:2.75rem;margin-bottom:1rem;
+  opacity:.15;display:block;
+}
+.empty-state p{margin-bottom:1.5rem;font-size:.875rem;line-height:1.6}
+
+/* ========== BUTTONS ========== */
+.btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.5rem 1.1rem;border-radius:7px;font-size:.82rem;font-weight:600;
+  cursor:pointer;border:none;transition:all .15s;
+  text-decoration:none;white-space:nowrap;font-family:inherit;
+}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-dim);color:#fff}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}
+.btn-outline:hover{background:rgba(255,255,255,.04);border-color:var(--border-3)}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid transparent}
+.btn-ghost:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.2)}
+.btn-danger:hover{background:rgba(231,76,60,.08)}
+.btn-sm{padding:.3rem .65rem;font-size:.76rem}
+.btn-xs{padding:.2rem .5rem;font-size:.71rem}
+
+/* ========== MODAL ========== */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;
+  z-index:500;opacity:0;pointer-events:none;transition:opacity .2s;
+}
 .overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--surface-2);border:1px solid var(--border-2);border-radius:var(--radius-lg);padding:2rem;width:100%;max-width:440px;transform:translateY(24px);transition:transform .25s}
-.overlay.open .modal{transform:translateY(0)}
-.modal-title{font-size:1.05rem;font-weight:600;margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+.modal{
+  background:var(--surface-2);border:1px solid var(--border-2);
+  border-radius:var(--radius-xl);padding:2rem;width:100%;max-width:420px;
+  transform:translateY(20px) scale(.98);transition:transform .25s;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+.overlay.open .modal{transform:translateY(0) scale(1)}
+.modal-title{font-size:1rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
 .modal-title i{color:var(--gold)}
 .modal-footer{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem}
-
 .fgroup{margin-bottom:1.1rem}
-.fgroup label{display:block;font-size:.77rem;font-weight:500;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.02em;text-transform:uppercase}
-.fgroup input,.fgroup textarea,.fgroup select{width:100%;background:var(--surface);border:1px solid var(--border-2);border-radius:7px;padding:.6rem .875rem;color:var(--text);font-family:inherit;font-size:.875rem;outline:none;transition:border-color .15s}
-.fgroup input:focus,.fgroup textarea:focus{border-color:var(--gold)}
-.fgroup select option{background:var(--surface-2)}
+.fgroup label{display:block;font-size:.74rem;font-weight:600;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.03em;text-transform:uppercase}
+.fgroup input{
+  width:100%;background:var(--surface);border:1px solid var(--border-2);
+  border-radius:7px;padding:.65rem .9rem;color:var(--text);
+  font-family:inherit;font-size:.875rem;outline:none;transition:border-color .15s;
+}
+.fgroup input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,146,42,.12)}
 
-/* ---- Toast ---- */
-.toast{position:fixed;bottom:1.75rem;right:1.75rem;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:.8rem 1.2rem;font-size:.83rem;z-index:1000;display:flex;align-items:center;gap:.5rem;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
+/* ========== TOAST ========== */
+.toast{
+  position:fixed;bottom:1.75rem;right:1.75rem;
+  background:var(--surface-2);border:1px solid var(--border-2);
+  border-radius:9px;padding:.8rem 1.2rem;font-size:.82rem;
+  z-index:1000;display:flex;align-items:center;gap:.5rem;
+  transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
 .toast.show{transform:translateY(0);opacity:1}
-.toast.success{border-color:rgba(29,106,74,.6);color:#4dba87}
-.toast.error{border-color:rgba(231,76,60,.6);color:var(--red)}
+.toast.success{border-color:rgba(29,106,74,.5);color:var(--green-light)}
+.toast.error{border-color:rgba(231,76,60,.5);color:var(--red)}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
+<!-- ========== TOPBAR ========== -->
 <header class="topbar">
-  <a href="/editor/" class="topbar-logo"><i class="fas fa-layer-group"></i> HASKE Editor</a>
-  <nav class="topbar-right">
-    <span class="topbar-user"><i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}</span>
-    <a href="/" target="_blank" class="topbar-link"><i class="fas fa-external-link-alt"></i> View Site</a>
-    <a href="/admin/" class="topbar-link"><i class="fas fa-cog"></i> Admin</a>
+  <a href="/editor/" class="topbar-logo">
+    <div class="logo-dot">H</div>
+    HASKE
+  </a>
+  <nav class="topbar-nav">
+    <a href="/editor/"><i class="fas fa-th-large"></i> Dashboard</a>
+    <a href="/editor/blog/"><i class="fas fa-newspaper"></i> Blog</a>
   </nav>
+  <div class="topbar-right">
+    <a href="/" target="_blank" class="topbar-action"><i class="fas fa-external-link-alt"></i> View Site</a>
+    <a href="/admin/" class="topbar-action"><i class="fas fa-cog"></i> Admin</a>
+    <div class="topbar-user">
+      <div class="avatar">{{ request.user.get_full_name|default:request.user.username|slice:":1"|upper }}</div>
+      {{ request.user.get_full_name|default:request.user.username }}
+    </div>
+  </div>
 </header>
 
-<div class="content">
-  <div class="dash-header">
-    <div>
-      <h1>Pages</h1>
-      <p>Create and manage custom pages for the site</p>
-    </div>
-    <button class="btn btn-gold" onclick="openModal()">
-      <i class="fas fa-plus"></i> New Page
-    </button>
-  </div>
+<!-- ========== SHELL ========== -->
+<div class="shell">
 
-  <div class="pages-grid">
-    {% for page in pages %}
-    <div class="page-card" id="pc-{{ page.id }}">
-      <div class="page-card-top">
-        <div>
-          <div class="page-card-title">{{ page.title }}</div>
-          <div class="page-card-slug">/pages/{{ page.slug }}/</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site Pages</div>
+      <a href="/editor/site/home/" class="sidebar-link"><span class="si"><i class="fas fa-home"></i></span> Home</a>
+      <a href="/editor/site/about/" class="sidebar-link"><span class="si"><i class="fas fa-info-circle"></i></span> About</a>
+      <a href="/editor/site/projects/" class="sidebar-link"><span class="si"><i class="fas fa-project-diagram"></i></span> Projects</a>
+      <a href="/editor/site/volunteer/" class="sidebar-link"><span class="si"><i class="fas fa-hands-helping"></i></span> Volunteer</a>
+      <a href="/editor/site/give/" class="sidebar-link"><span class="si"><i class="fas fa-hand-holding-heart"></i></span> Give</a>
+      <a href="/editor/site/media/" class="sidebar-link"><span class="si"><i class="fas fa-photo-video"></i></span> Media</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Content</div>
+      <a href="/editor/blog/" class="sidebar-link"><span class="si"><i class="fas fa-newspaper"></i></span> Blog Posts</a>
+      <a href="/editor/" class="sidebar-link active"><span class="si"><i class="fas fa-file-alt"></i></span> Custom Pages</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">System</div>
+      <a href="/" target="_blank" class="sidebar-link"><span class="si"><i class="fas fa-globe"></i></span> View Site</a>
+      <a href="/admin/" class="sidebar-link"><span class="si"><i class="fas fa-cog"></i></span> Admin Panel</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- Welcome -->
+    <div class="welcome">
+      <div class="welcome-text">
+        <h2>Welcome back, {{ request.user.get_full_name|default:request.user.username }} 👋</h2>
+        <p>Manage your site content, pages, and media from one place.</p>
+      </div>
+      <div class="welcome-stats">
+        <div class="welcome-stat">
+          <div class="num">{{ pages.count }}</div>
+          <div class="lbl">Custom Pages</div>
         </div>
-        {% if page.is_published %}
-          <span class="badge badge-pub">Published</span>
-        {% else %}
-          <span class="badge badge-draft">Draft</span>
-        {% endif %}
-      </div>
-      <div class="page-card-meta">
-        <i class="fas fa-th-list" style="margin-right:.3rem;opacity:.5"></i>
-        {{ page.sections.count }} section{{ page.sections.count|pluralize }}
-        &nbsp;&bull;&nbsp;
-        <i class="fas fa-clock" style="margin-right:.3rem;opacity:.5"></i>
-        Updated {{ page.updated_at|timesince }} ago
-        {% if page.show_in_nav %}
-          &nbsp;&bull;&nbsp;<i class="fas fa-compass" style="margin-right:.3rem;opacity:.5"></i>In nav
-        {% endif %}
-      </div>
-      <div class="page-card-actions">
-        <a href="/editor/page/{{ page.id }}/" class="btn btn-gold btn-sm">
-          <i class="fas fa-edit"></i> Edit
-        </a>
-        <a href="{{ page.get_absolute_url }}" target="_blank" class="btn btn-outline btn-sm">
-          <i class="fas fa-eye"></i> Preview
-        </a>
-        <button class="btn btn-danger btn-sm" onclick="deletePage({{ page.id }}, event)">
-          <i class="fas fa-trash"></i>
-        </button>
       </div>
     </div>
-    {% empty %}
-    <div class="empty-state">
-      <i class="fas fa-file-alt empty-icon"></i>
-      <p>No pages yet. Create your first page to get started.</p>
-      <button class="btn btn-gold" onclick="openModal()">
-        <i class="fas fa-plus"></i> Create First Page
+
+    <!-- Site Pages -->
+    <div class="section-hd">
+      <div class="section-hd-left">
+        <h2>Site Pages</h2>
+        <span class="count">6 pages</span>
+      </div>
+    </div>
+
+    <div class="site-pages">
+      <a href="/editor/site/home/" class="site-page-row">
+        <div class="sp-icon home"><i class="fas fa-home"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">Home</div>
+          <div class="sp-desc">Hero slides, statistics &amp; achievement numbers</div>
+        </div>
+        <span class="sp-url">/</span>
+        <a href="/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+      <a href="/editor/site/about/" class="site-page-row">
+        <div class="sp-icon about"><i class="fas fa-info-circle"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">About</div>
+          <div class="sp-desc">About text, mission &amp; vision, board members</div>
+        </div>
+        <span class="sp-url">/about/</span>
+        <a href="/about/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/about/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+      <a href="/editor/site/projects/" class="site-page-row">
+        <div class="sp-icon projects"><i class="fas fa-project-diagram"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">Projects</div>
+          <div class="sp-desc">Project listing, descriptions &amp; impact data</div>
+        </div>
+        <span class="sp-url">/projects/</span>
+        <a href="/projects/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/projects/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+      <a href="/editor/site/volunteer/" class="site-page-row">
+        <div class="sp-icon volunteer"><i class="fas fa-hands-helping"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">Volunteer</div>
+          <div class="sp-desc">Go teams, prayer partners &amp; giving section</div>
+        </div>
+        <span class="sp-url">/volunteer/</span>
+        <a href="/volunteer/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/volunteer/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+      <a href="/editor/site/give/" class="site-page-row">
+        <div class="sp-icon give"><i class="fas fa-hand-holding-heart"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">Give</div>
+          <div class="sp-desc">Donation page content &amp; bank account details</div>
+        </div>
+        <span class="sp-url">/give/</span>
+        <a href="/give/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/give/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+      <a href="/editor/site/media/" class="site-page-row">
+        <div class="sp-icon media"><i class="fas fa-photo-video"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">Media</div>
+          <div class="sp-desc">YouTube videos, Spotify podcasts &amp; section titles</div>
+        </div>
+        <span class="sp-url">/media/</span>
+        <a href="/media/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/media/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+    </div>
+
+    <!-- Blog -->
+    <div class="section-hd">
+      <div class="section-hd-left"><h2>Blog</h2></div>
+    </div>
+    <div class="blog-bar" style="margin-bottom:2.25rem">
+      <div class="blog-bar-icon"><i class="fas fa-newspaper"></i></div>
+      <div class="blog-bar-body">
+        <strong>Blog Posts</strong>
+        <span>Write, edit and publish articles for the HASKE blog</span>
+      </div>
+      <div class="blog-bar-actions">
+        <a href="/editor/blog/new/" class="btn btn-gold btn-sm"><i class="fas fa-plus"></i> New Post</a>
+        <a href="/editor/blog/" class="btn btn-outline btn-sm"><i class="fas fa-list"></i> All Posts</a>
+      </div>
+    </div>
+
+    <!-- Custom Pages -->
+    <div class="section-hd">
+      <div class="section-hd-left">
+        <h2>Custom Pages</h2>
+        <span class="count">{{ pages.count }}</span>
+      </div>
+      <button class="btn btn-gold btn-sm" onclick="openModal()">
+        <i class="fas fa-plus"></i> New Page
       </button>
     </div>
-    {% endfor %}
-  </div>
+
+    <div class="pages-grid">
+      {% for page in pages %}
+      <div class="page-card" id="pc-{{ page.id }}">
+        <div class="page-card-top">
+          <div>
+            <div class="page-card-title">{{ page.title }}</div>
+            <div class="page-card-slug">/pages/{{ page.slug }}/</div>
+          </div>
+          {% if page.is_published %}
+            <span class="badge badge-pub">Published</span>
+          {% else %}
+            <span class="badge badge-draft">Draft</span>
+          {% endif %}
+        </div>
+        <div class="page-card-meta">
+          <span><i class="fas fa-th-list" style="opacity:.5"></i> {{ page.sections.count }} section{{ page.sections.count|pluralize }}</span>
+          <span><i class="fas fa-clock" style="opacity:.5"></i> {{ page.updated_at|timesince }} ago</span>
+          {% if page.show_in_nav %}<span><i class="fas fa-compass" style="opacity:.5"></i> In nav</span>{% endif %}
+        </div>
+        <div class="page-card-actions">
+          <a href="/editor/page/{{ page.id }}/" class="btn btn-gold btn-sm"><i class="fas fa-edit"></i> Edit</a>
+          <a href="{{ page.get_absolute_url }}" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i> View</a>
+          <button class="btn btn-ghost btn-sm" title="Duplicate" onclick="duplicatePage({{ page.id }}, event)"><i class="fas fa-copy"></i></button>
+          <button class="btn btn-danger btn-sm" title="Delete" onclick="deletePage({{ page.id }}, event)"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">
+        <i class="fas fa-file-circle-plus empty-icon"></i>
+        <p>No custom pages yet.<br>Build pages with sections, hero banners, cards and more.</p>
+        <button class="btn btn-gold" onclick="openModal()"><i class="fas fa-plus"></i> Create First Page</button>
+      </div>
+      {% endfor %}
+    </div>
+
+  </main>
 </div>
 
-<!-- New Page Modal -->
+<!-- Modal -->
 <div class="overlay" id="overlay" onclick="overlayClick(event)">
   <div class="modal">
     <div class="modal-title"><i class="fas fa-file-circle-plus"></i> Create New Page</div>
@@ -206,6 +575,18 @@ function deletePage(id, e) {
     .then(r => r.json())
     .then(() => { document.getElementById(`pc-${id}`)?.remove(); toast('Page deleted'); })
     .catch(() => toast('Failed to delete', 'error'));
+}
+
+function duplicatePage(id, e) {
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  btn.innerHTML = '<i class="fas fa-circle-notch" style="animation:spin .7s linear infinite;display:inline-block"></i>';
+  btn.disabled = true;
+  const fd = new FormData();
+  fetch(`/editor/api/pages/${id}/duplicate/`, { method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd })
+    .then(r => r.json())
+    .then(d => { window.location.href = `/editor/page/${d.id}/`; })
+    .catch(() => { btn.innerHTML = '<i class="fas fa-copy"></i>'; btn.disabled = false; toast('Duplicate failed', 'error'); });
 }
 
 function toast(msg, type = 'success') {

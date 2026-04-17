@@ -45,17 +45,39 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'import_export',
-    'ckeditor',
-    'ckeditor_uploader',
+    'django_ckeditor_5',
     'simple_history',
 ]
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_CONFIGS = {
+CKEDITOR_5_UPLOAD_PATH = "uploads/"
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar':'Full',
-        'height': 300,
-        'width': '100%',
+        'toolbar': [
+            'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
+            'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+            'imageUpload', 'mediaEmbed', '|',
+            'undo', 'redo',
+        ],
+        'height': '300px',
+    },
+    'extends': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', 'removeFormat', '|',
+            'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+            'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells', '|',
+            'imageUpload', 'mediaEmbed', 'codeBlock', '|',
+            'alignment', '|',
+            'undo', 'redo',
+        ],
+        'height': '400px',
+        'image': {
+            'toolbar': ['imageTextAlternative', 'imageTitle', '|', 'imageStyle:full', 'imageStyle:side'],
+        },
+        'table': {
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells'],
+        },
     },
 }
 

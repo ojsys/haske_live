@@ -17,7 +17,7 @@
     <div class="about-banner-inner">
       <span class="section-eyebrow">Light of Life</span>
       <h1>{% if about %}{{ about.title }}{% else %}About Us{% endif %}</h1>
-      <p class="about-banner-sub">Proclaiming the Gospel to unreached people groups across Northern Nigeria since 2006.</p>
+      <p class="about-banner-sub">{% if about and about.banner_subtitle %}{{ about.banner_subtitle }}{% else %}Proclaiming the Gospel to unreached people groups across Northern Nigeria since 2006.{% endif %}</p>
       <nav class="breadcrumb-nav">
         <a href="{% url 'home' %}">Home</a><span class="sep">/</span><span>About Us</span>
       </nav>
@@ -66,7 +66,7 @@
 {% endif %}
 
 <!-- ============================================================
-     WHAT WE DO — ministry pillars with icons
+     WHAT WE DO — ministry pillars with images & custom modals
      ============================================================ -->
 {% if ministries %}
 <section class="section about-ministries-section">
@@ -80,48 +80,92 @@
         We pursue the Great Commission through five interconnected streams of ministry across Nigeria.
       </p>
     </div>
+
     <div class="row g-4 mt-2">
       {% for ministry in ministries %}
       <div class="col-md-6 col-lg-4" data-animate data-animate-delay="{{ forloop.counter }}">
         <div class="about-ministry-pillar">
-          <div class="amp-icon">
-            {% if ministry.image %}
+          {% if ministry.image %}
+          <div class="amp-img">
             <img src="{{ ministry.image.url }}" alt="{{ ministry.title }}">
-            {% else %}
-            <i class="fas fa-cross"></i>
+          </div>
+          {% else %}
+          <div class="amp-icon"><i class="fas fa-cross"></i></div>
+          {% endif %}
+          <div class="amp-body">
+            <h4>{{ ministry.title }}</h4>
+            <p>{{ ministry.description|truncatechars:150 }}</p>
+            {% if ministry.description|length > 150 %}
+            <button type="button" class="amp-read-more" onclick="openMinistryModal({{ ministry.pk }})">
+              Read More <i class="fas fa-arrow-right"></i>
+            </button>
             {% endif %}
           </div>
-          <h4>{{ ministry.title }}</h4>
-          <p>{{ ministry.description|truncatechars:180 }}</p> {# Truncate the description #}
-          {% if ministry.description|length > 180 %} {# Only show "Learn More" if content is truncated #}
-          <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#ministryModal{{ ministry.pk }}">
-            Learn More
-          </button>
-          {% endif %}
         </div>
       </div>
-
-<!-- Ministry Modal -->
-<div class="modal fade" id="ministryModal{{ ministry.pk }}" tabindex="-1" aria-labelledby="ministryModalLabel{{ ministry.pk }}" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ministryModalLabel{{ ministry.pk }}">{{ ministry.title }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p class="text-body">{{ ministry.description }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
       {% endfor %}
     </div>
   </div>
 </section>
+
+<!-- ---- Ministry Modals (all outside the for loop) ---- -->
+{% for ministry in ministries %}
+<div class="ministry-modal-overlay" id="ministryModal{{ ministry.pk }}">
+  <div class="ministry-modal-box">
+    {% if ministry.image %}
+    <div class="mmb-image">
+      <img src="{{ ministry.image.url }}" alt="{{ ministry.title }}">
+      <div class="mmb-image-overlay"></div>
+      <button class="mmb-close" onclick="closeMinistryModal({{ ministry.pk }})">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    {% else %}
+    <button class="mmb-close mmb-close-notop" onclick="closeMinistryModal({{ ministry.pk }})">
+      <i class="fas fa-times"></i>
+    </button>
+    {% endif %}
+    <div class="mmb-body">
+      <span class="mmb-eyebrow">Our Ministry</span>
+      <h3 class="mmb-title">{{ ministry.title }}</h3>
+      <div class="mmb-divider"></div>
+      <p class="mmb-text">{{ ministry.description }}</p>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+(function(){
+  function openMinistryModal(id) {
+    document.getElementById('ministryModal' + id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMinistryModal(id) {
+    document.getElementById('ministryModal' + id).classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  window.openMinistryModal = openMinistryModal;
+  window.closeMinistryModal = closeMinistryModal;
+
+  document.querySelectorAll('.ministry-modal-overlay').forEach(function(overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.ministry-modal-overlay.active').forEach(function(m) {
+        m.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+})();
+</script>
 {% endif %}
 
 <!-- ============================================================
@@ -322,10 +366,10 @@
       <div class="col-lg-7" data-animate>
         <span class="section-eyebrow" style="color:var(--gold-light);">Join the Mission</span>
         <h2 style="color:var(--white);font-size:clamp(1.9rem,3.5vw,2.9rem);margin-bottom:1rem;">
-          Be Part of Something<br>Eternal
+          {% if about and about.cta_heading %}{{ about.cta_heading }}{% else %}Be Part of Something Eternal{% endif %}
         </h2>
         <p style="color:rgba(255,255,255,0.75);font-size:1.05rem;max-width:480px;line-height:1.8;">
-          Millions remain unreached across Northern Nigeria. Every prayer, every hour of service, every gift — it all moves the needle of eternity.
+          {% if about and about.cta_body %}{{ about.cta_body }}{% else %}Millions remain unreached across Northern Nigeria. Every prayer, every hour of service, every gift — it all moves the needle of eternity.{% endif %}
         </p>
       </div>
       <div class="col-lg-5" data-animate data-animate-delay="1">

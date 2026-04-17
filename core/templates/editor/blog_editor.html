@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if post %}Editing — {{ post.title }}{% else %}New Post{% endif %} | HASKE Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Quill -->
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1825;--surface:#14253d;--surface-2:#1a2e47;--surface-3:#1f3553;
+  --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.12);
+  --gold:#C8922A;--gold-dim:#b8821f;--green:#1D6A4A;--red:#e74c3c;
+  --text:#dde6f0;--text-muted:#6e8caa;--text-dim:#4a6480;
+  --radius:8px;--radius-lg:12px;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;display:flex;flex-direction:column}
+
+/* Top bar */
+.topbar{height:54px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;flex-shrink:0;z-index:50}
+.topbar-back{color:var(--text-muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.4rem;transition:color .15s;padding:.35rem .6rem;border-radius:6px}
+.topbar-back:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.topbar-sep{width:1px;height:22px;background:var(--border-2)}
+.topbar-title{font-size:.9rem;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-right{display:flex;align-items:center;gap:.6rem;margin-left:auto}
+
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1rem;border-radius:7px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;font-family:inherit;white-space:nowrap}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-dim);color:#fff}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}.btn-outline:hover{background:rgba(255,255,255,0.04)}
+.btn-ghost{background:transparent;color:var(--text-muted)}.btn-ghost:hover{color:var(--text);background:rgba(255,255,255,0.04)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.25)}.btn-danger:hover{background:rgba(231,76,60,.08)}
+.btn-sm{padding:.3rem .65rem;font-size:.74rem}
+.btn-publish{background:rgba(29,106,74,.2);color:#4dba87;border:1px solid rgba(29,106,74,.3)}.btn-publish:hover{background:rgba(29,106,74,.3)}
+
+/* Layout */
+.editor-layout{flex:1;display:flex;overflow:hidden}
+
+/* Sidebar */
+.ed-sidebar{width:280px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar-inner{padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+
+.fgroup label{display:block;font-size:.72rem;font-weight:600;color:var(--text-muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.04em}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;background:var(--surface-2);border:1px solid var(--border-2);border-radius:6px;padding:.5rem .7rem;color:var(--text);font-family:inherit;font-size:.82rem;outline:none;transition:border-color .15s;resize:vertical}
+.fgroup input:focus,.fgroup textarea:focus{border-color:var(--gold)}
+
+.toggle-row{display:flex;align-items:center;gap:.75rem}
+.toggle-row label:first-child{flex:1;font-size:.82rem;font-weight:500;color:var(--text)}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,.15);border-radius:22px;transition:.2s}
+.toggle-slider::before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked + .toggle-slider{background:var(--green)}
+.toggle input:checked + .toggle-slider::before{transform:translateX(18px)}
+
+.img-upload-area{border:1.5px dashed var(--border-2);border-radius:8px;padding:.875rem;text-align:center;cursor:pointer;transition:border-color .15s;position:relative;overflow:hidden}
+.img-upload-area:hover{border-color:var(--gold)}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-upload-area img{width:100%;max-height:130px;object-fit:cover;border-radius:6px;display:block}
+.img-upload-placeholder{color:var(--text-dim);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.25rem 0}
+.img-upload-placeholder i{font-size:1.5rem;opacity:.4}
+.img-remove-btn{display:block;margin-top:.4rem;font-size:.74rem;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit}
+
+/* Main area */
+.ed-main{flex:1;overflow-y:auto;background:var(--bg);padding:2rem 2.5rem;display:flex;flex-direction:column;gap:1.25rem}
+
+.title-input{width:100%;background:transparent;border:none;border-bottom:2px solid var(--border-2);padding:.5rem 0;font-size:1.75rem;font-weight:700;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+.title-input:focus{border-bottom-color:var(--gold)}
+.title-input::placeholder{color:var(--text-dim)}
+
+/* Quill overrides */
+.ql-toolbar.ql-snow{background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px 8px 0 0}
+.ql-container.ql-snow{border:1px solid var(--border-2);border-top:none;border-radius:0 0 8px 8px;background:var(--surface);min-height:400px}
+.ql-editor{color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem;line-height:1.75}
+.ql-editor.ql-blank::before{color:var(--text-dim)}
+.ql-snow .ql-stroke{stroke:var(--text-muted)}.ql-snow .ql-fill{fill:var(--text-muted)}
+.ql-snow .ql-picker{color:var(--text-muted)}.ql-snow .ql-picker-options{background:var(--surface-2);border:1px solid var(--border-2)}
+.ql-snow.ql-toolbar button:hover .ql-stroke,.ql-snow .ql-toolbar button.ql-active .ql-stroke{stroke:var(--gold)}
+
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:.75rem 1.1rem;font-size:.82rem;z-index:1000;display:flex;align-items:center;gap:.5rem;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(29,106,74,.6)}.toast.success::before{content:'✓';color:#4dba87;font-weight:700;margin-right:.2rem}
+.toast.error{border-color:rgba(231,76,60,.5)}.toast.error::before{content:'✕';color:var(--red);font-weight:700;margin-right:.2rem}
+
+.spin{animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/editor/blog/" class="topbar-back"><i class="fas fa-chevron-left"></i> Blog Posts</a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title" id="topbar-title">{% if post %}{{ post.title }}{% else %}New Post{% endif %}</span>
+  <div class="topbar-right">
+    {% if post %}
+    <a href="{{ post.get_absolute_url }}" target="_blank" class="btn btn-ghost btn-sm">
+      <i class="fas fa-eye"></i> Preview
+    </a>
+    {% endif %}
+    <button class="btn btn-gold" onclick="savePost()" id="btn-save">
+      <i class="fas fa-save"></i> Save
+    </button>
+  </div>
+</header>
+
+<div class="editor-layout">
+
+  <!-- Sidebar: post settings -->
+  <aside class="ed-sidebar">
+    <div class="sidebar-inner">
+
+      <div class="fgroup">
+        <label>Author</label>
+        <input type="text" id="f-author" value="{{ post.author|default:'' }}" placeholder="Your name">
+      </div>
+
+      <div class="fgroup">
+        <label>URL Slug</label>
+        <input type="text" id="f-slug" value="{{ post.slug|default:'' }}" placeholder="auto-generated">
+      </div>
+
+      <div class="fgroup">
+        <label>Excerpt <span style="font-size:.68rem;text-transform:none;font-weight:400;color:var(--text-dim)">max 300 chars</span></label>
+        <textarea id="f-excerpt" rows="4" placeholder="Short description shown in previews and listings...">{{ post.excerpt|default:'' }}</textarea>
+      </div>
+
+      <div class="fgroup">
+        <label>Featured Image</label>
+        <div class="img-upload-area" id="feat-img-area">
+          {% if post and post.featured_image %}
+            <img src="{{ post.featured_image.url }}" id="feat-img-preview" alt="">
+            <input type="file" id="f-featured-image" accept="image/*" onchange="previewFeaturedImage(this)">
+            <button class="img-remove-btn" onclick="removeFeaturedImage()">Remove image</button>
+          {% else %}
+            <input type="file" id="f-featured-image" accept="image/*" onchange="previewFeaturedImage(this)">
+            <div class="img-upload-placeholder">
+              <i class="fas fa-image"></i>
+              <span>Click to upload</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="toggle-row fgroup">
+        <label>Featured Post</label>
+        <label class="toggle">
+          <input type="checkbox" id="f-is-featured" {% if post and post.is_featured %}checked{% endif %}>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      {% if post %}
+      <button class="btn btn-danger btn-sm" onclick="deletePost()" style="margin-top:.5rem">
+        <i class="fas fa-trash"></i> Delete Post
+      </button>
+      {% endif %}
+
+    </div>
+  </aside>
+
+  <!-- Main: title + body -->
+  <main class="ed-main">
+    <input
+      type="text"
+      class="title-input"
+      id="f-title"
+      placeholder="Post title..."
+      value="{{ post.title|default:'' }}"
+      oninput="document.getElementById('topbar-title').textContent = this.value || 'New Post'"
+    >
+    <div id="quill-body"></div>
+  </main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CSRF    = '{{ csrf_token }}';
+const POST_ID = {% if post %}{{ post.id }}{% else %}null{% endif %};
+const SAVE_URL = POST_ID
+  ? `/editor/api/blog/${POST_ID}/save/`
+  : `/editor/api/blog/save/`;
+
+// Init Quill
+const quill = new Quill('#quill-body', {
+  theme: 'snow',
+  placeholder: 'Write your post here...',
+  modules: { toolbar: [
+    [{ header: [2, 3, 4, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'image', 'blockquote', 'code-block'],
+    [{ align: [] }],
+    ['clean'],
+  ]},
+});
+{% if post and post.content %}
+quill.clipboard.dangerouslyPasteHTML(0, "{{ post.content|escapejs }}");
+{% endif %}
+
+function previewFeaturedImage(input) {
+  if (!input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  const area = document.getElementById('feat-img-area');
+  area.innerHTML = `
+    <img src="${url}" id="feat-img-preview" alt="" style="width:100%;max-height:130px;object-fit:cover;border-radius:6px;display:block">
+    <input type="file" id="f-featured-image" accept="image/*" onchange="previewFeaturedImage(this)">
+    <button class="img-remove-btn" onclick="removeFeaturedImage()">Remove image</button>
+  `;
+}
+
+function removeFeaturedImage() {
+  const area = document.getElementById('feat-img-area');
+  area.innerHTML = `
+    <input type="file" id="f-featured-image" accept="image/*" onchange="previewFeaturedImage(this)">
+    <div class="img-upload-placeholder"><i class="fas fa-image"></i><span>Click to upload</span></div>
+  `;
+}
+
+function savePost() {
+  const btn = document.getElementById('btn-save');
+  btn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Saving...';
+  btn.disabled = true;
+
+  const fd = new FormData();
+  fd.append('title',       document.getElementById('f-title').value);
+  fd.append('author',      document.getElementById('f-author').value);
+  fd.append('slug',        document.getElementById('f-slug').value);
+  fd.append('excerpt',     document.getElementById('f-excerpt').value);
+  fd.append('content',     quill.root.innerHTML);
+  fd.append('is_featured', document.getElementById('f-is-featured').checked ? 'true' : 'false');
+
+  const imgInput = document.getElementById('f-featured-image');
+  if (imgInput && imgInput.files[0]) {
+    fd.append('featured_image', imgInput.files[0]);
+  }
+
+  fetch(SAVE_URL, { method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd })
+    .then(r => r.json())
+    .then(data => {
+      btn.innerHTML = '<i class="fas fa-save"></i> Save';
+      btn.disabled = false;
+      if (data.status === 'ok') {
+        // Update slug field
+        document.getElementById('f-slug').value = data.slug;
+        // If newly created, redirect to edit URL
+        if (!POST_ID && data.id) {
+          window.location.replace(`/editor/blog/${data.id}/`);
+          return;
+        }
+        toast('Post saved');
+      } else {
+        toast('Save failed', 'error');
+      }
+    })
+    .catch(() => {
+      btn.innerHTML = '<i class="fas fa-save"></i> Save';
+      btn.disabled = false;
+      toast('Save failed', 'error');
+    });
+}
+
+function deletePost() {
+  if (!POST_ID) return;
+  if (!confirm('Delete this post? This cannot be undone.')) return;
+  const fd = new FormData();
+  fetch(`/editor/api/blog/${POST_ID}/delete/`, { method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd })
+    .then(r => r.json())
+    .then(() => { window.location.href = '/editor/blog/'; })
+    .catch(() => toast('Delete failed', 'error'));
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// Ctrl/Cmd+S to save
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); savePost(); }
+});
+</script>
+</body>
+</html>

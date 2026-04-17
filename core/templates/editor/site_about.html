@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit About — HASKE Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b1520;--surface:#111f30;--surface-2:#172840;--surface-3:#1d3050;
+  --border:rgba(255,255,255,0.06);--border-2:rgba(255,255,255,0.11);--border-3:rgba(255,255,255,0.18);
+  --gold:#C8922A;--gold-dim:#b8821f;--gold-glow:rgba(200,146,42,0.12);
+  --green-light:#4dba87;--red:#e74c3c;
+  --text:#d8e8f5;--text-muted:#5e7d9a;--text-dim:#3d5870;
+  --radius:10px;--radius-lg:14px;--radius-xl:18px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:.75rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.topbar-logo{font-weight:800;font-size:.95rem;letter-spacing:.06em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:.5rem;padding-right:1.25rem;border-right:1px solid var(--border-2)}
+.topbar-logo .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),#f0b740);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;font-weight:800;box-shadow:0 2px 8px rgba(200,146,42,.4)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:.6rem}
+.topbar-link{color:var(--text-muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border-radius:6px;transition:all .15s}
+.topbar-link:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.topbar-user{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem;border-radius:20px;background:var(--surface-2);border:1px solid var(--border)}
+.shell{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sidebar-label{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding:.25rem 1.25rem .6rem}
+.sidebar-link{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.25rem;color:var(--text-muted);text-decoration:none;font-size:.835rem;font-weight:500;transition:all .15s;border-left:2px solid transparent}
+.sidebar-link:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sidebar-link.active{color:var(--gold);background:var(--gold-glow);border-left-color:var(--gold)}
+.sidebar-section{margin-bottom:1.5rem}
+.si{width:18px;text-align:center;font-size:.85rem;opacity:.75}
+.main{flex:1;min-width:0;padding:2.25rem 2.5rem;max-width:1000px}
+.page-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;gap:1rem}
+.page-hd-title{display:flex;align-items:center;gap:.75rem}
+.page-hd-icon{width:44px;height:44px;border-radius:12px;background:rgba(200,146,42,.12);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.page-hd h1{font-size:1.35rem;font-weight:800;letter-spacing:-.01em}
+.page-hd p{font-size:.82rem;color:var(--text-muted);margin-top:.2rem}
+.section-tabs{display:flex;gap:.25rem;margin-bottom:1.75rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.35rem;flex-wrap:wrap}
+.stab{padding:.45rem .9rem;border-radius:8px;font-size:.79rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text-muted);font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:.4rem}
+.stab:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.stab.active{background:var(--gold);color:#fff}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);margin-bottom:1.5rem;overflow:hidden}
+.section-card-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.section-card-header h2{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.55rem}
+.section-card-header h2 i{color:var(--gold)}
+.section-card-body{padding:1.5rem}
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{display:block;font-size:.72rem;font-weight:700;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:.6rem .875rem;color:var(--text);font-family:inherit;font-size:.875rem;outline:none;transition:border-color .15s}
+.fgroup input:focus,.fgroup textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-glow)}
+.fgroup textarea{resize:vertical;min-height:80px}
+.fgroup-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.img-hint{font-size:.73rem;color:var(--text-muted);margin-top:.35rem;display:flex;align-items:center;gap:.5rem}
+.img-hint img{width:48px;height:34px;object-fit:cover;border-radius:5px;border:1px solid var(--border-2)}
+.img-hint a{color:var(--gold)}
+.hint{font-size:.73rem;color:var(--text-dim);margin-top:.3rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:7px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;white-space:nowrap;font-family:inherit}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-dim);color:#fff}
+.btn-green{background:#1D6A4A;color:#fff;border:none}.btn-green:hover{background:#155a3c;color:#fff}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}.btn-outline:hover{background:rgba(255,255,255,.04);border-color:var(--border-3)}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid transparent}.btn-ghost:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.2)}.btn-danger:hover{background:rgba(231,76,60,.08)}
+.btn-sm{padding:.3rem .65rem;font-size:.77rem}
+.btn-xs{padding:.2rem .5rem;font-size:.72rem}
+.item-list{display:flex;flex-direction:column;gap:.75rem}
+.item-row{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:1rem}
+.item-row-body{flex:1;min-width:0}
+.item-row-actions{display:flex;gap:.4rem;flex-shrink:0;padding-top:.1rem}
+.item-thumb{width:52px;height:52px;border-radius:var(--radius);object-fit:cover;flex-shrink:0}
+.item-thumb-placeholder{width:52px;height:52px;border-radius:var(--radius);background:var(--surface-3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text-dim)}
+.item-title{font-weight:600;font-size:.88rem;margin-bottom:.2rem}
+.item-meta{font-size:.75rem;color:var(--text-muted)}
+.sub-editor{background:var(--surface-3);border:1px solid var(--border-2);border-radius:var(--radius);padding:1.25rem;margin-top:.75rem;display:none}
+.sub-editor.open{display:block}
+.ch-group{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.ch-group-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+.toast{position:fixed;bottom:1.75rem;right:1.75rem;background:var(--surface-2);border:1px solid var(--border-2);border-radius:9px;padding:.8rem 1.2rem;font-size:.82rem;z-index:1000;display:flex;align-items:center;gap:.5rem;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(29,106,74,.5);color:var(--green-light)}
+.toast.error{border-color:rgba(231,76,60,.5);color:var(--red)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/editor/" class="topbar-logo"><div class="dot">H</div> HASKE</a>
+  <div class="topbar-right">
+    <a href="/editor/" class="topbar-link"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    <a href="/editor/blog/" class="topbar-link"><i class="fas fa-newspaper"></i> Blog</a>
+    <a href="/" target="_blank" class="topbar-link"><i class="fas fa-external-link-alt"></i> View Site</a>
+    <a href="/admin/" class="topbar-link"><i class="fas fa-cog"></i> Admin</a>
+    <div class="topbar-user"><i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}</div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site Pages</div>
+      <a href="/editor/site/home/"      class="sidebar-link"><span class="si"><i class="fas fa-home"></i></span> Home</a>
+      <a href="/editor/site/about/"     class="sidebar-link active"><span class="si"><i class="fas fa-info-circle"></i></span> About</a>
+      <a href="/editor/site/projects/"  class="sidebar-link"><span class="si"><i class="fas fa-project-diagram"></i></span> Projects</a>
+      <a href="/editor/site/volunteer/" class="sidebar-link"><span class="si"><i class="fas fa-hands-helping"></i></span> Volunteer</a>
+      <a href="/editor/site/give/"      class="sidebar-link"><span class="si"><i class="fas fa-hand-holding-heart"></i></span> Give</a>
+      <a href="/editor/site/media/"     class="sidebar-link"><span class="si"><i class="fas fa-photo-video"></i></span> Media</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Content</div>
+      <a href="/editor/blog/" class="sidebar-link"><span class="si"><i class="fas fa-newspaper"></i></span> Blog Posts</a>
+      <a href="/editor/"      class="sidebar-link"><span class="si"><i class="fas fa-file-alt"></i></span> Custom Pages</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="page-hd">
+      <div class="page-hd-title">
+        <div class="page-hd-icon"><i class="fas fa-info-circle"></i></div>
+        <div>
+          <h1>About Page</h1>
+          <p>Edit every section that appears on the About page</p>
+        </div>
+      </div>
+      <a href="/about/" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i> Preview</a>
+    </div>
+
+    <!-- Section Tabs -->
+    <div class="section-tabs">
+      <button class="stab active" onclick="showTab('header',this)"><i class="fas fa-image"></i> Page Header</button>
+      <button class="stab" onclick="showTab('ministries',this)"><i class="fas fa-church"></i> What We Do</button>
+      <button class="stab" onclick="showTab('challenges',this)"><i class="fas fa-exclamation-circle"></i> Challenges</button>
+      <button class="stab" onclick="showTab('mv',this)"><i class="fas fa-bullseye"></i> Mission &amp; Vision</button>
+      <button class="stab" onclick="showTab('board',this)"><i class="fas fa-users"></i> Board Members</button>
+      <button class="stab" onclick="showTab('cta',this)"><i class="fas fa-hand-holding-heart"></i> CTA Strip</button>
+    </div>
+
+    <!-- ============================================================
+         TAB: Page Header
+         ============================================================ -->
+    <div class="tab-panel active" id="tab-header">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-heading"></i> Hero Banner</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveAbout()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup"><label>Page Title (H1)</label><input type="text" id="about-title" value="{{ about.title|default:'' }}"></div>
+          <div class="fgroup">
+            <label>Banner Subtitle</label>
+            <input type="text" id="about-banner_subtitle" value="{{ about.banner_subtitle|default:'' }}">
+            <p class="hint">Short tagline shown under the title in the hero banner.</p>
+          </div>
+          <div class="fgroup">
+            <label>Header Image</label>
+            <input type="file" id="about-header_image" accept="image/*">
+            {% if about and about.header_image %}<p class="img-hint"><img src="{{ about.header_image.url }}" alt=""><a href="{{ about.header_image.url }}" target="_blank">View current image</a></p>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-align-left"></i> Who We Are</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveAbout()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup">
+            <label>Introduction</label>
+            <textarea id="about-introduction" style="min-height:120px">{{ about.introduction|default:'' }}</textarea>
+          </div>
+          <div class="fgroup">
+            <label>Pull Quote / Ministry Goal</label>
+            <textarea id="about-ministry_goal">{{ about.ministry_goal|default:'' }}</textarea>
+            <p class="hint">Shown as a blockquote below the introduction paragraph.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         TAB: What We Do
+         ============================================================ -->
+    <div class="tab-panel" id="tab-ministries">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-church"></i> Ministry Pillars</h2>
+          <button class="btn btn-green btn-sm" onclick="addMinistry()"><i class="fas fa-plus"></i> Add Ministry</button>
+        </div>
+        <div class="section-card-body">
+          <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.25rem">Cards shown in the "What We Do" section. Each can have a title, description, image, and order.</p>
+          <div class="item-list" id="ministries-list">
+            {% for m in ministries %}
+            <div class="item-row" id="ministry-row-{{ m.id }}">
+              {% if m.image %}<img src="{{ m.image.url }}" class="item-thumb" alt="">{% else %}<div class="item-thumb-placeholder"><i class="fas fa-cross"></i></div>{% endif %}
+              <div class="item-row-body">
+                <div class="item-title">{{ m.title }}</div>
+                <div class="item-meta">Order {{ m.order }} &middot; {{ m.description|truncatechars:55 }}</div>
+                <div class="sub-editor" id="ministry-editor-{{ m.id }}">
+                  <div class="fgroup"><label>Title</label><input type="text" id="min{{ m.id }}-title" value="{{ m.title }}"></div>
+                  <div class="fgroup"><label>Description</label><textarea id="min{{ m.id }}-description" style="min-height:100px">{{ m.description }}</textarea></div>
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Display Order</label><input type="number" id="min{{ m.id }}-order" value="{{ m.order }}"></div>
+                    <div class="fgroup">
+                      <label>Image</label>
+                      <input type="file" id="min{{ m.id }}-image" accept="image/*">
+                      {% if m.image %}<p class="img-hint"><img src="{{ m.image.url }}" alt=""><span>Current image</span></p>{% endif %}
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:.5rem;margin-top:.25rem">
+                    <button class="btn btn-gold btn-sm" onclick="saveMinistry({{ m.id }})"><i class="fas fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteMinistry({{ m.id }})"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </div>
+              </div>
+              <div class="item-row-actions">
+                <button class="btn btn-ghost btn-xs" onclick="toggleEd('ministry-editor-{{ m.id }}')"><i class="fas fa-pen"></i></button>
+              </div>
+            </div>
+            {% empty %}
+            <p style="color:var(--text-muted);font-size:.85rem" id="ministries-empty">No ministries yet. Click "Add Ministry" to create one.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         TAB: The Challenges
+         ============================================================ -->
+    <div class="tab-panel" id="tab-challenges">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-heading"></i> Section Header</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveChallenge()"><i class="fas fa-save"></i> Save All</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup"><label>Section Title</label><input type="text" id="ch-title" value="{{ challenge.title|default:'' }}"></div>
+          <div class="fgroup"><label>Section Description</label><textarea id="ch-description">{{ challenge.description|default:'' }}</textarea></div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h2><i class="fas fa-flag" style="color:#e88"></i> Challenge 01 — Tall Card (Left)</h2></div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Title</label><input type="text" id="ch-c1title" value="{{ challenge.challenge1_title|default:'' }}"></div>
+            <div class="fgroup">
+              <label>Image</label><input type="file" id="ch-c1image" accept="image/*">
+              {% if challenge and challenge.challenge1_image %}<p class="img-hint"><img src="{{ challenge.challenge1_image.url }}" alt=""><span>Current image</span></p>{% endif %}
+            </div>
+          </div>
+          <div class="fgroup"><label>Description</label><textarea id="ch-c1desc">{{ challenge.challenge1_desc|default:'' }}</textarea></div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h2><i class="fas fa-flag" style="color:#fa3"></i> Challenge 02 — Wide Card (Top Right)</h2></div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Title</label><input type="text" id="ch-c2title" value="{{ challenge.challenge2_title|default:'' }}"></div>
+            <div class="fgroup">
+              <label>Image</label><input type="file" id="ch-c2image" accept="image/*">
+              {% if challenge and challenge.challenge2_image %}<p class="img-hint"><img src="{{ challenge.challenge2_image.url }}" alt=""><span>Current image</span></p>{% endif %}
+            </div>
+          </div>
+          <div class="fgroup"><label>Description</label><textarea id="ch-c2desc">{{ challenge.challenge2_desc|default:'' }}</textarea></div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h2><i class="fas fa-flag" style="color:#4db"></i> Challenge 03 — Wide Card (Bottom Right)</h2></div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Title</label><input type="text" id="ch-c3title" value="{{ challenge.challenge3_title|default:'' }}"></div>
+            <div class="fgroup">
+              <label>Image</label><input type="file" id="ch-c3image" accept="image/*">
+              {% if challenge and challenge.challenge3_image %}<p class="img-hint"><img src="{{ challenge.challenge3_image.url }}" alt=""><span>Current image</span></p>{% endif %}
+            </div>
+          </div>
+          <div class="fgroup"><label>Description</label><textarea id="ch-c3desc">{{ challenge.challenge3_desc|default:'' }}</textarea></div>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <button class="btn btn-gold" onclick="saveChallenge()"><i class="fas fa-save"></i> Save All Challenges</button>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         TAB: Mission & Vision
+         ============================================================ -->
+    <div class="tab-panel" id="tab-mv">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-compass"></i> Mission</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveMissionVision()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Mission Title</label><input type="text" id="mv-mission_title" value="{{ mission_vision.mission_title|default:'' }}"></div>
+            <div class="fgroup">
+              <label>Mission Image</label><input type="file" id="mv-mission_image" accept="image/*">
+              {% if mission_vision and mission_vision.mission_image %}<p class="img-hint"><img src="{{ mission_vision.mission_image.url }}" alt=""><a href="{{ mission_vision.mission_image.url }}" target="_blank">View</a></p>{% endif %}
+            </div>
+          </div>
+          <div class="fgroup"><label>Mission Text</label><textarea id="mv-mission_text" style="min-height:110px">{{ mission_vision.mission_text|default:'' }}</textarea></div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-eye"></i> Vision</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveMissionVision()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Vision Title</label><input type="text" id="mv-vision_title" value="{{ mission_vision.vision_title|default:'' }}"></div>
+            <div class="fgroup">
+              <label>Vision Image</label><input type="file" id="mv-vision_image" accept="image/*">
+              {% if mission_vision and mission_vision.vision_image %}<p class="img-hint"><img src="{{ mission_vision.vision_image.url }}" alt=""><a href="{{ mission_vision.vision_image.url }}" target="_blank">View</a></p>{% endif %}
+            </div>
+          </div>
+          <div class="fgroup"><label>Vision Text</label><textarea id="mv-vision_text" style="min-height:110px">{{ mission_vision.vision_text|default:'' }}</textarea></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         TAB: Board Members
+         ============================================================ -->
+    <div class="tab-panel" id="tab-board">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-users"></i> Board Members</h2>
+          <button class="btn btn-green btn-sm" onclick="addMember()"><i class="fas fa-plus"></i> Add Member</button>
+        </div>
+        <div class="section-card-body">
+          <div class="item-list" id="members-list">
+            {% for member in board_members %}
+            <div class="item-row" id="member-row-{{ member.id }}">
+              {% if member.image %}<img src="{{ member.image.url }}" class="item-thumb" alt="" style="border-radius:50%">{% else %}<div class="item-thumb-placeholder" style="border-radius:50%"><i class="fas fa-user"></i></div>{% endif %}
+              <div class="item-row-body">
+                <div class="item-title">{{ member.name }}</div>
+                <div class="item-meta">{{ member.position|default:"No position set" }}</div>
+                <div class="sub-editor" id="member-editor-{{ member.id }}">
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Name</label><input type="text" id="m{{ member.id }}-name" value="{{ member.name }}"></div>
+                    <div class="fgroup"><label>Position / Role</label><input type="text" id="m{{ member.id }}-position" value="{{ member.position|default:'' }}"></div>
+                  </div>
+                  <div class="fgroup"><label>Bio</label><textarea id="m{{ member.id }}-bio" style="min-height:90px">{{ member.bio|default:'' }}</textarea></div>
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Display Order</label><input type="number" id="m{{ member.id }}-order" value="{{ member.order }}"></div>
+                    <div class="fgroup">
+                      <label>Photo</label><input type="file" id="m{{ member.id }}-image" accept="image/*">
+                      {% if member.image %}<p class="img-hint"><img src="{{ member.image.url }}" alt="" style="border-radius:50%"><span>Current photo</span></p>{% endif %}
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:.5rem;margin-top:.25rem">
+                    <button class="btn btn-gold btn-sm" onclick="saveMember({{ member.id }})"><i class="fas fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteMember({{ member.id }})"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </div>
+              </div>
+              <div class="item-row-actions">
+                <button class="btn btn-ghost btn-xs" onclick="toggleEd('member-editor-{{ member.id }}')"><i class="fas fa-pen"></i></button>
+              </div>
+            </div>
+            {% empty %}
+            <p style="color:var(--text-muted);font-size:.85rem" id="members-empty">No board members yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         TAB: CTA Strip
+         ============================================================ -->
+    <div class="tab-panel" id="tab-cta">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-hand-holding-heart"></i> Join the Mission — CTA Strip</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveAbout()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.25rem">The full-width navy call-to-action banner at the bottom of the About page.</p>
+          <div class="fgroup">
+            <label>Heading</label>
+            <input type="text" id="about-cta_heading" value="{{ about.cta_heading|default:'' }}">
+            <p class="hint">Large heading — e.g. "Be Part of Something Eternal"</p>
+          </div>
+          <div class="fgroup">
+            <label>Body Text</label>
+            <textarea id="about-cta_body" style="min-height:100px">{{ about.cta_body|default:'' }}</textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CSRF = '{{ csrf_token }}';
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleEd(id) { document.getElementById(id).classList.toggle('open'); }
+function postFd(url, fd) {
+  return fetch(url, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+}
+function toast(msg, type='success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'toast show ' + type;
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+function saveAbout() {
+  const fd = new FormData();
+  ['title','banner_subtitle','introduction','ministry_goal','cta_heading','cta_body'].forEach(f => {
+    const el = document.getElementById('about-' + f); if (el) fd.append(f, el.value);
+  });
+  const img = document.getElementById('about-header_image');
+  if (img && img.files[0]) fd.append('header_image', img.files[0]);
+  postFd('/editor/api/site/about/save/', fd).then(() => toast('About page saved')).catch(() => toast('Save failed','error'));
+}
+
+function saveMissionVision() {
+  const fd = new FormData();
+  ['mission_title','mission_text','vision_title','vision_text'].forEach(f => {
+    const el = document.getElementById('mv-' + f); if (el) fd.append(f, el.value);
+  });
+  ['mission_image','vision_image'].forEach(f => {
+    const el = document.getElementById('mv-' + f); if (el && el.files[0]) fd.append(f, el.files[0]);
+  });
+  postFd('/editor/api/site/mission-vision/save/', fd).then(() => toast('Mission & Vision saved')).catch(() => toast('Save failed','error'));
+}
+
+function saveChallenge() {
+  const fd = new FormData();
+  [['ch-title','title'],['ch-description','description'],
+   ['ch-c1title','challenge1_title'],['ch-c1desc','challenge1_desc'],
+   ['ch-c2title','challenge2_title'],['ch-c2desc','challenge2_desc'],
+   ['ch-c3title','challenge3_title'],['ch-c3desc','challenge3_desc']].forEach(([elId,field]) => {
+    const el = document.getElementById(elId); if (el) fd.append(field, el.value);
+  });
+  ['ch-c1image','ch-c2image','ch-c3image'].forEach((elId,i) => {
+    const el = document.getElementById(elId); if (el && el.files[0]) fd.append('challenge'+(i+1)+'_image', el.files[0]);
+  });
+  postFd('/editor/api/site/challenge/save/', fd).then(() => toast('Challenges saved')).catch(() => toast('Save failed','error'));
+}
+
+function addMinistry() {
+  postFd('/editor/api/site/about-ministries/add/', new FormData()).then(d => {
+    document.getElementById('ministries-empty')?.remove();
+    document.getElementById('ministries-list').insertAdjacentHTML('beforeend', buildMinRow(d));
+    toast('Ministry added');
+  }).catch(() => toast('Failed to add','error'));
+}
+function buildMinRow(d) {
+  const thumb = d.image_url ? `<img src="${d.image_url}" class="item-thumb" alt="">` : `<div class="item-thumb-placeholder"><i class="fas fa-cross"></i></div>`;
+  return `<div class="item-row" id="ministry-row-${d.id}">${thumb}<div class="item-row-body"><div class="item-title">${d.title}</div><div class="item-meta">Order ${d.order}</div>
+  <div class="sub-editor open" id="ministry-editor-${d.id}">
+    <div class="fgroup"><label>Title</label><input type="text" id="min${d.id}-title" value="${d.title||''}"></div>
+    <div class="fgroup"><label>Description</label><textarea id="min${d.id}-description" style="min-height:100px"></textarea></div>
+    <div class="fgroup-row"><div class="fgroup"><label>Display Order</label><input type="number" id="min${d.id}-order" value="${d.order}"></div>
+    <div class="fgroup"><label>Image</label><input type="file" id="min${d.id}-image" accept="image/*"></div></div>
+    <div style="display:flex;gap:.5rem;margin-top:.25rem">
+      <button class="btn btn-gold btn-sm" onclick="saveMinistry(${d.id})"><i class="fas fa-save"></i> Save</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteMinistry(${d.id})"><i class="fas fa-trash"></i> Delete</button>
+    </div>
+  </div></div>
+  <div class="item-row-actions"><button class="btn btn-ghost btn-xs" onclick="toggleEd('ministry-editor-${d.id}')"><i class="fas fa-pen"></i></button></div></div>`;
+}
+function saveMinistry(id) {
+  const fd = new FormData();
+  ['title','description','order'].forEach(f => { const el = document.getElementById(`min${id}-${f}`); if (el) fd.append(f, el.value); });
+  const img = document.getElementById(`min${id}-image`); if (img && img.files[0]) fd.append('image', img.files[0]);
+  postFd(`/editor/api/site/about-ministries/${id}/save/`, fd).then(d => {
+    const row = document.getElementById(`ministry-row-${id}`);
+    row.querySelector('.item-title').textContent = document.getElementById(`min${id}-title`).value;
+    if (d.image_url) { const th = row.querySelector('.item-thumb,.item-thumb-placeholder'); if (th) th.outerHTML = `<img src="${d.image_url}" class="item-thumb" alt="">`; }
+    toast('Ministry saved');
+  }).catch(() => toast('Save failed','error'));
+}
+function deleteMinistry(id) {
+  if (!confirm('Delete this ministry pillar?')) return;
+  postFd(`/editor/api/site/about-ministries/${id}/delete/`, new FormData())
+    .then(() => { document.getElementById(`ministry-row-${id}`)?.remove(); toast('Deleted'); })
+    .catch(() => toast('Delete failed','error'));
+}
+
+function addMember() {
+  postFd('/editor/api/site/board-members/add/', new FormData()).then(d => {
+    document.getElementById('members-empty')?.remove();
+    document.getElementById('members-list').insertAdjacentHTML('beforeend', buildMemberRow(d));
+    toast('Member added');
+  }).catch(() => toast('Failed to add','error'));
+}
+function buildMemberRow(d) {
+  const thumb = d.image_url ? `<img src="${d.image_url}" class="item-thumb" alt="" style="border-radius:50%">` : `<div class="item-thumb-placeholder" style="border-radius:50%"><i class="fas fa-user"></i></div>`;
+  return `<div class="item-row" id="member-row-${d.id}">${thumb}<div class="item-row-body"><div class="item-title">${d.name}</div><div class="item-meta">${d.position||'No position set'}</div>
+  <div class="sub-editor open" id="member-editor-${d.id}">
+    <div class="fgroup-row"><div class="fgroup"><label>Name</label><input type="text" id="m${d.id}-name" value="${d.name||''}"></div>
+    <div class="fgroup"><label>Position</label><input type="text" id="m${d.id}-position" value="${d.position||''}"></div></div>
+    <div class="fgroup"><label>Bio</label><textarea id="m${d.id}-bio" style="min-height:90px">${d.bio||''}</textarea></div>
+    <div class="fgroup-row"><div class="fgroup"><label>Order</label><input type="number" id="m${d.id}-order" value="${d.order}"></div>
+    <div class="fgroup"><label>Photo</label><input type="file" id="m${d.id}-image" accept="image/*"></div></div>
+    <div style="display:flex;gap:.5rem;margin-top:.25rem">
+      <button class="btn btn-gold btn-sm" onclick="saveMember(${d.id})"><i class="fas fa-save"></i> Save</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteMember(${d.id})"><i class="fas fa-trash"></i> Delete</button>
+    </div>
+  </div></div>
+  <div class="item-row-actions"><button class="btn btn-ghost btn-xs" onclick="toggleEd('member-editor-${d.id}')"><i class="fas fa-pen"></i></button></div></div>`;
+}
+function saveMember(id) {
+  const fd = new FormData();
+  ['name','position','bio','order'].forEach(f => { const el = document.getElementById(`m${id}-${f}`); if (el) fd.append(f, el.value); });
+  const img = document.getElementById(`m${id}-image`); if (img && img.files[0]) fd.append('image', img.files[0]);
+  postFd(`/editor/api/site/board-members/${id}/save/`, fd).then(d => {
+    const row = document.getElementById(`member-row-${id}`);
+    row.querySelector('.item-title').textContent = document.getElementById(`m${id}-name`).value;
+    row.querySelector('.item-meta').textContent = document.getElementById(`m${id}-position`).value || 'No position set';
+    if (d.image_url) { const th = row.querySelector('.item-thumb,.item-thumb-placeholder'); if (th) th.outerHTML = `<img src="${d.image_url}" class="item-thumb" alt="" style="border-radius:50%">`; }
+    toast('Member saved');
+  }).catch(() => toast('Save failed','error'));
+}
+function deleteMember(id) {
+  if (!confirm('Delete this board member?')) return;
+  postFd(`/editor/api/site/board-members/${id}/delete/`, new FormData())
+    .then(() => { document.getElementById(`member-row-${id}`)?.remove(); toast('Deleted'); })
+    .catch(() => toast('Delete failed','error'));
+}
+</script>
+</body>
+</html>

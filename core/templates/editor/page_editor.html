@@ -70,7 +70,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
 .si-btn{width:24px;height:24px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.72rem;transition:all .12s}
 .si-btn:hover{background:rgba(255,255,255,0.08);color:var(--text)}
 .si-btn.danger:hover{background:rgba(231,76,60,.15);color:var(--red)}
-.si-btn.hidden-btn{color:var(--text-dim);opacity:.5}
+.si-hidden-badge{font-size:.62rem;font-weight:700;letter-spacing:.05em;padding:.1rem .4rem;border-radius:4px;background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.25);white-space:nowrap;flex-shrink:0}
 .sections-empty{padding:1.5rem 1rem;text-align:center;color:var(--text-dim);font-size:.8rem}
 .sections-empty i{display:block;font-size:1.8rem;margin-bottom:.75rem;opacity:.3}
 
@@ -97,6 +97,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
 .img-upload-placeholder{color:var(--text-dim);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.5rem 0}
 .img-upload-placeholder i{font-size:1.5rem;opacity:.4}
 .img-remove-btn{display:block;margin-top:.5rem;font-size:.74rem;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit}
+.settings-divider{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);padding:.6rem 0 .4rem;border-top:1px solid var(--border);margin-top:.25rem}
 .save-settings-btn{margin-top:.25rem}
 
 /* ======== MAIN AREA ======== */
@@ -256,10 +257,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
           <input type="text" id="ps-title" value="{{ page.title }}">
         </div>
         <div class="fgroup">
-          <label>Nav Label <span class="field-hint">shown in menu</span></label>
-          <input type="text" id="ps-nav-label" value="{{ page.nav_label }}" placeholder="Leave blank to use title">
-        </div>
-        <div class="fgroup">
           <label>URL Slug</label>
           <input type="text" id="ps-slug" value="{{ page.slug }}">
         </div>
@@ -285,17 +282,32 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
           </div>
         </div>
 
-        <div class="fgroup">
-          <label>Navigation Order</label>
-          <input type="number" id="ps-nav-order" value="{{ page.nav_order }}" min="0">
+        <div class="toggle-row fgroup">
+          <label>Hide Title Banner <span class="field-hint">use when page starts with a Hero</span></label>
+          <label class="toggle">
+            <input type="checkbox" id="ps-show-header" {% if not page.show_header %}checked{% endif %}>
+            <span class="toggle-slider"></span>
+          </label>
         </div>
 
+        <div class="settings-divider">Navigation</div>
+
         <div class="toggle-row fgroup">
-          <label>Show in Navigation</label>
+          <label>Add to Main Menu</label>
           <label class="toggle">
             <input type="checkbox" id="ps-show-nav" {% if page.show_in_nav %}checked{% endif %}>
             <span class="toggle-slider"></span>
           </label>
+        </div>
+
+        <div class="fgroup">
+          <label>Menu Label <span class="field-hint">if blank, uses page title</span></label>
+          <input type="text" id="ps-nav-label" value="{{ page.nav_label }}" placeholder="{{ page.title }}">
+        </div>
+
+        <div class="fgroup">
+          <label>Menu Order <span class="field-hint">lower = appears first</span></label>
+          <input type="number" id="ps-nav-order" value="{{ page.nav_order }}" min="0">
         </div>
 
         <button class="btn btn-gold save-settings-btn" onclick="savePageSettings()">
@@ -408,10 +420,8 @@ function renderSectionsList() {
       <span class="drag-handle" title="Drag to reorder"><i class="fas fa-grip-vertical"></i></span>
       <span class="si-type-badge" style="background:${color}20;color:${color}"><i class="fas ${icon}"></i></span>
       <span class="si-name">${esc(s.title || s.section_type_display)}</span>
+      ${!s.is_visible ? '<span class="si-hidden-badge">Hidden</span>' : ''}
       <div class="si-actions">
-        <button class="si-btn${s.is_visible ? '' : ' hidden-btn'}" title="${s.is_visible ? 'Visible — click to hide' : 'Hidden — click to show'}" onclick="toggleVisibility(${s.id}, event)">
-          <i class="fas fa-eye${s.is_visible ? '' : '-slash'}"></i>
-        </button>
         <button class="si-btn danger" title="Delete section" onclick="confirmDelete(${s.id}, event)">
           <i class="fas fa-trash"></i>
         </button>
@@ -970,6 +980,8 @@ function savePageSettings() {
   fd.append('slug',             document.getElementById('ps-slug').value);
   fd.append('meta_description', document.getElementById('ps-meta').value);
   fd.append('is_published',     isPublished ? 'true' : 'false');
+  // show_header checkbox is INVERTED: checked = hide banner
+  fd.append('show_header',      document.getElementById('ps-show-header').checked ? 'false' : 'true');
   fd.append('show_in_nav',      document.getElementById('ps-show-nav').checked ? 'true' : 'false');
   fd.append('nav_order',        document.getElementById('ps-nav-order').value);
   const imgInput = document.getElementById('ps-header-image');

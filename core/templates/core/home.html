@@ -351,21 +351,23 @@
 {% endif %}
 
 <!-- ============================================================
-     GET INVOLVED — full-bleed split with masonry gallery
+     GET INVOLVED — centered call-to-action
      ============================================================ -->
 <section class="home-involve-section">
   <div class="home-involve-bg"></div>
   <div class="container" style="position:relative;z-index:1;">
-    <div class="row g-5 align-items-center">
+    <div class="row justify-content-center">
 
-      <div class="col-lg-5" data-animate>
-        <span class="section-eyebrow" style="color:var(--gold-light);">Join Us</span>
-        <h2 style="color:var(--white);font-size:clamp(1.9rem,3.5vw,2.7rem);margin-bottom:1rem;">What You Can Do</h2>
-        <div class="divider" style="background:var(--gold);"></div>
-        <p style="color:rgba(255,255,255,0.72);font-size:1rem;line-height:1.8;margin-bottom:2rem;">
-          Every Christian can play a vital role in reaching Nigeria's unreached people groups. Here's how:
-        </p>
-        <div class="home-involve-list">
+      <div class="col-lg-9 col-xl-8" data-animate>
+        <div class="text-center mb-5">
+          <span class="section-eyebrow" style="color:var(--gold-light);">Join Us</span>
+          <h2 style="color:var(--white);font-size:clamp(1.9rem,3.5vw,2.7rem);margin-bottom:1rem;">What You Can Do</h2>
+          <div class="divider center" style="background:var(--gold);"></div>
+          <p style="color:rgba(255,255,255,0.72);font-size:1rem;line-height:1.8;max-width:580px;margin:0 auto;">
+            Every Christian can play a vital role in reaching Nigeria's unreached people groups. Here's how:
+          </p>
+        </div>
+        <div class="home-involve-grid">
           <div class="hil-item">
             <div class="hil-icon"><i class="fas fa-pray"></i></div>
             <div>
@@ -388,7 +390,7 @@
             </div>
           </div>
         </div>
-        <div class="d-flex gap-3 flex-wrap mt-4">
+        <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
           <a href="{% url 'volunteer' %}" class="btn btn-outline btn-lg">
             <i class="fas fa-hands-helping"></i> Volunteer
           </a>
@@ -398,24 +400,115 @@
         </div>
       </div>
 
-      <div class="col-lg-7" data-animate data-animate-delay="1">
-        <div class="home-gallery-masonry" id="pswpGallery">
-          {% for item in gallery_items %}
-          <a class="hgm-item hgm-item-{{ forloop.counter }}"
-             href="{{ item.image.url }}"
-             data-pswp-width="{{ item.image.width }}"
-             data-pswp-height="{{ item.image.height }}"
-             target="_blank">
-            <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
-            <div class="hgm-overlay"><i class="fas fa-expand-alt"></i></div>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
+
+{% if gallery_items %}
+<!-- ============================================================
+     GALLERY — Activities Collage
+     ============================================================ -->
+<section class="home-gallery-section">
+  <div class="container">
+    <div class="section-header center" data-animate>
+      <span class="section-eyebrow" style="color:var(--gold-light);">From the Field</span>
+      <h2>Activities &amp; Outreach</h2>
+      <div class="divider center"></div>
+      <p class="section-subtitle">A glimpse into God's work through our teams across Nigeria.</p>
+    </div>
+
+    {% with cnt=gallery_items|length %}
+    <div class="gallery-collage gc-n{% if cnt >= 5 %}5{% elif cnt == 4 %}4{% elif cnt == 3 %}3{% elif cnt == 2 %}2{% else %}1{% endif %}" data-animate>
+      {% for item in gallery_items %}
+      {% if forloop.counter <= 5 %}
+      <div class="gc-item gc-item-{{ forloop.counter }}" data-idx="{{ forloop.counter0 }}" onclick="openGalleryLightbox({{ forloop.counter0 }})">
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+        {% if forloop.counter == 5 and cnt > 5 %}
+        <div class="gc-overlay gc-more">
+          <div class="gc-more-inner">
+            <span class="gc-more-count">+{{ cnt|add:"-5" }}</span>
+            <span class="gc-more-label">more photos</span>
+          </div>
+        </div>
+        {% else %}
+        <div class="gc-overlay">
+          <div class="gc-overlay-inner">
+            <i class="fas fa-expand-alt"></i>
+            {% if item.title %}<span class="gc-caption">{{ item.title }}</span>{% endif %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endwith %}
+  </div>
+</section>
+
+<!-- Gallery Lightbox Modal -->
+<div class="gallery-lightbox" id="galleryLightbox">
+  <button class="glb-close" onclick="closeGalleryLightbox()"><i class="fas fa-times"></i></button>
+  <button class="glb-nav glb-prev" id="glbPrev" onclick="galleryNav(-1)"><i class="fas fa-chevron-left"></i></button>
+  <div class="glb-stage">
+    <div class="glb-img-wrap">
+      <img src="" alt="" id="glbImg">
+    </div>
+    <div class="glb-caption-bar">
+      <span class="glb-title" id="glbTitle"></span>
+      <span class="glb-counter" id="glbCounter"></span>
+    </div>
+  </div>
+  <button class="glb-nav glb-next" id="glbNext" onclick="galleryNav(1)"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<script>
+(function(){
+  const galleryItems = [{% for item in gallery_items %}{"url":"{{ item.image.url }}","title":"{{ item.title|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}];
+  let glbCurrent = 0;
+
+  window.openGalleryLightbox = function(idx) {
+    glbCurrent = idx;
+    renderLightbox();
+    document.getElementById('galleryLightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeGalleryLightbox = function() {
+    document.getElementById('galleryLightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  window.galleryNav = function(dir) {
+    glbCurrent = (glbCurrent + dir + galleryItems.length) % galleryItems.length;
+    renderLightbox();
+  };
+
+  function renderLightbox() {
+    const item = galleryItems[glbCurrent];
+    const img = document.getElementById('glbImg');
+    img.style.opacity = '0';
+    img.src = item.url;
+    img.alt = item.title;
+    img.onload = function(){ img.style.transition = 'opacity 0.25s'; img.style.opacity = '1'; };
+    document.getElementById('glbTitle').textContent = item.title || '';
+    document.getElementById('glbCounter').textContent = (glbCurrent + 1) + ' \u2f ' + galleryItems.length;
+    const multi = galleryItems.length > 1;
+    document.getElementById('glbPrev').style.display = multi ? '' : 'none';
+    document.getElementById('glbNext').style.display = multi ? '' : 'none';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('galleryLightbox');
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape')      closeGalleryLightbox();
+    if (e.key === 'ArrowLeft')   galleryNav(-1);
+    if (e.key === 'ArrowRight')  galleryNav(1);
+  });
+  document.getElementById('galleryLightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeGalleryLightbox();
+  });
+})();
+</script>
+{% endif %}
 
 <!-- ============================================================
      SCRIPTURE BREAK

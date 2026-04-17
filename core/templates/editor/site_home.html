@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Home — HASKE Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b1520;--surface:#111f30;--surface-2:#172840;--surface-3:#1d3050;
+  --border:rgba(255,255,255,0.06);--border-2:rgba(255,255,255,0.11);--border-3:rgba(255,255,255,0.18);
+  --gold:#C8922A;--gold-dim:#b8821f;--gold-glow:rgba(200,146,42,0.12);
+  --green-light:#4dba87;--red:#e74c3c;
+  --text:#d8e8f5;--text-muted:#5e7d9a;--text-dim:#3d5870;
+  --radius:10px;--radius-lg:14px;--radius-xl:18px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+
+/* topbar */
+.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:.75rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.topbar-logo{font-weight:800;font-size:.95rem;letter-spacing:.06em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:.5rem;padding-right:1.25rem;border-right:1px solid var(--border-2)}
+.topbar-logo .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),#f0b740);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;font-weight:800;box-shadow:0 2px 8px rgba(200,146,42,.4)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:.6rem}
+.topbar-link{color:var(--text-muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border-radius:6px;transition:all .15s}
+.topbar-link:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.topbar-user{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem;border-radius:20px;background:var(--surface-2);border:1px solid var(--border)}
+
+/* layout */
+.shell{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sidebar-label{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding:.25rem 1.25rem .6rem}
+.sidebar-link{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.25rem;color:var(--text-muted);text-decoration:none;font-size:.835rem;font-weight:500;transition:all .15s;border-left:2px solid transparent}
+.sidebar-link:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sidebar-link.active{color:var(--gold);background:var(--gold-glow);border-left-color:var(--gold)}
+.sidebar-section{margin-bottom:1.5rem}
+.si{width:18px;text-align:center;font-size:.85rem;opacity:.75}
+
+/* main */
+.main{flex:1;min-width:0;padding:2.25rem 2.5rem;max-width:1000px}
+
+/* page header */
+.page-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;gap:1rem}
+.page-hd-title{display:flex;align-items:center;gap:.75rem}
+.page-hd-icon{width:44px;height:44px;border-radius:12px;background:rgba(200,146,42,.12);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.page-hd h1{font-size:1.35rem;font-weight:800;letter-spacing:-.01em}
+.page-hd p{font-size:.82rem;color:var(--text-muted);margin-top:.2rem}
+
+/* section nav tabs */
+.section-tabs{display:flex;gap:.25rem;margin-bottom:1.75rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.35rem}
+.stab{padding:.45rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text-muted);font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:.4rem}
+.stab:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.stab.active{background:var(--gold);color:#fff}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* cards */
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);margin-bottom:1.5rem;overflow:hidden}
+.section-card-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.section-card-header h2{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.55rem}
+.section-card-header h2 i{color:var(--gold)}
+.section-card-body{padding:1.5rem}
+
+/* forms */
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{display:block;font-size:.72rem;font-weight:700;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+.fgroup input,.fgroup textarea,.fgroup select{width:100%;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:.6rem .875rem;color:var(--text);font-family:inherit;font-size:.875rem;outline:none;transition:border-color .15s}
+.fgroup input:focus,.fgroup textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-glow)}
+.fgroup textarea{resize:vertical;min-height:80px}
+.fgroup-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fgroup-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.img-hint{font-size:.73rem;color:var(--text-muted);margin-top:.35rem}
+.img-hint a{color:var(--gold)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:7px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;white-space:nowrap;font-family:inherit}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-dim);color:#fff}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}.btn-outline:hover{background:rgba(255,255,255,.04);border-color:var(--border-3)}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid transparent}.btn-ghost:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.2)}.btn-danger:hover{background:rgba(231,76,60,.08)}
+.btn-sm{padding:.3rem .65rem;font-size:.77rem}
+.btn-xs{padding:.2rem .5rem;font-size:.72rem}
+
+/* item rows */
+.item-list{display:flex;flex-direction:column;gap:.75rem}
+.item-row{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:1rem}
+.item-row-body{flex:1;min-width:0}
+.item-row-actions{display:flex;gap:.4rem;flex-shrink:0;padding-top:.1rem}
+.item-thumb{width:64px;height:44px;border-radius:7px;object-fit:cover;flex-shrink:0}
+.item-thumb-sq{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.item-thumb-placeholder{width:64px;height:44px;border-radius:7px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text-dim);font-size:.85rem}
+.item-thumb-sq-placeholder{width:44px;height:44px;border-radius:10px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text-dim)}
+.item-title{font-weight:600;font-size:.88rem;margin-bottom:.2rem}
+.item-meta{font-size:.75rem;color:var(--text-muted)}
+.sub-editor{background:var(--surface-3);border:1px solid var(--border-2);border-radius:var(--radius);padding:1.25rem;margin-top:.75rem;display:none}
+.sub-editor.open{display:block}
+
+/* stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+
+/* gallery grid */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
+.gallery-tile{position:relative;border-radius:9px;overflow:hidden;background:var(--surface-3);aspect-ratio:4/3;cursor:pointer;border:1px solid var(--border)}
+.gallery-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-tile-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.gallery-tile:hover .gallery-tile-overlay{opacity:1}
+.gallery-tile .feat-badge{position:absolute;top:.4rem;right:.4rem;background:var(--gold);color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .4rem;border-radius:4px;letter-spacing:.04em}
+.gallery-tile-empty{border-radius:9px;background:var(--surface-3);border:2px dashed var(--border-2);display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;cursor:pointer;color:var(--text-dim);font-size:.8rem;font-weight:500;transition:all .15s;gap:.4rem}
+.gallery-tile-empty:hover{border-color:var(--gold);color:var(--gold)}
+
+/* toggle */
+.toggle-row{display:flex;align-items:center;gap:.75rem;padding:.3rem 0}
+.toggle-label{font-size:.875rem;font-weight:500}
+.toggle{position:relative;display:inline-block;width:38px;height:22px}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--surface-3);border:1px solid var(--border-2);border-radius:22px;transition:.2s;cursor:pointer}
+.toggle-slider::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:var(--text-dim);border-radius:50%;transition:.2s}
+input:checked+.toggle-slider{background:var(--gold);border-color:var(--gold)}
+input:checked+.toggle-slider::before{transform:translateX(16px);background:#fff}
+
+/* toast */
+.toast{position:fixed;bottom:1.75rem;right:1.75rem;background:var(--surface-2);border:1px solid var(--border-2);border-radius:9px;padding:.8rem 1.2rem;font-size:.82rem;z-index:1000;display:flex;align-items:center;gap:.5rem;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(29,106,74,.5);color:var(--green-light)}
+.toast.error{border-color:rgba(231,76,60,.5);color:var(--red)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface-2);border:1px solid var(--border-2);border-radius:var(--radius-xl);padding:2rem;width:100%;max-width:460px;transform:translateY(20px);transition:transform .25s;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.overlay.open .modal{transform:translateY(0)}
+.modal-title{font-size:1rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+.modal-title i{color:var(--gold)}
+.modal-footer{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.5rem}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/editor/" class="topbar-logo"><div class="dot">H</div> HASKE</a>
+  <div class="topbar-right">
+    <a href="/editor/" class="topbar-link"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    <a href="/editor/blog/" class="topbar-link"><i class="fas fa-newspaper"></i> Blog</a>
+    <a href="/" target="_blank" class="topbar-link"><i class="fas fa-external-link-alt"></i> View Site</a>
+    <a href="/admin/" class="topbar-link"><i class="fas fa-cog"></i> Admin</a>
+    <div class="topbar-user"><i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}</div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site Pages</div>
+      <a href="/editor/site/home/" class="sidebar-link active"><span class="si"><i class="fas fa-home"></i></span> Home</a>
+      <a href="/editor/site/about/" class="sidebar-link"><span class="si"><i class="fas fa-info-circle"></i></span> About</a>
+      <a href="/editor/site/projects/" class="sidebar-link"><span class="si"><i class="fas fa-project-diagram"></i></span> Projects</a>
+      <a href="/editor/site/volunteer/" class="sidebar-link"><span class="si"><i class="fas fa-hands-helping"></i></span> Volunteer</a>
+      <a href="/editor/site/give/" class="sidebar-link"><span class="si"><i class="fas fa-hand-holding-heart"></i></span> Give</a>
+      <a href="/editor/site/media/" class="sidebar-link"><span class="si"><i class="fas fa-photo-video"></i></span> Media</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Content</div>
+      <a href="/editor/blog/" class="sidebar-link"><span class="si"><i class="fas fa-newspaper"></i></span> Blog Posts</a>
+      <a href="/editor/" class="sidebar-link"><span class="si"><i class="fas fa-file-alt"></i></span> Custom Pages</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="page-hd">
+      <div class="page-hd-title">
+        <div class="page-hd-icon"><i class="fas fa-home"></i></div>
+        <div>
+          <h1>Home Page</h1>
+          <p>Edit every section that appears on the homepage</p>
+        </div>
+      </div>
+      <a href="/" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i> Preview</a>
+    </div>
+
+    <!-- Section Tabs -->
+    <div class="section-tabs" id="sectionTabs">
+      <button class="stab active" onclick="showTab('hero')"><i class="fas fa-images"></i> Hero</button>
+      <button class="stab" onclick="showTab('stats')"><i class="fas fa-chart-bar"></i> Stats</button>
+      <button class="stab" onclick="showTab('ministry')"><i class="fas fa-cross"></i> Ministry</button>
+      <button class="stab" onclick="showTab('impact')"><i class="fas fa-trophy"></i> Impact</button>
+      <button class="stab" onclick="showTab('gallery')"><i class="fas fa-images"></i> Gallery</button>
+    </div>
+
+    <!-- ======================================================
+         TAB: HERO SLIDES
+         ====================================================== -->
+    <div class="tab-panel active" id="tab-hero">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-images"></i> Hero Slides</h2>
+          <button class="btn btn-gold btn-sm" onclick="addSlide()"><i class="fas fa-plus"></i> Add Slide</button>
+        </div>
+        <div class="section-card-body">
+          <div class="item-list" id="slides-list">
+            {% for slide in slides %}
+            <div class="item-row" id="slide-row-{{ slide.id }}">
+              {% if slide.image %}
+              <img src="{{ slide.image.url }}" class="item-thumb" alt="">
+              {% else %}
+              <div class="item-thumb-placeholder"><i class="fas fa-image"></i></div>
+              {% endif %}
+              <div class="item-row-body">
+                <div class="item-title">{{ slide.title|default:"(No title)" }}</div>
+                <div class="item-meta">
+                  {% if slide.is_active %}<span style="color:var(--green-light)">Active</span>{% else %}<span style="color:var(--red)">Inactive</span>{% endif %}
+                  &bull; Order {{ slide.order }}
+                </div>
+                <div class="sub-editor" id="slide-ed-{{ slide.id }}">
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Title</label><input type="text" id="s{{ slide.id }}-title" value="{{ slide.title|default:'' }}"></div>
+                    <div class="fgroup"><label>Subtitle</label><input type="text" id="s{{ slide.id }}-subtitle" value="{{ slide.subtitle|default:'' }}"></div>
+                  </div>
+                  <div class="fgroup"><label>Description</label><textarea id="s{{ slide.id }}-description">{{ slide.description|default:'' }}</textarea></div>
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Button Text</label><input type="text" id="s{{ slide.id }}-button_text" value="{{ slide.button_text|default:'' }}"></div>
+                    <div class="fgroup"><label>Button Link</label><input type="text" id="s{{ slide.id }}-button_link" value="{{ slide.button_link|default:'' }}"></div>
+                  </div>
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Order</label><input type="number" id="s{{ slide.id }}-order" value="{{ slide.order }}"></div>
+                    <div class="fgroup" style="display:flex;align-items:flex-end;padding-bottom:.1rem">
+                      <div class="toggle-row"><label class="toggle"><input type="checkbox" id="s{{ slide.id }}-is_active" {% if slide.is_active %}checked{% endif %}><span class="toggle-slider"></span></label><span class="toggle-label">Active</span></div>
+                    </div>
+                  </div>
+                  <div class="fgroup"><label>Slide Image</label><input type="file" id="s{{ slide.id }}-image" accept="image/*"></div>
+                  <div style="display:flex;gap:.5rem;margin-top:.5rem">
+                    <button class="btn btn-gold btn-sm" onclick="saveSlide({{ slide.id }})"><i class="fas fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteSlide({{ slide.id }})"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </div>
+              </div>
+              <div class="item-row-actions">
+                <button class="btn btn-ghost btn-xs" onclick="toggleEd('slide-ed-{{ slide.id }}')"><i class="fas fa-pen"></i></button>
+              </div>
+            </div>
+            {% empty %}
+            <p style="color:var(--text-muted);font-size:.85rem">No slides yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         TAB: STATS
+         ====================================================== -->
+    <div class="tab-panel" id="tab-stats">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-chart-bar"></i> Statistics Section</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveStats()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Section Title</label><input type="text" id="stats-title" value="{{ stats.title|default:'' }}"></div>
+            <div class="fgroup"><label>Subtitle</label><input type="text" id="stats-subtitle" value="{{ stats.subtitle|default:'' }}"></div>
+          </div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Stat Label 1</label><input type="text" id="stats-stat_title1" value="{{ stats.stat_title1|default:'' }}"></div>
+            <div class="fgroup"><label>Stat Description 1</label><input type="text" id="stats-stat_desc1" value="{{ stats.stat_desc1|default:'' }}"></div>
+          </div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Stat Label 2</label><input type="text" id="stats-stat_title2" value="{{ stats.stat_title2|default:'' }}"></div>
+            <div class="fgroup"><label>Stat Description 2</label><input type="text" id="stats-stat_desc2" value="{{ stats.stat_desc2|default:'' }}"></div>
+          </div>
+          <hr style="border-color:var(--border);margin:1.25rem 0">
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Numbers</p>
+          <div class="stats-grid">
+            <div class="fgroup"><label>Total Population</label><input type="number" id="stats-total_population" value="{{ stats.total_population|default:'' }}"></div>
+            <div class="fgroup"><label>People Groups</label><input type="number" id="stats-people_groups" value="{{ stats.people_groups|default:'' }}"></div>
+            <div class="fgroup"><label>States</label><input type="number" id="stats-states" value="{{ stats.states|default:'' }}"></div>
+            <div class="fgroup"><label>LGAs</label><input type="number" id="stats-lgas" value="{{ stats.lgas|default:'' }}"></div>
+            <div class="fgroup"><label>Wards</label><input type="number" id="stats-wards" value="{{ stats.wards|default:'' }}"></div>
+            <div class="fgroup"><label>Villages</label><input type="number" id="stats-villages" value="{{ stats.villages|default:'' }}"></div>
+            <div class="fgroup"><label>Converts</label><input type="number" id="stats-converts" value="{{ stats.converts|default:'' }}"></div>
+            <div class="fgroup"><label>Film Attendees</label><input type="number" id="stats-film_attendees" value="{{ stats.film_attendees|default:'' }}"></div>
+            <div class="fgroup"><label>People Reached</label><input type="number" id="stats-people_reached" value="{{ stats.people_reached|default:'' }}"></div>
+            <div class="fgroup"><label>Bible Translations</label><input type="number" id="stats-bible_translations" value="{{ stats.bible_translations|default:'' }}"></div>
+            <div class="fgroup"><label>Active Missionaries</label><input type="number" id="stats-active_missionaries" value="{{ stats.active_missionaries|default:'' }}"></div>
+            <div class="fgroup"><label>Training Sessions</label><input type="number" id="stats-training_sessions" value="{{ stats.training_sessions|default:'' }}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         TAB: MINISTRY
+         ====================================================== -->
+    <div class="tab-panel" id="tab-ministry">
+
+      <!-- Ministry Section (intro block) -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-align-left"></i> "What We Do" Intro</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveMinistrySection()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup"><label>Section Title</label><input type="text" id="ms-title" value="{{ ministry_section.title|default:'' }}" placeholder="e.g. Reaching Lives Across The Country"></div>
+          <div class="fgroup"><label>Description</label><textarea id="ms-description" style="min-height:100px">{{ ministry_section.description|default:'' }}</textarea></div>
+          <div class="fgroup"><label>Background Image</label><input type="file" id="ms-image" accept="image/*">
+            {% if ministry_section.image %}<p class="img-hint">Current: <a href="{{ ministry_section.image.url }}" target="_blank">View image</a></p>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Ministry Pillars -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-th-large"></i> Ministry Pillars</h2>
+          <button class="btn btn-gold btn-sm" onclick="addMinistry()"><i class="fas fa-plus"></i> Add Pillar</button>
+        </div>
+        <div class="section-card-body">
+          <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1.25rem">Each pillar appears as a card in the "What We Do" section (e.g. We Pray, We Preach, We Give).</p>
+          <div class="item-list" id="ministries-list">
+            {% for ministry in ministries %}
+            <div class="item-row" id="ministry-row-{{ ministry.id }}">
+              {% if ministry.icon %}
+              <img src="{{ ministry.icon.url }}" class="item-thumb-sq" alt="">
+              {% else %}
+              <div class="item-thumb-sq-placeholder"><i class="fas fa-cross"></i></div>
+              {% endif %}
+              <div class="item-row-body">
+                <div class="item-title">{{ ministry.title }}</div>
+                <div class="item-meta">{{ ministry.description|truncatechars:60 }}</div>
+                <div class="sub-editor" id="ministry-ed-{{ ministry.id }}">
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Title</label><input type="text" id="min{{ ministry.id }}-title" value="{{ ministry.title }}"></div>
+                    <div class="fgroup"><label>Order</label><input type="number" id="min{{ ministry.id }}-order" value="{{ ministry.order }}"></div>
+                  </div>
+                  <div class="fgroup"><label>Description</label><textarea id="min{{ ministry.id }}-description">{{ ministry.description }}</textarea></div>
+                  <div class="fgroup"><label>Icon Image</label><input type="file" id="min{{ ministry.id }}-icon" accept="image/*"></div>
+                  <div style="display:flex;gap:.5rem;margin-top:.5rem">
+                    <button class="btn btn-gold btn-sm" onclick="saveMinistry({{ ministry.id }})"><i class="fas fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteMinistry({{ ministry.id }})"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </div>
+              </div>
+              <div class="item-row-actions">
+                <button class="btn btn-ghost btn-xs" onclick="toggleEd('ministry-ed-{{ ministry.id }}')"><i class="fas fa-pen"></i></button>
+              </div>
+            </div>
+            {% empty %}
+            <p style="color:var(--text-muted);font-size:.85rem">No pillars yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         TAB: IMPACT
+         ====================================================== -->
+    <div class="tab-panel" id="tab-impact">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-trophy"></i> Achievement Numbers</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveAchievement()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1.25rem">These numbers appear in the "Our Impact Across Nigeria" section. Each metric has a count and a short description shown below it.</p>
+
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Geographic Reach</p>
+          <div class="fgroup-row3">
+            <div class="fgroup"><label>Villages</label><input type="number" id="ach-villages" value="{{ achievement.villages|default:'' }}"></div>
+            <div class="fgroup"><label>States Reached</label><input type="number" id="ach-states_reached" value="{{ achievement.states_reached|default:'' }}"></div>
+            <div class="fgroup"><label>LGAs Reached</label><input type="number" id="ach-lgas_reached" value="{{ achievement.lgas_reached|default:'' }}"></div>
+          </div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Wards Reached</label><input type="number" id="ach-wards_reached" value="{{ achievement.wards_reached|default:'' }}"></div>
+            <div class="fgroup"><label>Villages Description</label><input type="text" id="ach-villages_description" value="{{ achievement.villages_description|default:'' }}"></div>
+          </div>
+
+          <hr style="border-color:var(--border);margin:1.25rem 0">
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Salvation & Discipleship</p>
+          <div class="fgroup-row3">
+            <div class="fgroup"><label>People Saved</label><input type="number" id="ach-people_saved" value="{{ achievement.people_saved|default:'' }}"></div>
+            <div class="fgroup"><label>People Baptized</label><input type="number" id="ach-people_baptized" value="{{ achievement.people_baptized|default:'' }}"></div>
+            <div class="fgroup"><label>People Discipled</label><input type="number" id="ach-people_discipled" value="{{ achievement.people_discipled|default:'' }}"></div>
+          </div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Started Discipleship</label><input type="number" id="ach-started_discipleship" value="{{ achievement.started_discipleship|default:'' }}"></div>
+            <div class="fgroup"><label>People Saved Description</label><input type="text" id="ach-people_saved_description" value="{{ achievement.people_saved_description|default:'' }}"></div>
+          </div>
+
+          <hr style="border-color:var(--border);margin:1.25rem 0">
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem">Resources & Outreach</p>
+          <div class="fgroup-row3">
+            <div class="fgroup"><label>People Reached</label><input type="number" id="ach-people_reached" value="{{ achievement.people_reached|default:'' }}"></div>
+            <div class="fgroup"><label>Bibles Shared</label><input type="number" id="ach-bibles_shared" value="{{ achievement.bibles_shared|default:'' }}"></div>
+            <div class="fgroup"><label>Audio Bibles</label><input type="number" id="ach-audiobibles_shared" value="{{ achievement.audiobibles_shared|default:'' }}"></div>
+          </div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>SD Cards Shared</label><input type="number" id="ach-sdcards_shared" value="{{ achievement.sdcards_shared|default:'' }}"></div>
+            <div class="fgroup"><label>People Reached Description</label><input type="text" id="ach-people_reached_description" value="{{ achievement.people_reached_description|default:'' }}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================
+         TAB: GALLERY
+         ====================================================== -->
+    <div class="tab-panel" id="tab-gallery">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-images"></i> Gallery / "Get Involved" Section</h2>
+          <button class="btn btn-gold btn-sm" onclick="addGalleryItem()"><i class="fas fa-plus"></i> Add Image</button>
+        </div>
+        <div class="section-card-body">
+          <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1.25rem">
+            Images marked <strong style="color:var(--gold)">Featured</strong> appear in the masonry gallery on the homepage "Get Involved" section (up to 6 shown). All images are available in the full gallery.
+          </p>
+          <div class="gallery-grid" id="gallery-grid">
+            {% for item in gallery_items %}
+            <div class="gallery-tile" id="gallery-tile-{{ item.id }}" onclick="openGalleryModal({{ item.id }}, '{{ item.title|escapejs }}', '{{ item.description|escapejs }}', {{ item.is_featured|yesno:'true,false' }})">
+              {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.title }}">
+              {% endif %}
+              <div class="gallery-tile-overlay">
+                <button class="btn btn-sm" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="event.stopPropagation();openGalleryModal({{ item.id }}, '{{ item.title|escapejs }}', '{{ item.description|escapejs }}', {{ item.is_featured|yesno:'true,false' }})"><i class="fas fa-pen"></i></button>
+                <button class="btn btn-sm" style="background:rgba(231,76,60,.25);color:var(--red);border:1px solid rgba(231,76,60,.4)" onclick="event.stopPropagation();deleteGalleryItem({{ item.id }})"><i class="fas fa-trash"></i></button>
+              </div>
+              {% if item.is_featured %}<span class="feat-badge">Featured</span>{% endif %}
+            </div>
+            {% endfor %}
+            <div class="gallery-tile-empty" onclick="addGalleryItem()"><i class="fas fa-plus"></i> Add Image</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Gallery Edit Modal -->
+<div class="overlay" id="gallery-overlay" onclick="closeGalleryModal(event)">
+  <div class="modal">
+    <div class="modal-title"><i class="fas fa-image"></i> Edit Gallery Image</div>
+    <input type="hidden" id="gm-id">
+    <div class="fgroup"><label>Title</label><input type="text" id="gm-title" placeholder="Image title"></div>
+    <div class="fgroup"><label>Description</label><textarea id="gm-description" style="min-height:70px" placeholder="Optional caption"></textarea></div>
+    <div class="fgroup"><label>Replace Image</label><input type="file" id="gm-image" accept="image/*"></div>
+    <div class="toggle-row" style="margin-bottom:.5rem">
+      <label class="toggle"><input type="checkbox" id="gm-featured"><span class="toggle-slider"></span></label>
+      <span class="toggle-label">Show on homepage (Featured)</span>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeGalleryModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveGalleryItem()"><i class="fas fa-save"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CSRF = '{{ csrf_token }}';
+
+/* ---- Tabs ---- */
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+/* ---- Generic expand/collapse ---- */
+function toggleEd(id) { document.getElementById(id).classList.toggle('open'); }
+
+/* ----------------------------------------------------------------
+   HERO SLIDES
+   ---------------------------------------------------------------- */
+function addSlide() {
+  post('/editor/api/site/hero/add/', {}).then(d => {
+    document.getElementById('slides-list').insertAdjacentHTML('beforeend', buildSlideRow(d));
+    toast('Slide added');
+  });
+}
+
+function buildSlideRow(d) {
+  const thumb = d.image_url
+    ? `<img src="${d.image_url}" class="item-thumb" alt="">`
+    : `<div class="item-thumb-placeholder"><i class="fas fa-image"></i></div>`;
+  return `<div class="item-row" id="slide-row-${d.id}">
+    ${thumb}
+    <div class="item-row-body">
+      <div class="item-title">${d.title||'(No title)'}</div>
+      <div class="item-meta"><span style="color:var(--green-light)">Active</span> &bull; Order ${d.order}</div>
+      <div class="sub-editor open" id="slide-ed-${d.id}">
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Title</label><input type="text" id="s${d.id}-title" value="${d.title||''}"></div>
+          <div class="fgroup"><label>Subtitle</label><input type="text" id="s${d.id}-subtitle" value="${d.subtitle||''}"></div>
+        </div>
+        <div class="fgroup"><label>Description</label><textarea id="s${d.id}-description">${d.description||''}</textarea></div>
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Button Text</label><input type="text" id="s${d.id}-button_text" value="${d.button_text||''}"></div>
+          <div class="fgroup"><label>Button Link</label><input type="text" id="s${d.id}-button_link" value="${d.button_link||''}"></div>
+        </div>
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Order</label><input type="number" id="s${d.id}-order" value="${d.order}"></div>
+          <div class="fgroup" style="display:flex;align-items:flex-end;padding-bottom:.1rem">
+            <div class="toggle-row"><label class="toggle"><input type="checkbox" id="s${d.id}-is_active" checked><span class="toggle-slider"></span></label><span class="toggle-label">Active</span></div>
+          </div>
+        </div>
+        <div class="fgroup"><label>Slide Image</label><input type="file" id="s${d.id}-image" accept="image/*"></div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+          <button class="btn btn-gold btn-sm" onclick="saveSlide(${d.id})"><i class="fas fa-save"></i> Save</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSlide(${d.id})"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="item-row-actions">
+      <button class="btn btn-ghost btn-xs" onclick="toggleEd('slide-ed-${d.id}')"><i class="fas fa-pen"></i></button>
+    </div>
+  </div>`;
+}
+
+function saveSlide(id) {
+  const fd = new FormData();
+  ['title','subtitle','description','button_text','button_link','order'].forEach(f => fd.append(f, val(`s${id}-${f}`)));
+  fd.append('is_active', document.getElementById(`s${id}-is_active`).checked ? 'true' : 'false');
+  const img = document.getElementById(`s${id}-image`);
+  if (img?.files[0]) fd.append('image', img.files[0]);
+  postFd(`/editor/api/site/hero/${id}/save/`, fd).then(d => {
+    if (d.image_url) swapThumb(`slide-row-${id}`, d.image_url, 'item-thumb');
+    toast('Slide saved');
+  });
+}
+
+function deleteSlide(id) {
+  if (!confirm('Delete this slide?')) return;
+  post(`/editor/api/site/hero/${id}/delete/`, {}).then(() => { rm(`slide-row-${id}`); toast('Deleted'); });
+}
+
+/* ----------------------------------------------------------------
+   STATS
+   ---------------------------------------------------------------- */
+function saveStats() {
+  const fd = new FormData();
+  ['title','subtitle','stat_title1','stat_desc1','stat_title2','stat_desc2',
+   'total_population','people_groups','states','lgas','wards','villages',
+   'converts','film_attendees','people_reached','bible_translations',
+   'active_missionaries','training_sessions'].forEach(f => fd.append(f, val('stats-'+f)));
+  postFd('/editor/api/site/stats/save/', fd).then(() => toast('Statistics saved'));
+}
+
+/* ----------------------------------------------------------------
+   MINISTRY SECTION
+   ---------------------------------------------------------------- */
+function saveMinistrySection() {
+  const fd = new FormData();
+  fd.append('title', val('ms-title'));
+  fd.append('description', val('ms-description'));
+  const img = document.getElementById('ms-image');
+  if (img?.files[0]) fd.append('image', img.files[0]);
+  postFd('/editor/api/site/ministry-section/save/', fd).then(() => toast('Ministry section saved'));
+}
+
+function addMinistry() {
+  post('/editor/api/site/ministries/add/', {}).then(d => {
+    document.getElementById('ministries-list').insertAdjacentHTML('beforeend', buildMinistryRow(d));
+    toast('Pillar added');
+  });
+}
+
+function buildMinistryRow(d) {
+  const thumb = d.icon_url
+    ? `<img src="${d.icon_url}" class="item-thumb-sq" alt="">`
+    : `<div class="item-thumb-sq-placeholder"><i class="fas fa-cross"></i></div>`;
+  return `<div class="item-row" id="ministry-row-${d.id}">
+    ${thumb}
+    <div class="item-row-body">
+      <div class="item-title">${d.title}</div>
+      <div class="item-meta">${d.description||''}</div>
+      <div class="sub-editor open" id="ministry-ed-${d.id}">
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Title</label><input type="text" id="min${d.id}-title" value="${d.title||''}"></div>
+          <div class="fgroup"><label>Order</label><input type="number" id="min${d.id}-order" value="${d.order}"></div>
+        </div>
+        <div class="fgroup"><label>Description</label><textarea id="min${d.id}-description">${d.description||''}</textarea></div>
+        <div class="fgroup"><label>Icon Image</label><input type="file" id="min${d.id}-icon" accept="image/*"></div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+          <button class="btn btn-gold btn-sm" onclick="saveMinistry(${d.id})"><i class="fas fa-save"></i> Save</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteMinistry(${d.id})"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="item-row-actions">
+      <button class="btn btn-ghost btn-xs" onclick="toggleEd('ministry-ed-${d.id}')"><i class="fas fa-pen"></i></button>
+    </div>
+  </div>`;
+}
+
+function saveMinistry(id) {
+  const fd = new FormData();
+  ['title','description','order'].forEach(f => fd.append(f, val(`min${id}-${f}`)));
+  const img = document.getElementById(`min${id}-icon`);
+  if (img?.files[0]) fd.append('icon', img.files[0]);
+  postFd(`/editor/api/site/ministries/${id}/save/`, fd).then(d => {
+    if (d.icon_url) swapThumb(`ministry-row-${id}`, d.icon_url, 'item-thumb-sq');
+    toast('Pillar saved');
+  });
+}
+
+function deleteMinistry(id) {
+  if (!confirm('Delete this ministry pillar?')) return;
+  post(`/editor/api/site/ministries/${id}/delete/`, {}).then(() => { rm(`ministry-row-${id}`); toast('Deleted'); });
+}
+
+/* ----------------------------------------------------------------
+   ACHIEVEMENT
+   ---------------------------------------------------------------- */
+function saveAchievement() {
+  const fd = new FormData();
+  ['villages','states_reached','lgas_reached','wards_reached','villages_description',
+   'people_saved','people_baptized','people_discipled','started_discipleship','people_saved_description',
+   'people_reached','bibles_shared','audiobibles_shared','sdcards_shared','people_reached_description'].forEach(f => fd.append(f, val('ach-'+f)));
+  postFd('/editor/api/site/achievement/save/', fd).then(() => toast('Achievement numbers saved'));
+}
+
+/* ----------------------------------------------------------------
+   GALLERY
+   ---------------------------------------------------------------- */
+function addGalleryItem() {
+  post('/editor/api/site/gallery/add/', {}).then(d => {
+    const grid = document.getElementById('gallery-grid');
+    grid.querySelector('.gallery-tile-empty').insertAdjacentHTML('beforebegin', buildGalleryTile(d));
+    toast('Image slot added — click to edit');
+  });
+}
+
+function buildGalleryTile(d) {
+  return `<div class="gallery-tile" id="gallery-tile-${d.id}" onclick="openGalleryModal(${d.id},'','',false)">
+    <div class="gallery-tile-overlay">
+      <button class="btn btn-sm" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="event.stopPropagation();openGalleryModal(${d.id},'','',false)"><i class="fas fa-pen"></i></button>
+      <button class="btn btn-sm" style="background:rgba(231,76,60,.25);color:var(--red);border:1px solid rgba(231,76,60,.4)" onclick="event.stopPropagation();deleteGalleryItem(${d.id})"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>`;
+}
+
+function openGalleryModal(id, title, description, featured) {
+  document.getElementById('gm-id').value = id;
+  document.getElementById('gm-title').value = title;
+  document.getElementById('gm-description').value = description;
+  document.getElementById('gm-featured').checked = featured;
+  document.getElementById('gm-image').value = '';
+  document.getElementById('gallery-overlay').classList.add('open');
+}
+
+function closeGalleryModal(e) {
+  if (!e || e.target === e.currentTarget) document.getElementById('gallery-overlay').classList.remove('open');
+}
+
+function saveGalleryItem() {
+  const id = document.getElementById('gm-id').value;
+  const fd = new FormData();
+  fd.append('title', val('gm-title'));
+  fd.append('description', val('gm-description'));
+  fd.append('is_featured', document.getElementById('gm-featured').checked ? 'true' : 'false');
+  const img = document.getElementById('gm-image');
+  if (img?.files[0]) fd.append('image', img.files[0]);
+  postFd(`/editor/api/site/gallery/${id}/save/`, fd).then(d => {
+    closeGalleryModal();
+    const tile = document.getElementById(`gallery-tile-${id}`);
+    if (d.image_url) {
+      let imgEl = tile.querySelector('img');
+      if (!imgEl) { imgEl = document.createElement('img'); tile.insertBefore(imgEl, tile.firstChild); }
+      imgEl.src = d.image_url;
+    }
+    const feat = document.getElementById('gm-featured').checked;
+    let badge = tile.querySelector('.feat-badge');
+    if (feat && !badge) { badge = document.createElement('span'); badge.className = 'feat-badge'; badge.textContent = 'Featured'; tile.appendChild(badge); }
+    if (!feat && badge) badge.remove();
+    // Update onclick
+    const newTitle = val('gm-title').replace(/'/g, "\\'");
+    const newDesc = val('gm-description').replace(/'/g, "\\'");
+    tile.setAttribute('onclick', `openGalleryModal(${id},'${newTitle}','${newDesc}',${feat})`);
+    toast('Image saved');
+  });
+}
+
+function deleteGalleryItem(id) {
+  if (!confirm('Delete this gallery image?')) return;
+  post(`/editor/api/site/gallery/${id}/delete/`, {}).then(() => { rm(`gallery-tile-${id}`); toast('Deleted'); });
+}
+
+/* ----------------------------------------------------------------
+   Helpers
+   ---------------------------------------------------------------- */
+function val(id) { return document.getElementById(id)?.value ?? ''; }
+function rm(id)  { document.getElementById(id)?.remove(); }
+
+function swapThumb(rowId, url, cls) {
+  const row = document.getElementById(rowId);
+  const old = row?.querySelector(`.${cls}, .item-thumb-placeholder, .item-thumb-sq-placeholder`);
+  if (old) old.outerHTML = `<img src="${url}" class="${cls}" alt="">`;
+}
+
+function post(url, data) {
+  const fd = new FormData();
+  Object.entries(data).forEach(([k,v]) => fd.append(k,v));
+  return postFd(url, fd);
+}
+
+function postFd(url, fd) {
+  return fetch(url, { method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd })
+    .then(r => r.json())
+    .catch(() => { toast('Request failed', 'error'); return {}; });
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>

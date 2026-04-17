@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
-from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
 from simple_history.models import HistoricalRecords
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -279,14 +279,17 @@ class Subscriber(BaseAuditModel):
 
 class AboutPage(BaseAuditModel):
     title = models.CharField(max_length=200, default="ABOUT US")
+    banner_subtitle = models.CharField(max_length=300, default="Proclaiming the Gospel to unreached people groups across Northern Nigeria since 2006.", blank=True)
     header_image = models.ImageField(upload_to='about/', help_text="Header image for about page")
     introduction = models.TextField(help_text="Main introduction text")
     ministry_goal = models.TextField(help_text="Main Goal", default="Our Goal")
+    cta_heading = models.CharField(max_length=200, default="Be Part of Something Eternal", blank=True)
+    cta_body = models.TextField(default="Millions remain unreached across Northern Nigeria. Every prayer, every hour of service, every gift — it all moves the needle of eternity.", blank=True)
 
     class Meta:
         verbose_name = "About Page"
         verbose_name_plural = "About Page"
-    
+
     def __str__(self):
         return f"{self.title}"
 
@@ -461,7 +464,7 @@ class BlogPost(BaseAuditModel):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     featured_image = models.ImageField(upload_to='blog/')
-    content = RichTextUploadingField()
+    content = CKEditor5Field()
     excerpt = models.TextField(help_text="Short description for preview", max_length=300)
     author = models.CharField(max_length=100)
     published_date = models.DateTimeField(auto_now_add=True)
@@ -608,6 +611,7 @@ class Page(models.Model):
     meta_description = models.TextField(blank=True, help_text="SEO description")
     header_image     = models.ImageField(upload_to='pages/', blank=True, null=True, help_text="Banner image for the page header")
     is_published     = models.BooleanField(default=True)
+    show_header      = models.BooleanField(default=True, help_text="Show the title/banner at the top of the page. Uncheck when the page starts with a Hero section.")
     show_in_nav      = models.BooleanField(default=False, help_text="Add this page to the main navigation bar")
     nav_order        = models.IntegerField(default=0, help_text="Sort order in navigation")
     created_at  = models.DateTimeField(auto_now_add=True)
@@ -670,7 +674,7 @@ class PageSection(models.Model):
     # Content
     title    = models.CharField(max_length=200, blank=True)
     subtitle = models.CharField(max_length=400, blank=True)
-    body     = RichTextUploadingField(blank=True)
+    body     = CKEditor5Field(blank=True)
     image    = models.ImageField(upload_to='pages/sections/', blank=True, null=True)
     image_position = models.CharField(max_length=10, choices=IMAGE_POSITION, default='right')
 
