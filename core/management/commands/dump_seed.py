@@ -112,8 +112,6 @@ class Command(BaseCommand):
             *SEED_MODELS,
             indent=options["indent"],
             stdout=buf,
-            natural_foreign=True,
-            natural_primary=True,
         )
 
         raw = buf.getvalue()
@@ -125,7 +123,13 @@ class Command(BaseCommand):
             self.stderr.write(self.style.ERROR(f"dumpdata produced invalid JSON: {exc}"))
             return
 
-        output_path.write_text(raw, encoding="utf-8")
+        # Null out user FK fields — production won't have the same users
+        for entry in data:
+            for field in ("created_by", "last_modified_by"):
+                if field in entry.get("fields", {}):
+                    entry["fields"][field] = None
+
+        output_path.write_text(json.dumps(data, indent=options["indent"]), encoding="utf-8")
 
         self.stdout.write(
             self.style.SUCCESS(
