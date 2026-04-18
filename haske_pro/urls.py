@@ -15,9 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 from core.views import AuditLogView
 
 urlpatterns = [
@@ -25,8 +26,7 @@ urlpatterns = [
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('', include('core.urls')),
     path('admin/audit-log/', AuditLogView.as_view(), name='audit_log'),
-]
 
-# Serve uploaded media files in development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Serve uploaded media files (works in both debug and production on cPanel/Passenger)
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
