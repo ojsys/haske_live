@@ -5,31 +5,9 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:15.130Z",
+    "created_at": "2026-04-18T09:18:05.770Z",
     "logo": "logos/haske_logo.png",
-    "updated_at": "2024-12-15T15:46:17.021Z"
-  }
-},
-{
-  "model": "core.sitelogo",
-  "pk": 2,
-  "fields": {
-    "created_by": null,
-    "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:15Z",
-    "logo": "logos/20231217_004924_0000.png",
-    "updated_at": "2025-04-12T20:01:02.375Z"
-  }
-},
-{
-  "model": "core.sitelogo",
-  "pk": 3,
-  "fields": {
-    "created_by": null,
-    "last_modified_by": null,
-    "created_at": "2025-04-12T20:03:31.368Z",
-    "logo": "logos/FB_IMG_1697014865323_1.jpg",
-    "updated_at": "2025-04-12T20:03:31.370Z"
+    "updated_at": "2024-12-02T21:37:41.938Z"
   }
 },
 {
@@ -37,161 +15,63 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "title": "Seeing that the Great Commission comes to a Great Completion",
+    "last_modified_by": null,
+    "title": "Manifesting God's Unconditional Love",
     "subtitle": "",
-    "description": "Welcome to Hasken Rayuwa Africa",
-    "image": "hero_slides/salvation.png",
-    "button_text": "Learn About Us",
-    "button_link": "https://lightoflifeafrica.org.ng/about/",
+    "description": "Welcome to Hasken Rayuwa",
+    "image": "hero_slides/IMG_7997.JPG",
+    "button_text": "Learn More",
+    "button_link": "#",
     "order": 1,
     "is_active": true,
-    "created_at": "2024-12-14T18:57:09.667Z",
-    "updated_at": "2025-05-02T10:04:35.593Z"
+    "created_at": "2024-11-21T22:34:45.629Z",
+    "updated_at": "2024-11-22T00:28:53.693Z"
   }
 },
 {
   "model": "core.heroslide",
-  "pk": 3,
+  "pk": 2,
   "fields": {
-    "created_by": [
-      "SirT"
-    ],
-    "last_modified_by": [
-      "-"
-    ],
-    "title": "Demonstrating the Father's Redemptive Love",
+    "created_by": null,
+    "last_modified_by": null,
+    "title": "Expressing Christ's Transformative Compassion",
     "subtitle": "",
-    "description": "Welcome to Hasken Rayuwa Africa",
-    "image": "hero_slides/disciplesip_2.png",
-    "button_text": "",
-    "button_link": "",
+    "description": "Welcome to Hasken Rayuwa",
+    "image": "hero_slides/IMG_8035.JPG",
+    "button_text": "Learn More",
+    "button_link": "#",
     "order": 2,
     "is_active": true,
-    "created_at": "2025-04-15T12:49:19.023Z",
-    "updated_at": "2025-05-07T12:21:27.886Z"
-  }
-},
-{
-  "model": "core.heroslide",
-  "pk": 4,
-  "fields": {
-    "created_by": [
-      "SirT"
-    ],
-    "last_modified_by": [
-      "-"
-    ],
-    "title": "Sharing the Story of His Redemptive Love through Love Literature",
-    "subtitle": "",
-    "description": "Welcome to Hasken Rayuwa Africa",
-    "image": "hero_slides/Bible_Distribution.png",
-    "button_text": "Learn About Us",
-    "button_link": "https://lightoflifeafrica.org.ng/about/",
-    "order": 3,
-    "is_active": true,
-    "created_at": "2025-04-15T13:52:50.376Z",
-    "updated_at": "2025-05-02T10:17:55.676Z"
-  }
-},
-{
-  "model": "core.heroslide",
-  "pk": 5,
-  "fields": {
-    "created_by": [
-      "SirT"
-    ],
-    "last_modified_by": [
-      "-"
-    ],
-    "title": "Sharing God's Love through meaningful gifts",
-    "subtitle": "",
-    "description": "Welcome to Hasken Rayuwa Africa",
-    "image": "hero_slides/Mission_empowermen_GCV2CO6.png",
-    "button_text": "Learn About Us",
-    "button_link": "https://lightoflifeafrica.org.ng/about/",
-    "order": 4,
-    "is_active": true,
-    "created_at": "2025-04-15T13:58:50.075Z",
-    "updated_at": "2025-05-13T14:43:26.006Z"
-  }
-},
-{
-  "model": "core.heroslide",
-  "pk": 6,
-  "fields": {
-    "created_by": [
-      "SirT"
-    ],
-    "last_modified_by": [
-      "-"
-    ],
-    "title": "In Collaboration with a Partner for a Medical Training",
-    "subtitle": "",
-    "description": "Welcome to Hasken Rayuwa Africa",
-    "image": "hero_slides/medical.png",
-    "button_text": "Read More",
-    "button_link": "https://lightoflifeafrica.org.ng/blog/Medical_Training/",
-    "order": 5,
-    "is_active": true,
-    "created_at": "2025-04-15T14:05:33.382Z",
-    "updated_at": "2025-05-02T10:19:23.962Z"
-  }
-},
-{
-  "model": "core.heroslide",
-  "pk": 7,
-  "fields": {
-    "created_by": [
-      "-"
-    ],
-    "last_modified_by": [
-      "-"
-    ],
-    "title": "The Father’s Love being demonstrated through Medical Outreach",
-    "subtitle": "",
-    "description": "Welcome to Hasken Rayuwa Africa",
-    "image": "hero_slides/medical_PNG2_1.png",
-    "button_text": "Read More",
-    "button_link": "https://lightoflifeafrica.org.ng/blog/Medical_Mission/",
-    "order": 6,
-    "is_active": true,
-    "created_at": "2025-05-07T12:23:46.621Z",
-    "updated_at": "2025-05-07T12:23:46.621Z"
+    "created_at": "2024-11-22T00:28:35.815Z",
+    "updated_at": "2024-11-22T00:28:35.815Z"
   }
 },
 {
   "model": "core.statistics",
-  "pk": 2,
+  "pk": 1,
   "fields": {
-    "created_by": [
-      "-"
-    ],
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-04-23T12:33:31.690Z",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.838Z",
     "title": "Reaching Lives Across The Country",
     "subtitle": "Church Impact",
     "stat_title1": "Our Statistics",
     "stat_desc1": "An overview of the unreached people groups mostly in Nothern Nigeria",
     "stat_title2": "Explore unreached people",
     "stat_desc2": "Click on any colored state to see detailed statistics.",
-    "total_population": 75400000,
-    "people_groups": 18,
-    "states": 19,
-    "lgas": 462,
+    "total_population": 1202545,
+    "people_groups": 1204,
+    "states": 0,
+    "lgas": 0,
     "wards": 0,
-    "villages": 1824,
-    "converts": 28147,
-    "film_attendees": 0,
-    "people_reached": 899748,
-    "updated_at": "2026-04-17T05:44:08.708Z",
-    "bible_translations": 0,
-    "active_missionaries": 0,
-    "training_sessions": 0
+    "villages": 1830,
+    "converts": 2000,
+    "film_attendees": 25000,
+    "people_reached": 20443,
+    "updated_at": "2024-12-02T22:52:15.383Z",
+    "bible_translations": 3,
+    "active_missionaries": 10,
+    "training_sessions": 11
   }
 },
 {
@@ -199,35 +79,33 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-01-11T14:01:13.383Z",
-    "villages": 1824,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.210Z",
+    "villages": 963,
     "villages_description": "We have reached several villages so far. We continue to reach several villages with the gospel of Jesus",
-    "people_saved": 28147,
+    "people_saved": 0,
     "people_saved_description": "People have accepted the salvation gospel to receive Christ through our outreach",
-    "people_reached": 899748,
-    "people_reached_description": "People have been reached with the gospel and have been discipled to walk with the unconditional love of Christ.",
-    "states_reached": 8,
+    "people_reached": 0,
+    "people_reached_description": "People have been reached with the gospel and have been discipled to walk with the professional love",
+    "states_reached": 0,
     "states_reached_description": "States We have covered",
-    "lgas_reached": 58,
+    "lgas_reached": 0,
     "lgas_reached_description": "Local Governments we have covered",
-    "wards_reached": 900,
+    "wards_reached": 0,
     "wards_reached_description": "Wards we have covered",
-    "people_discipled": 6731,
+    "people_discipled": 0,
     "people_discipled_description": "People have submitted to Discipleship",
-    "people_baptized": 3890,
+    "people_baptized": 0,
     "people_baptized_description": "People have submitted to Discipleship",
-    "started_discipleship": 8284,
+    "started_discipleship": 0,
     "started_discipleship_description": "People started our Discipleship Program",
-    "bibles_shared": 1016,
+    "bibles_shared": 212121,
     "bibles_shared_description": "Bibles were shared",
-    "audiobibles_shared": 14,
+    "audiobibles_shared": 16548,
     "audiobibles_description": "Audio Bibles shared",
-    "sdcards_shared": 4574,
+    "sdcards_shared": 0,
     "sdcard_description": "SD cards contain resources were shared",
-    "updated_at": "2025-04-28T14:34:22.960Z"
+    "updated_at": "2024-11-21T23:55:13.627Z"
   }
 },
 {
@@ -235,14 +113,12 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-01-11T14:01:14.594Z",
-    "updated_at": "2025-04-24T09:24:55.437Z",
-    "title": "Reaching Lives Across the Nation",
-    "description": "",
-    "image": "ministry_section/GO_PRAY_GIVE.png"
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.567Z",
+    "updated_at": "2026-04-18T09:18:05.603Z",
+    "title": "Reaching Lives Across The Country",
+    "description": "At the heart of what we do is continuous prayer for the Unreached People Groups (UPGs). We systematically commit everyday one UPG from the entire UPGs and then specifically one UPG in the African portion of the 10/40 window.",
+    "image": "ministry_section/1.jpg"
   }
 },
 {
@@ -250,14 +126,12 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-01-11T14:01:14.394Z",
-    "updated_at": "2025-04-24T09:28:29.803Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.534Z",
+    "updated_at": "2026-04-18T09:18:05.564Z",
     "title": "We Pray",
     "description": "Engage in powerful prayer sessions, lifting up the needs of our community, nation, and the world. Our prayer warriors are committed to seeking God's guidance and intervention in all areas of life.",
-    "icon": "",
+    "icon": "ministry_icons/praying-hands_14672046.png",
     "order": 1
   }
 },
@@ -266,14 +140,12 @@
   "pk": 2,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-01-11T14:01:14.394Z",
-    "updated_at": "2025-04-24T09:29:34.955Z",
-    "title": "We Go",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.534Z",
+    "updated_at": "2026-04-18T09:18:05.564Z",
+    "title": "We Fellowship",
     "description": "Go beyond the walls of our church building to reach and impact communities. Through outreach programs and missions, we aim to share the love of Christ and meet the practical needs of those around us.",
-    "icon": "",
+    "icon": "ministry_icons/dead_9642129.png",
     "order": 2
   }
 },
@@ -282,14 +154,12 @@
   "pk": 3,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-01-11T14:01:14.394Z",
-    "updated_at": "2025-04-24T09:29:58.795Z",
-    "title": "We Give",
-    "description": "We invest in the spiritual growth, development of individuals and provide teaching, mentorship, and support to help believers deepen their relationship with God and live out their faith in meaningful ways. You can give financially towards sponsoring/supporting this ministry",
-    "icon": "",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.534Z",
+    "updated_at": "2026-04-18T09:18:05.564Z",
+    "title": "We Disciple",
+    "description": "We invest in the spiritual growth, development of individuals and provide teaching, mentorship, and support to help believers deepen their relationship with God and live out their faith in meaningful ways.",
+    "icon": "ministry_icons/man_9936625.png",
     "order": 3
   }
 },
@@ -298,14 +168,12 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "updated_at": "2025-04-28T15:10:58.149Z",
-    "title": "What you can do section",
-    "image": "gallery/485159500_955751143275070_6399250685668538782_n_1.jpg",
+    "last_modified_by": null,
+    "updated_at": "2026-04-18T09:18:05.413Z",
+    "title": "Image 1",
+    "image": "gallery/2.jpg",
     "description": "",
-    "created_at": "2024-12-15T13:55:51.007Z",
+    "created_at": "2024-11-21T22:41:26.375Z",
     "is_featured": true
   }
 },
@@ -314,14 +182,12 @@
   "pk": 2,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "updated_at": "2025-04-28T14:37:31.711Z",
-    "title": "Image 2",
-    "image": "gallery/rsz_img_7997.jpg",
+    "last_modified_by": null,
+    "updated_at": "2026-04-18T09:18:05.413Z",
+    "title": "go",
+    "image": "gallery/IMG_9190.jpg",
     "description": "",
-    "created_at": "2024-12-15T13:56:48.100Z",
+    "created_at": "2024-11-21T22:42:47.367Z",
     "is_featured": true
   }
 },
@@ -330,14 +196,12 @@
   "pk": 3,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "updated_at": "2025-04-28T14:37:15.228Z",
-    "title": "Image 3",
-    "image": "gallery/rsz_img_9190.jpg",
+    "last_modified_by": null,
+    "updated_at": "2026-04-18T09:18:05.413Z",
+    "title": "21",
+    "image": "gallery/IMG_0386.JPG",
     "description": "",
-    "created_at": "2024-12-15T13:57:45.289Z",
+    "created_at": "2024-11-21T22:43:36.979Z",
     "is_featured": true
   }
 },
@@ -347,11 +211,11 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "updated_at": "2025-01-11T14:01:14.057Z",
-    "title": "Image 4",
-    "image": "gallery/rsz_group_1.jpg",
+    "updated_at": "2026-04-18T09:18:05.413Z",
+    "title": "4",
+    "image": "gallery/IMG_0387.JPG",
     "description": "",
-    "created_at": "2024-12-15T13:58:06.964Z",
+    "created_at": "2024-11-21T22:44:02.543Z",
     "is_featured": true
   }
 },
@@ -360,14 +224,12 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.322Z",
-    "updated_at": "2026-04-17T12:35:13.829Z",
-    "title": "About Us",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.193Z",
+    "updated_at": "2026-04-18T09:18:05.207Z",
+    "title": "ABOUT US",
     "banner_subtitle": "Proclaiming the Gospel to unreached people groups across Northern Nigeria since 2006.",
-    "header_image": "about/About_guZzVDs.jpg",
+    "header_image": "about/group_1.jpg",
     "introduction": "Hasken Rayuwa Afrika Ministry exists to demonstrate the Father’s redemptive love among the Unreached People Groups (UPGs) of the African portion of the 10/40 window. Our mission is to actively participate in fulfilling the Great Commission, aiming to see its completion within our lifetime. Through dedicated efforts and compassionate outreach, we strive to bring the light of hope and transformation to those who have yet to experience the message of redemption.",
     "ministry_goal": "Our goal is to fully reach the African portion of the 10/40 window with the gospel of the Lord Jesus Christ. This we will do as we establish and send 100 Go Teams to the regions of this portion where darkness is prevalent to bring the light of the gospel in the face of Jesus Christ.\r\n\r\nWe train, organize and host short-term mission trips and medical missions, we also encourage volunteers who will go and support our Go Teams.",
     "cta_heading": "Be Part of Something Eternal",
@@ -379,15 +241,13 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.264Z",
-    "updated_at": "2025-11-14T15:05:37.978Z",
-    "title": "JESUS FILM",
-    "description": "The Jesus Film a powerful visual portrayal of the life, teachings, death, and resurrection of Christ presented in the indigenous languages of the people has become a remarkable tool for our ministry. It not only register the presence and influence of Jesus in the communities we visit, but also draw out testimonies of salvation and renewed faith. Through these outreaches, many have encountered Christ in a personal and life-changing way. Truly, God is using this initiative to touch hearts, transform lives, and expand His kingdom.\r\n\r\nFor many who watch the Jesus Film, it is their first time seeing any film at all, making the experience even more impactful. And while many desire to place their trust in Jesus, fear of radical Islam often keeps them from expressing their faith openly. Yet even in these challenging environments, the gospel continues to shine with transforming power.",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.178Z",
+    "updated_at": "2026-04-18T09:18:05.190Z",
+    "title": "DAY 1 – 'JESUS' FILM",
+    "description": "When one of our teams arrive in a village, they meet with leaders, gather the local people, and invite them to watch the 'Jesus' film and other follow up films.\r\n\r\nThe 'Jesus' Film provides a powerful presentation of the life of Christ in the indigenous languages of the people. Many who see the 'Jesus' film have never seen a film before. Traditionally, most of the people who see the 'Jesus' Film would love place their trust in Jesus Christ but for the fear of radical Islam.",
     "order": 1,
-    "image": "about/min_img/JESUS_FILM.jpg"
+    "image": "about/min_img/5.jpg"
   }
 },
 {
@@ -395,15 +255,13 @@
   "pk": 2,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.264Z",
-    "updated_at": "2025-11-15T10:47:24.860Z",
-    "title": "FOLLOW UP",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.178Z",
+    "updated_at": "2026-04-18T09:18:05.190Z",
+    "title": "DAY 2 – FOLLOW UP",
     "description": "The next morning, our teams follow up with villagers by going door to door, introducing them to an audio Bible in their native language, and inviting them to watch 'Walking with Jesus' in the evening.",
     "order": 2,
-    "image": "about/min_img/FOLLOW_UP.jpg"
+    "image": "about/min_img/Project38.jpeg"
   }
 },
 {
@@ -411,15 +269,13 @@
   "pk": 3,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.264Z",
-    "updated_at": "2025-11-14T16:27:22.811Z",
-    "title": "SMALL GROUPS",
-    "description": "HRAM's teams continue door-to-door ministry and invite people to small groups held in the afternoon. They facilitate these small Bible studies, called LAMP groups, using lesson plans and audio Bibles. In some places, these activities are met with strong resistance; instead, we stick with the night film shows.",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.178Z",
+    "updated_at": "2026-04-18T09:18:05.190Z",
+    "title": "DAY 3 – SMALL GROUPS",
+    "description": "HRAM's teams continue door to door ministry with and invite people to small groups held in the afternoon. They facilitate these small Bible studies, called LAMP groups, using lesson plans and audio Bibles. In some places these activities are met with strong resistance instead we stick with the night film shows.",
     "order": 3,
-    "image": "about/min_img/smallg.png"
+    "image": "about/min_img/Project41_1.jpeg"
   }
 },
 {
@@ -427,87 +283,13 @@
   "pk": 4,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.264Z",
-    "updated_at": "2025-11-14T15:54:23.638Z",
-    "title": "DISCIPLESHIP",
-    "description": "At the heart of our mission, discipleship is more than a follow-up program it’s a commitment to deeply invest in every individual who is touched by our Jesus Film, medicals and outreaches & Strategies. Wherever we go, and souls have been won for Jesus. we don’t just leave; we return the next morning, and begin building relationships, answering questions, and helping people walk with Christ. And we return again the Next week and even the next month.\r\nIn each community, we form discipleship groups often led by mature believers to mentor new believers in prayer, Scripture, and Christlike living. This relational, one-on-one or small group approach mirrors the model of Jesus and the apostles, allowing people to grow in faith through trust, accountability, and genuine connection. We keep visiting these places from time to time to ensure they are growing and are taught right.",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.178Z",
+    "updated_at": "2026-04-18T09:18:05.190Z",
+    "title": "DAY 4 – DISCIPLESHIP",
+    "description": "In the morning the teams follow up with all the people who gave their lives to the Lord and appoint a village leader to lead their LAMP group. The HLA teams advise the new LAMP leader on facilitating groups, watch him lead the next lesson, and equip him to continue groups and give weekly feedback to the HRAM's team.\r\n\r\nThe last evening of the village outreach, our teams show any of the 'Walking with Jesus' film, and lessons over the Holy Spirit, walking in the Spirit, and growing in Christ.",
     "order": 4,
-    "image": "about/min_img/discipleship.jpg"
-  }
-},
-{
-  "model": "core.aboutministry",
-  "pk": 5,
-  "fields": {
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-11-14T15:14:31.869Z",
-    "updated_at": "2025-11-15T10:50:27.765Z",
-    "title": "HASKEN AREWA FOUNDATION",
-    "description": "[SUMMARY]: The foundation is a non-governmental and non-profit charity-based organization with the mission of providing better living standards for economically disadvantaged out-of-school children and women in Northern Nigeria and adopting every available legal means towards facilitating the transition of underprivileged Northern Nigerians from poverty to wealth.  The foundation was founded in 2021 and is an offspring of the Hasken Rayuwa Afrika.                                                                  \r\n\r\n[VISION] :\r\nHasken Arewa Foundation envisions a Northern Nigerian society where all out-of-School children and young rural women will be allowed to succeed through scholarships for formal education for out-of-school children and skill acquisition for young women. This will give them access to basic life necessities like good food, good clothing, and healthy mental health, and enjoy a secure, vigorous, and civilized life. \r\n\r\n[MISSION STATEMENT] : Hasken Arewa Foundation is sent to Economically disadvantaged and banditry-affected out-of-school children and women in Africa, starting from core northern states such as Sokoto, which is in Northern Nigeria.\r\nAdopting every legal means towards facilitating the transition of underprivileged northern Nigerians from poverty to wealth.\r\n\r\n[WHAT WE ARE OUT AND ABOUT]\r\nOur target for the next five years is to enroll at least 100 children and women through compassionate donors...\r\n\r\n.\"..When you act now by being a sponsor, you will be adding value to a Child or woman in Northern Nigeria\".",
-    "order": 0,
-    "image": "about/min_img/HAF.jpg"
-  }
-},
-{
-  "model": "core.aboutministry",
-  "pk": 6,
-  "fields": {
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-11-15T08:40:38.524Z",
-    "updated_at": "2025-11-15T08:43:35.041Z",
-    "title": "MEDICAL OUTREACH",
-    "description": "Our medical outreach is a vital tool in opening hearts and doors to the Gospel. Through the compassion shown in providing medical care, we not only bring healing to the body but also create opportunities to minister to the soul. As we check vital signs and give medical advice and referrals many become receptive to the message of Christ, and souls are being won through this avenue of love and service. This powerful blend of medical care and faith continues to demonstrate God’s compassion and paves the way for ongoing evangelism, follow-up, and discipleship.",
-    "order": 5,
-    "image": "about/min_img/MEDICALS.jpg"
-  }
-},
-{
-  "model": "core.aboutministry",
-  "pk": 7,
-  "fields": {
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-11-15T10:35:31.524Z",
-    "updated_at": "2025-11-15T10:35:31.525Z",
-    "title": "FARMING GOD'S WAY",
-    "description": "At Hasken Rayuwa Africa Ministries, we use Farming God’s Way as a powerful tool for outreach. Our missionaries practice it in their own fields and train others to do the same, creating natural opportunities for relationship building, discipleship, and evangelism. Through improved harvests and hands-on demonstration of biblical principles, communities experience God’s love in practical and lasting ways\r\nFarming God’s Way is a faith-based, sustainable agricultural method rooted in biblical principles and practical stewardship. Using no tillage, organic manure, and the protective “Lord’s Blanket,” this approach restores soil health and increases crop yields even on small plots. By teaching farmers to start small, work diligently, and trust God’s provision, it brings both physical and spiritual transformation.",
-    "order": 7,
-    "image": "about/min_img/FGW.jpg"
-  }
-},
-{
-  "model": "core.aboutministry",
-  "pk": 8,
-  "fields": {
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-11-15T11:19:32.861Z",
-    "updated_at": "2025-11-17T11:02:51.118Z",
-    "title": "TRAININGS ON STRATEGIC AND EFFECTIVE WAYS TO REACH THE UNREACH",
-    "description": "At Hasken Rayuwa Africa Ministries, we are deeply committed to raising missionaries and pastors who carry God’s heart for the unreached especially those in the African portion of the 10/40 Window and isolated rural villages. We believe every community, no matter how far or forgotten, deserves the hope of the gospel and the tangible love of Christ.\r\nOur training equips leaders with the spiritual depth and practical skills needed for impactful ministry. Through evangelism, discipleship, community engagement, and outreach tools like the Jesus Film, medical missions, and Farming God’s Way, we prepare missionaries to meet real needs and share Christ with compassion and integrity.\r\nOur vision is to see Spirit-filled people reaching the most hidden corners of Africa bringing light, healing, and the redemptive love of Christ until every village has been touched by the good news.",
-    "order": 8,
-    "image": "about/min_img/trainings.jpg"
+    "image": "about/min_img/IMG_8369_1.jpg"
   }
 },
 {
@@ -516,12 +298,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:14.691Z",
-    "updated_at": "2025-01-11T14:01:14.778Z",
+    "created_at": "2026-04-18T09:18:05.606Z",
+    "updated_at": "2026-04-18T09:18:05.642Z",
     "mission_title": "Our Mission",
-    "mission_text": "Hasken Rayuwa Afrika Ministry exists to demonstrate the Father's redemptive love among the Unreached people Groups (UPGs) and the African portion of the 10/40 window and thereby help in bringing the Great Commission to a Great Completion in our lifetime.",
+    "mission_text": "Hasken Rayuwa Afrika Ministry exists to demonstrate the Father’s redemptive love among the Unreached People Group (UPGs) and the African portion of the 10/40 window and thereby help in bringing the Great Commission to a Great Completion in our lifetime.",
     "vision_title": "Our Vision",
-    "vision_text": "We see the white and ready fields of the African portion of the 10/40 window and empowered by the Spirit of God, our organization trains and sends Indigenous people who will bring in the great harvest in these last days.",
+    "vision_text": "We see the white and ready fields of the African portion of the 10/40 window and empowered by the spirit of God, our organization trains and sends indigenous people that will bring in the great harvest in these last days.\r\n\r\nAnd so I have made it my aim to preach the gospel, not where Christ was named, lest I should build on another man's foundation. Romans 15:20",
     "mission_image": "about/rb_44126.png",
     "vision_image": "about/rb_5899.png"
   }
@@ -531,23 +313,21 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.725Z",
-    "updated_at": "2025-11-15T12:21:30.979Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.295Z",
+    "updated_at": "2026-04-18T09:18:05.314Z",
     "title": "Our Challenges",
-    "description": "We need your support to continue to expand our efforts. By donating or volunteering, you can help us provide education to more children in Northern Nigeria. \r\n\r\nYou contribution can make a significant difference in the lives of these children and their Communities. Join us in empowering the next generation through education.",
-    "order": 1,
+    "description": "We need your support to continue and expand our efforts. By donating or volunteering, you can help us provide education to more children in northern Nigeria.\r\n\r\nYour contribution can make a significant difference in the lives of these children and their communities. Join us in empowering the next generation through education.",
+    "order": 0,
     "challenge1_title": "Reaching the Unreached in 10/40 Window",
-    "challenge1_desc": "The 10/40 Window is a region that stretches horizontally across the globe from Africa to Asia.",
-    "challenge1_image": "about/challenge/1040_window_oLE551U.jpg",
+    "challenge1_desc": "The 10/40 Window is a region that stretches horizontally across the globe from Africa to Asia\r\n\r\nThis area is home to a significant number of unreached people who have yet to hear the Gospel of Jesus Christ.\r\n\r\nTo put this into perspective, for every 10 people in this part of the world, nearly 5 are yet to hear about Jesus Christ.",
+    "challenge1_image": "about/challenge/IMG_8369_1.jpg",
     "challenge2_title": "Praying for the Unreached",
-    "challenge2_desc": "Prayer is a powerful tool in reaching those who are yet to hear the Gospel.",
-    "challenge2_image": "about/challenge/Pray_for_the_Globe.jpeg",
+    "challenge2_desc": "Prayer is a powerful tool in reaching those who have yet to hear the Gospel.\r\n\r\nBy dedicating time to pray for these unreached populations, we can help pave the way for spiritual breakthroughs and support the efforts of missionaries working in these challenging areas.",
+    "challenge2_image": "about/challenge/IMG_8415.jpg",
     "challenge3_title": "Supporting Education in Nigeria",
-    "challenge3_desc": "Education is a vital tool for breaking the cycle of poverty and empowering the next generation. In Nigeria, millions of children are missing out on this essential opportunity.",
-    "challenge3_image": "about/challenge/school.jpg"
+    "challenge3_desc": "Education is a vital tool for breaking the cycle of poverty and empowering the next generation. In Nigeria, however, millions of children are missing out on this essential opportunity.\r\n\r\nAccording to UNICEF, 18.3 million children in Nigeria are out of school.\r\n\r\nThe Hasken Arewa Foundation (HAF) is dedicated to helping these children by providing educational support and resources.\r\n\r\nTo date, we have successfully helped 30 children return to the classroom, but the need is far greater.\r\n\r\nTo provide educational support for 1,000 children each year, we require at least $7,000 annually.\r\n\r\nThis funding goes towards school supplies, tuition fees, and other essential resources that enable these children to receive a proper education.",
+    "challenge3_image": "about/challenge/IMG_8344.jpg"
   }
 },
 {
@@ -555,15 +335,13 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.659Z",
-    "updated_at": "2025-11-10T11:54:10.847Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.275Z",
+    "updated_at": "2026-04-18T09:18:05.292Z",
     "name": "Ibrahim Nathaniel",
     "position": "Executive Director",
-    "bio": "‎In August of 2014, the Lord impressed upon Ibrahim's heart to take a bold step in his spiritual journey and relocate to the city of Sokoto, deep in the northern parts of Nigeria. Ibrahim's formative years were largely spent immersed in the rustic countryside of Nigeria, where he was exposed to the compelling world of missions at a young age.\r\n\r\n\r\n‎\r\n‎ This foundational experience was largely due to his upbringing in a family deeply rooted in Christian values, spearheaded by his devout parents who were fervently missions-minded. After graduating from university in 2007, Ibrahim felt a powerful and undeniable call from God upon his life, one that he recognized as pivotal, urging him to follow it with diligence and faith. \r\n‎\r\n‎Despite facing considerable persecution and relentless pressure from various quarters to stray from this path, Ibrahim remained steadfast, choosing to trust in God alone to lead his journey forward. He demonstrated his commitment to this divine calling by stepping into a leadership role, serving dutifully as the president of the Nigeria Christian Corpers Fellowship (NCCF) in Lagos, an organization primarily dedicated to the transformative cause of Rural Rugged Evangelism. \r\n‎\r\n‎Upon the completion of his National Youth Service Corps (NYSC) responsibilities, Ibrahim also served devotedly as an associate pastor at Paraclete Chapel in Zuru, Kebbi State, for a significant period of three years. It was at the culminating point of these three fulfilling years in Zuru that Ibrahim felt a strengthened resolve in his calling to move to Sokoto, driven by the burden in his heart for the urgent mission of the completion of the Great Commission. \r\n\r\n‎\r\n‎Today, Ibrahim holds the position of the Executive Director at Hasken Rayuwa Afrika Ministry, where he works alongside his lovely wife, Gotname, who occupies the role of Director of Foundation. Together, they have devoted their efforts to building this vibrant ministry and foundation, receiving invaluable guidance from Here’s Life Africa Mission, a renowned mission based out of Arusha, Tanzania in the heart of East Africa. This couple's journey has been defined by dedication and perseverance, resulting in a ministry that provides hope and strength to communities that often feel overlooked.\r\n‎\r\n‎He, accompanied by a passionate team of missionaries under his leadership, devotes themselves tirelessly to ministering in the remote areas and underserved villages located in Northern Nigeria and the Niger Republic. These regions fall within what is recognized as the 10/40 window—a term used to describe the area of the world where the majority of unreached people groups reside, each day unfolds as an opportunity to warmly invite men, women, and children into the embrace of the Kingdom. \r\n‎\r\n‎The foundation also plays a crucial role by facilitating educational, medical, and social programs aimed at supporting vulnerable groups, including the persecuted church. These programs often serve as a gateway for conversations that open pathways for Missions. Through the mercy of God, the Ministry has reached over 2,000 villages, impacting approximately 5 million lives, with over a million individuals accepting Christ as their Lord and Savior by utilizing a systematic and strategic approach imparted to him by the Holy Spirit through divine teachings. \r\n‎\r\n‎He also dedicates a significant portion of his time and efforts to training and mentoring other mission organizations, as well as frontline pastors, equipping them with practical tools and systematic methods for effectively penetrating and engaging in unreached territories. His goal is to reconcile the lost back to Yahweh, emphasizing the profound and universal need for dicipleship. In his view, this monumental task of reconciliation and dicipleship is not something that can be accomplished by a single individual or organization working in isolation. Instead, he advocates for a collaborative and collective effort, where sharing resources and strategies amplifies the impact and efficacy of their mission.\r\n‎\r\n‎Amidst this remarkable work, Ibrahim and his supportive wife, Gotname, have created a nurturing home in Sokoto, where they reside with their children, Jasmine Charisa, Joshua Salim and Zoe.",
-    "image": "board/Pst_Ibrahim.jpg",
+    "bio": "In the August of 2014, the Lord impressed on Ibrahim’s heart to relocate to Sokoto. Ibrahim grew up mostly in the rural setting in Nigeria and had the opportunity to experience missions at a tender age having been raised by parents who were good Christians and missions minded.\r\n\r\nAfter graduating from the university in 2007, Ibrahim knew that the call of God upon his life must be followed and not thrown away.\r\n\r\nIn following that call, Ibrahim faced a lot of persecution and pressure to abandon it, but he still held on trusting God alone to lead the way.\r\n\r\nIbrahim served as the president of Nigeria Christian Corpers Fellowship (NCCF), Lagos where the major focus is Rural Rugged Evangelism, after his National Youth Serve Corp (NYSC) he also served as an associate Pastor at Paraclete Chapel, Zuru Kebbi State for 3 years.\r\n\r\nIt was at the expiration of the 3 years in Zuru that Ibrahim moved to Sokoto to follow the burden in his heart for the world harvest.\r\n\r\nToday as the National Director at Hasken Rayuwa Afrika Ministry, a ministry he helped founded from the start with the help and mentorship of Here’s Life Africa Mission based in Arusha, Tanzania in East Africa, he ministers in the remote villages of Northern Nigeria and Niger Republic where men, women and children are daily won into the Kingdom.\r\n\r\nIbrahim and his wife Gotname are based in Sokoto with their two children Jasmine Charisa and Joshua Salim.",
+    "image": "board/Ibrahim-Nathaniel-DRcoNeca.png",
     "order": 1
   }
 },
@@ -572,13 +350,11 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:14.978Z",
-    "updated_at": "2025-01-13T17:21:37.505Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.724Z",
+    "updated_at": "2026-04-18T09:18:05.767Z",
     "title": "HASKE PROJECTS",
-    "header_image": "projects/event-2-DiOeMxU8.png",
+    "header_image": "projects/IMG_8349.jpg",
     "introduction": "At Hasken Rayuwa Afrika, one of our main activities is humanitarian outreach. We assist underprivileged communities, especially in northern Nigeria, with both their physical needs and the Gospel. Many villages face environmental challenges and insurgency-related hardships. Our outreach aims to support as many individuals and communities as possible in these areas."
   }
 },
@@ -587,81 +363,67 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:14.882Z",
-    "updated_at": "2025-01-13T17:42:07.545Z",
-    "title": "Community Empowerment",
-    "description": "Grinders, water pumps, and soft loans for farmers are distributed by HRAM to reduce the impact of poverty, so that these individuals' hope will be restored and so that parents will have a means of feeding their families.",
-    "image": "projects/rsz_img_9919-recovered.jpg",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.683Z",
+    "updated_at": "2026-04-18T09:18:05.721Z",
+    "title": "Well Construction",
+    "description": "Water pollution, poorly constructed wells, and villages without a source of water cause a lot of disease to the partakers of such water and this seems to be the reality of many villages/communities in the northern part of Nigeria. As the saying goes “Prevention is better cure’’.  Northern Nigeria being a desert state has its disadvantages and difficulties in reaching a reasonable water level due to harsh dry weather. HRAM brings hope and life by digging wells.",
+    "image": "projects/event-1-X02nkQhL.jpeg",
     "order": 1,
-    "beneficiaries": 10,
-    "location": "Sokoto",
-    "date": "2024-12-15"
+    "beneficiaries": 0,
+    "location": "Northern Nigeria",
+    "date": "2024-12-04"
   }
 },
 {
   "model": "core.project",
   "pk": 2,
   "fields": {
-    "created_by": [
-      "onahjonah"
-    ],
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-13T17:29:18.842Z",
-    "updated_at": "2025-01-13T17:29:18.843Z",
-    "title": "Well Construction",
-    "description": "Water pollution, poorly constructed wells, and villages without a source of water cause a lot of disease to the partakers of such water and this seems to be the reality of many villages/communities in the northern part of Nigeria. As the saying goes \"Prevention is better cure\", Northern Nigeria being a desert state has its disadvantages and difficulties in reaching a reasonable water level due to harsh dry weather. HRAM brings hope and life by digging wells.",
-    "image": "projects/Project8.jpeg",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.683Z",
+    "updated_at": "2026-04-18T09:18:05.721Z",
+    "title": "Feeding the Community/Villages",
+    "description": "Malnutrition is one of the severe health issues affecting many villages due to poverty and scarcity of resources. Giving out food and gifts to households, Cash gifts for farmers go a long way in adding value, giving a sense of purpose and love in the lives of the most vulnerable of the communities.",
+    "image": "projects/event-2-DiOeMxU8.png",
     "order": 2,
-    "beneficiaries": 1000,
-    "location": "",
-    "date": null
+    "beneficiaries": 2330,
+    "location": "Northern Nigeria",
+    "date": "2024-09-15"
   }
 },
 {
   "model": "core.project",
   "pk": 3,
   "fields": {
-    "created_by": [
-      "onahjonah"
-    ],
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-13T17:34:46.766Z",
-    "updated_at": "2025-01-13T17:34:46.766Z",
-    "title": "Feeding the Community/Villages",
-    "description": "Malnutrition is one of the severe health issues affecting many villages due to poverty and scarcity of resources. Giving out food and gifts to households, Cash gifts for farmers go a long way in adding value, giving a sense of purpose and love in the lives of the most vulnerable of the communities.",
-    "image": "projects/food.jpg",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.683Z",
+    "updated_at": "2026-04-18T09:18:05.721Z",
+    "title": "Medical Outreaches",
+    "description": "Poor Health Care centers in most villages; diseases like Noma disease, malaria, typhoid, and infections are easily contracted because of poor hygienic environment and lack of preventive measures towards such sicknesses and diseases. We have partnered with organizations such as the Medicine Sans Frontier to bring drugs and Health education to villages and communities.",
+    "image": "projects/event-3-TvmtAET_.png",
     "order": 3,
-    "beneficiaries": 1500,
-    "location": "",
-    "date": null
+    "beneficiaries": 3220,
+    "location": "Northern Nigeria",
+    "date": "2024-02-21"
   }
 },
 {
   "model": "core.project",
   "pk": 4,
   "fields": {
-    "created_by": [
-      "onahjonah"
-    ],
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-13T17:41:06.311Z",
-    "updated_at": "2025-01-13T17:41:06.312Z",
-    "title": "Medical Outreaches",
-    "description": "Poor Health Care centers in most villages; diseases like Noma disease, malaria, typhoid, and infections are easily contracted because of poor hygienic environment and lack of preventive measures towards such sicknesses and diseases. We have partnered with organizations such as the Medicine Sans Frontier to bring drugs and Health education to villages and communities.",
-    "image": "projects/IMG_20230727_031802_005_-_Ishaku_Bashar.jpg",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.683Z",
+    "updated_at": "2026-04-18T09:18:05.721Z",
+    "title": "Community Empowerment",
+    "description": "Grinders, water pumps, and soft loans for farmers are distributed by HRAM to reduce the impact of poverty, so that these individuals' hope will be restored and so that parents will have a means of feeding their families.",
+    "image": "projects/event-4-BIFpcayL.png",
     "order": 4,
-    "beneficiaries": 950,
-    "location": "",
-    "date": null
+    "beneficiaries": 1230,
+    "location": "Northern Nigeria",
+    "date": "2024-06-05"
   }
 },
 {
@@ -669,82 +431,51 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:15.899Z",
-    "updated_at": "2025-01-13T17:45:39.747Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.948Z",
+    "updated_at": "2026-04-18T09:18:05.991Z",
     "title": "VOLUNTEER",
-    "header_image": "volunteer/rsz_group_1.jpg",
-    "introduction": "Hasken Rayuwa Afrika believes that For the Great Commission to be fulfilled there have to be those who will Go, Give, and Pray. We the body of Christ have our role to play. There are over 70 million unreached Muslims in Northern Nigeria alone, and we cannot reach them without the proper number of those who will go, give, and pray. These are the threefold that will bring about the fulfillment of the kingdom. Become a Volunteer Today."
+    "header_image": "volunteer/IMG_8566-Recovered.jpg",
+    "introduction": "Hasken Rayuwa Afrika believes that For the Great Commission to be fulfilled there have to be those who will Go, Give, and Pray. We the body of Christ have our role to play.\r\nThere are over 70 million unreached Muslims in Northern Nigeria alone, and we cannot reach them without the proper number of those who will go, give, and pray.\r\nThese are the threefold that will bring about the fulfillment of the kingdom. Become a Volunteer Today."
   }
 },
 {
   "model": "core.goteam",
   "pk": 1,
   "fields": {
-    "created_by": [
-      "onahjonah"
-    ],
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:14Z",
-    "updated_at": "2025-01-13T17:55:48.547Z",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.444Z",
+    "updated_at": "2026-04-18T09:18:05.470Z",
     "title": "Go-Teams",
-    "description": "Team Philemon, Barnabas, Luke, Mark, Epaphras, Apollo, Titus, Timothy, and Silas. These nine teams play their roles as the individuals who go for the ministry, to the unreached, empowered, and anointed they travel in two's.",
-    "image": "volunteer/teams/IMG_9190eidted.jpg"
+    "description": "Team Philemon, Barnabas, Luke, Mark, Epaphras, Apollo, Titus, Timothy, and Silas. These nine teams play their roles as the individuals who go for the ministry, to the unreached, empowered, and anointed they travel in twos.",
+    "image": "volunteer/teams/IMG_9190.jpg"
   }
 },
 {
   "model": "core.prayerpartner",
   "pk": 1,
   "fields": {
-    "created_by": [
-      "onahjonah"
-    ],
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:14Z",
-    "updated_at": "2025-01-13T17:58:40.497Z",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.645Z",
+    "updated_at": "2026-04-18T09:18:05.680Z",
     "title": "Prayer Partners",
-    "description": "When Jesus taught his Disciples to pray, He said \"Abba Father, Hallo be thy name, thy Kingdom come, thy will be done on earth as it is in Heaven\" This means prayer is one of the requirements if the will of God must be done on the earth. Jesus speaks saying \"My house shall be called the house of prayer\". Prayer cannot be overemphasized when it comes to the fulfillment of God's will on earth. This is why we are seeking those who will join us in prayer for the fulfillment of the will of God upon the surface of the earth. Will you volunteer to pray?",
-    "image": "volunteer/prayer/IMG_9901edited.JPG"
+    "description": "When Jesus taught his Disciples to pray, He said \"Abba Father, Hallo be thy name, thy Kingdom come, thy will be done on earth as it is in Heaven\" This means prayer is one of the requirements if the will of God must be done on the earth. Jesus speaks saying “My house shall be called the house of prayer”. Prayer cannot be overemphasized when it comes to the fulfillment of God's will on earth. This is why we are seeking those who will join us in prayer for the fulfillment of the will of God upon the surface of the earth.",
+    "image": "volunteer/prayer/IMG_9901.JPG"
   }
 },
 {
   "model": "core.givesection",
   "pk": 1,
   "fields": {
-    "created_by": [
-      "onahjonah"
-    ],
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:14Z",
-    "updated_at": "2026-02-18T12:59:12.245Z",
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.416Z",
+    "updated_at": "2026-04-18T09:18:05.441Z",
     "title": "Give",
-    "description": "Again proclaim, saying, \"Thus says the Lord of hosts: 'My cities shall again spread out through prosperity; The Lord will again comfort Zion, and will again choose Jerusalem.'\" Zechariah 1:17, \r\n\r\nIt's impossible for the Gospel of Christ to be peached without resources. One of these resources is finances. The spreading of the Gospel requires resources, so therefore there has to be those that will give. Will you partner as a kingdom financier?",
-    "image": "volunteer/give/IMG_8387edited.jpg"
-  }
-},
-{
-  "model": "core.givesection",
-  "pk": 2,
-  "fields": {
-    "created_by": [
-      "SirT"
-    ],
-    "last_modified_by": [
-      "SirT"
-    ],
-    "created_at": "2026-02-18T12:56:46Z",
-    "updated_at": "2026-02-18T12:58:58.385Z",
-    "title": "Christmas Community Celebration:",
-    "description": "On Christmas Day 2025, we embarked on a special food distribution outreach as a practical expression of the redemptive love and compassion of our God. Our team visited Usmanu Danfodiyo University Teaching Hospital, reaching the children’s ward and the male surgical ward, as well as Gwiwa Low-Cost Community and the IDP population there. We also extended this act of love to Arkilla Gwandu Community and its IDP population. In the spirit of Christmas, over 700 packs of food were distributed, bringing comfort, joy, and hope to individuals and families during the celebration of Christ’s birth.",
-    "image": "volunteer/give/12.jpg"
+    "description": "Again proclaim, saying, ‘Thus says the Lord of hosts: “My cities shall again spread out through prosperity; The Lord will again comfort Zion, and will again choose Jerusalem.” Zechariah 1:17, It's impossible for the Gospel of Christ to be peached without resources. One of these resources is finances. The spreading of the Gospel requires resources, so therefore there has to be those that will give.",
+    "image": "volunteer/give/IMG_9919-Recovered.jpg"
   }
 },
 {
@@ -752,261 +483,33 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "-"
-    ],
-    "created_at": "2025-01-11T14:01:14.302Z",
-    "updated_at": "2025-04-25T12:51:31.403Z",
-    "title": "MEDIA & RESOURCES",
-    "header_image": "media/media_and_Resource.png",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.500Z",
+    "updated_at": "2026-04-18T09:18:05.531Z",
+    "title": "Media Center",
+    "header_image": "media/media_center.png",
     "blog_section_title": "Latest Blog Posts",
-    "youtube_section_title": "Youtube Videos",
-    "podcast_section_title": "Audio Messages"
+    "youtube_section_title": "Our Videos",
+    "podcast_section_title": "Our Audio Messages"
   }
 },
 {
   "model": "core.blogpost",
-  "pk": 2,
+  "pk": 1,
   "fields": {
-    "created_at": "2025-01-11T14:01:13.627Z",
-    "updated_at": "2025-01-11T14:01:13.650Z",
-    "title": "ERADICATING POVERTY THROUGH EDUCATION",
-    "slug": "eradicating-poverty-through-education",
-    "featured_image": "blog/20210813_191310.png",
-    "content": "<p>ERADICATING POVERTY THROUGH EDUCATION</p>\r\n\r\n<p>Eradicating poverty should be our main focus because poverty plays a major role in the increase of crime and deaths which results from lack. Throughout the world and especially in Nigeria in recent years had to come to terms with the suffering that springs from poverty. This menace has also brought a diminish in education, as children from poor families and communities can hardly eat, how could they school or provide for all that is necessary for school?</p>\r\n\r\n<p>Children and young women raised in poverty tend to miss school more often because of illness. They also have a much higher rate of accidents than do other children, and they are twice as likely to have impaired vision and hearing, iron deficiency anemia, and higher than normal levels of lead in the blood, which can impair brain function. More likely to be victims of sexual based violence or domestic violence. Girls are denied an education for being girls; some of them are forced into early marriages with their dreams of getting an education halted, some are raped, tricked into getting pregnant and so disowned or abandoned to the mercy of the streets, although with willing parents but being poverty-stricken, makes it almost impossible to attend school at an early age, such children and young women have to prioritize and given an opportunity to flourish by giving them access to education through sponsorship.</p>\r\n\r\n<p>According to UNESCO, if all students in low-income countries had just basic reading and writing skills (nothing else), an estimated 171 million people could escape extreme poverty. If all adults completed secondary education, we could cut the global poverty rate by more than half. Education develops skills and abilities, corrects some of the imbalances that come out of marginalization, and decreases both risk and vulnerability. Some of the key areas, that Hasken Rayuwa Foundation Afrika will focus on to make sure that education eradicates poverty is by providing the necessary resources needed for a child to go to school and complete it. Children of different ages need all the help from, the provision of school fees, providing reading and writing material, lunch, uniform, school bags, shoes, and an extra after-school tutorship where needed.</p>\r\n\r\n<p>Join Hasken Rayuwa Foundation Afrika today to change the lives of children and young women in Northern Nigeria and Africa. With Just a weekly donation of as low as 2$ (1,420 Naira only) Sent here Hasken Rayuwa Afrika 1016475161 Zenith Bank PLC You will be contributing to the education of children of different age groups in Nigeria. Or sponsor a child for a whole session, per term, or one-time support?🙏</p>\r\n\r\n<p>Call for inquiries: 08164807904 (Gotname) or gotnamewrites.org Email: Redeagleeye7@yahoo.com Thank you so much for being caring and compassionate. Hasken Rayuwa Afrika 1016475161 Zenith Bank PLC</p>",
-    "excerpt": "https://youtu.be/h0BwCjqT1Yg",
-    "author": "Gotnamewrites",
-    "published_date": "2024-12-26T03:54:06.021Z",
-    "updated_date": "2025-01-11T12:50:19.570Z",
+    "created_at": "2026-04-18T09:18:05.266Z",
+    "updated_at": "2026-04-18T09:18:05.273Z",
+    "title": "We Gave Bible Translations",
+    "slug": "we-gave-bible-translations",
+    "featured_image": "blog/IMG_8369_1.jpg",
+    "content": "In a world where language and culture define the way people connect to their faith, the importance of reading sacred texts in one’s native tongue cannot be overstated. This week, we had the incredible opportunity to bring that connection closer to reality by distributing Bible translations to communities in Sokoto, Nigeria.\r\n\r\nEmpowering Communities Through Scripture\r\nSokoto is known for its vibrant culture and deep-rooted traditions. However, many individuals in the region have limited access to religious texts in their native languages. Recognizing this need, our team worked diligently to provide translated Bibles, making the Word of God accessible to more people.\r\n\r\nDuring our visit, we met with local leaders, families, and youth. The joy and gratitude they expressed as they received their copies of the translated Bible were truly heartwarming. One of the recipients, a young woman named Amina, shared how this gift would deepen her understanding of her faith and help her connect with her community on a spiritual level.\r\n\r\nThe Impact of Native Language Scripture\r\nWhen people can read and reflect on the Bible in their own language, the message resonates more deeply. It allows them to explore their faith in a way that feels personal and relatable. For many in Sokoto, this was the first time they had access to a Bible written in their mother tongue.\r\n\r\nThe translations we provided were not just books; they were bridges—connecting individuals to their spiritual heritage and fostering a sense of unity within the community. In addition, we supplied other faith-based resources to support their spiritual growth.\r\n\r\nA Shared Mission\r\nThis initiative was made possible through the collaboration of various partners, whose support was invaluable. Together, we are committed to spreading hope, love, and understanding by ensuring that every individual has access to spiritual resources in the language they understand best.\r\n\r\nLooking Ahead\r\nOur work in Sokoto is just the beginning. We are inspired to continue this mission, bringing translated Bibles to other regions in need. The smiles and stories we encountered in Sokoto reaffirmed our belief in the power of language to transform lives.\r\n\r\nWe extend our heartfelt thanks to everyone who made this initiative possible, and we look forward to sharing more stories of impact as we move forward.",
+    "excerpt": "In a world where language and culture define the way people connect to their faith, the importance of reading sacred texts in one’s native tongue cannot be overstated. This week, we had the incredible opportunity to bring that connection ...",
+    "author": "Jonah",
+    "published_date": "2024-12-04T12:15:08.014Z",
+    "updated_date": "2024-12-04T12:22:47.819Z",
     "is_featured": true,
     "created_by": null,
     "last_modified_by": null
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 3,
-  "fields": {
-    "created_at": "2025-01-11T14:01:13.627Z",
-    "updated_at": "2025-01-11T14:01:13.650Z",
-    "title": "BREAKTHROUGH HUMANITARIAN OUTREACH AT MAIDUGURI 2025.....",
-    "slug": "breakthrough-humanitarian-outreach-at-maiduguri-20",
-    "featured_image": "blog/472670285_9832193370141325_598357496108313699_n.jpg",
-    "content": "<p>We are filled with gratitude as we reflect on the wonderful ways in which God guided us through 2024, leaving us with profound testimonies and significant victories. As we welcomed the year 2025, we initiated a transformative outreach in Maiduguri, Borno State, partnering with Gateway Church and Hasken Rayuwa Afrika.</p>\r\n\r\n<p>Through the efforts of its Foundation (Hasken Arewa Foundation), we were able to provide much-needed relief materials to those displaced by flooding, as well as support for widows and orphans. We are truly witnessing the hand of God at work in our ministry this year, and we are immensely thankful for these blessings.</p>\r\n\r\n<p>Pastor Ibrahim Nathaniel, our National Director, along with his wife and a committed team of volunteers, shared the message of Matthew 25:35-40, emphasizing that acts of kindness towards others are not only valuable but also serve as acts of service to Jesus. They assured the individuals we served that they are cherished by God and that He will never forget them. Through this outreach, God has indeed revealed His glory.</p>\r\n\r\n<p>#haskenrayuwaafrika #Giving #maiduguri #pastoribrahimnathaniel #2024floodingvictims #gatewaychurch #familyworshipcentreabuja #ReliefMaterials #haskenarewafoundation #outofschoolchildren #2025newyear</p>",
-    "excerpt": "BREAKTHROUGH HUMANITARIAN OUTREACH AT MAIDUGURI 2025.....",
-    "author": "Hasken Rayuwa Afrika",
-    "published_date": "2025-01-11T06:38:15.127Z",
-    "updated_date": "2025-01-11T12:46:53.275Z",
-    "is_featured": true,
-    "created_by": null,
-    "last_modified_by": null
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 4,
-  "fields": {
-    "created_at": "2025-04-18T10:18:20.295Z",
-    "updated_at": "2025-04-18T10:18:20.295Z",
-    "title": "Empowering Communities with Compassion and Care: Medical and Missionary Training by  Hasken Rayuwa Africa, in collaboration with Teach to Transform (TTT) in Sokoto",
-    "slug": "Medical_Training",
-    "featured_image": "blog/rsz_medical.png",
-    "content": "<p><em>Hasken Rayuwa Africa</em>, in collaboration with <em>Teach to Transform (TTT)</em>&mdash;a passionate team of doctors and missionaries&mdash;organized a transformative six-day training program in Sokoto State from Saturday, March 15th to Thursday, March 20th, 2025,. This initiative was designed to equip mission-driven individuals and organizations with practical medical skills and a heart for service, blending healthcare with the mission of the gospel.</p>\r\n\r\n<p>The program&rsquo;s core aim was to empower participants with essential knowledge in areas critical to both personal and community well-being. Beyond that, it sought to instill a deeper sense of compassion and spiritual responsibility, encouraging participants to become vessels of both healing and hope.</p>\r\n\r\n<p>The training covered:</p>\r\n\r\n<ul>\r\n\t<li><strong>Personal and Community Hygiene</strong> &ndash; Teaching the importance of cleanliness in preventing disease and promoting a healthier environment.</li>\r\n\t<li><strong>Vital Signs Monitoring</strong> &ndash; Practical sessions on how to measure blood pressure, heart rate, oxygen saturation, and body temperature.</li>\r\n\t<li><strong>Childbirth and Delivery Skills</strong> &ndash; Instruction on recognizing signs of labor, identifying a healthy newborn, and providing care after delivery.</li>\r\n\t<li><strong>Emergency Response in Childbirth</strong> &ndash; Life-saving training in resuscitation techniques for newborns who may not be breathing at birth.</li>\r\n</ul>\r\n\r\n<p>Beyond instruction, TTT provided each participant with the necessary tools to carry out these skills, including hygiene kits, child delivery sets, and medical instruments for vital sign monitoring. This ensured that everyone left not only with knowledge, but also with the means to make an immediate impact in their communities.</p>\r\n\r\n<p>One of the most powerful aspects of the program was its dual mission: to improve healthcare knowledge and to serve as a platform for spreading the gospel. Participants were encouraged to show Christ&rsquo;s love through compassionate service. By meeting physical needs, they could open doors to spiritual conversations and introduce others to the message of hope found in Christ.</p>\r\n\r\n<p>The training left a lasting impression on attendees, blending practical healthcare training with a deeper spiritual purpose. It empowered individuals to return to their communities better equipped to promote wellness, provide care, and share the gospel through both words and actions.</p>\r\n\r\n<p>In all, the partnership between Hasken Rayuwa Africa and TTT successfully fulfilled its goal&mdash;to inspire, equip, and release a wave of servant-hearted individuals ready to make a physical and spiritual difference wherever they go.</p>",
-    "excerpt": "Hasken Rayuwa Africa, in collaboration with Teach to Transform (TTT)—a passionate team of doctors and missionaries—organized a transformative six-day training program in Sokoto State from Saturday, March 15th to Thursday, March 20th, 2025,.",
-    "author": "Hasken Rayuwa Africa Publicity",
-    "published_date": "2025-04-18T10:18:20.305Z",
-    "updated_date": "2025-04-18T10:18:20.305Z",
-    "is_featured": false,
-    "created_by": [
-      "SirT"
-    ],
-    "last_modified_by": [
-      "SirT"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 5,
-  "fields": {
-    "created_at": "2025-05-07T09:53:18Z",
-    "updated_at": "2025-05-13T14:27:26.163Z",
-    "title": "The Father’s Love being demonstrated through Medical Outreach",
-    "slug": "Medical_Mission",
-    "featured_image": "blog/medical_PNG2.png",
-    "content": "<p>At Hasken Rayuwa Afrika Ministry, our mission is clear: to demonstrate the Father&rsquo;s redemptive love among the unreached people groups of the African portion of the 10/40 Window, and to help bring the Great Commission to a great completion. One of the powerful ways this mission takes shape is through medical outreaches.</p>\r\n\r\n<p>In regions where access to healthcare is limited or nonexistent even the simplest health checks can bring life-changing awareness. That&rsquo;s why we go, not just with medical tools in hand, but with hearts ready to share the love and compassion of Christ.</p>\r\n\r\n<p>During each outreach, our team offers free basic health services checking blood pressure, heart rate, oxygen levels, and body temperature. These may seem like simple procedures, but they have proven time and again to uncover serious, hidden health concerns. In one recent case, several individuals were found with critical medical cases, prompting us to refer them immediately to nearby health centers for urgent care.</p>\r\n\r\n<p>Though we do not distribute medicine or food, we provide something equally crucial: direction, awareness, and encouragement and ultimately, hope.</p>\r\n\r\n<p>So far, God has allowed us to reach many individuals and communities across eight states in Northern Nigeria. Behind every number is a soul, a father, a mother, a child whose encounter with us brought not only a better understanding of their health, but often, a renewed sense of dignity and purpose.</p>\r\n\r\n<p>While most communities have received us warmly, some chose to decline our services. Yet we are not discouraged. Instead, their resistance has deepened our resolve to build trust with humility and serve with Christlike patience, believing that the seed of love planted today will bloom in God&#39;s time.</p>\r\n\r\n<p>More than anything, these outreaches create divine opportunities for spiritual conversations. In the course of caring for the body, we&rsquo;ve also had the privilege to share the truth, the light and Love of God with many individuals some of whom may have never otherwise encountered the message of Jesus&rsquo; love and salvation.</p>\r\n\r\n<p>We&rsquo;ve seen firsthand how healing isn&rsquo;t only physical. It&#39;s also spiritual, emotional, and relational. Each person we meet is a reminder that the redemptive love of the Father is for every corner, every tribe, and every tongue.</p>\r\n\r\n<p>Our resources may be simple. Our journey may not always be easy. But the impact is real. With every village we enter, every hand we hold, and every prayer we offer, we are fulfilling a part of the Great Commission bringing light, love, and healing to those who need it most.</p>\r\n\r\n<p>Together, we&rsquo;re planting seeds of transformation one heartbeat at a time.</p>",
-    "excerpt": "Our resources may be simple. Our journey may not always be easy. But the impact is real. With every village we enter, every hand we hold, and every prayer we offer, we are fulfilling a part of the Great Commission bringing light, love, and healing to those who need it most.",
-    "author": "Hasken Rayuwa Africa Publicity",
-    "published_date": "2025-05-07T09:53:18.552Z",
-    "updated_date": "2025-05-13T14:27:26.163Z",
-    "is_featured": false,
-    "created_by": [
-      "-"
-    ],
-    "last_modified_by": [
-      "-"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 6,
-  "fields": {
-    "created_at": "2025-05-13T14:37:46.603Z",
-    "updated_at": "2025-05-13T14:37:46.603Z",
-    "title": "CHURCH PLANTING CONFERENCE",
-    "slug": "Church_Planting",
-    "featured_image": "blog/rsz_church_planting.png",
-    "content": "<p>In the vibrant heart of Nigeria&#39;s capital, Abuja, something truly significant unfolded over three powerful days. The Church Planting Conference, a collaborative effort between Hasken Rayuwa Afrika Ministry and Global Advance, brought together a dedicated company of pastors, missionaries, and evangelists from across Northern Nigeria. Held at the serene Bible Guest House, this gathering transcended the typical conference format; it became a divine appointment, charged with eternal purpose.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>From the very outset, an undeniable sense of God&#39;s presence permeated the atmosphere. It was clear that we were not merely hosting an event but actively participating in God&#39;s unfolding plan to equip and invigorate His frontline messengers to those yet to hear the Good News. The seasoned guidance of Pastor Ibrahim Nathaniel, Jerry McQuay, and Chris McQuay provided Spirit-led teaching, deeply rooted in the bedrock of Scripture, enriched by practical experience, and fueled by a profound burden for lost souls.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>A powerful and unifying message resonated throughout the sessions: The Gospel remains the most potent force for transformation ever entrusted to humanity. We were reminded that the Church&#39;s essence lies not in its physical structures but in its people or individuals whose lives have been radically changed by the love of Jesus and who are compelled to share that love in every sphere of their influence. Church planting, we learned, is not simply a construction project; it is fundamentally a soul-winning mission, a courageous call to ignite the light of Christ in places shrouded in spiritual darkness.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>The Lord graciously used this gathering as a time of profound recalibration. The facilitators passionately urged every worker to return to a place of deep intimacy with God to cultivate a life of abiding in Him, walking in humility, practicing obedience-based discipleship, and boldly yet compassionately carrying the life-giving message of the Gospel. The foundational truth echoed in our hearts: before we can effectively plant churches, God must first plant His very presence deep within us.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Moments of profound encouragement emerged through teachings on the vital importance of resilience. We were equipped with biblical principles on how to overcome offense, extend forgiveness, and persevere even when the fruits of our labor seem delayed. Powerful biblical illustrations, such as the account of the Gibeonites and the vision of the Valley of Dry Bones, served as potent reminders that God remains steadfastly with us through both moments of triumph and seasons of trial.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>A deeply stirring call resonated within the conference to never underestimate the crucial role of children in our mission. Through the Soul-stirring story of the boy with five loaves and two fish, we were reminded that God often chooses the seemingly insignificant to accomplish the extraordinary. In many Unreached People Groups (UPGs), the next powerful move of God may very well originate from the young hearts we often inadvertently overlook.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>As the conference drew to a close, it wasn&#39;t merely the conclusion of an event; it was a powerful commissioning of lives. Hearts were set ablaze with renewed passion, vision was sharpened with greater clarity, and a fresh wave of kingdom laborers was released ready and equipped to carry the radiant light of Christ into communities where darkness still holds many captive.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>The seeds of faith and empowerment sown at the conference in Abuja will undoubtedly bear fruit across towns, villages, and remote regions in places where the name of Christ is yet unknown, and where our calling persistently beckons us. At Hasken Rayuwa Afrika, our work extends far beyond organizing programs; we are resolutely answering Heaven&#39;s call to carry the Father&#39;s boundless redemptive love to the very ends of the earth, until the Great Commission culminates in a glorious Great Completion.</p>",
-    "excerpt": "The seeds of faith and empowerment sown at the conference in Abuja will undoubtedly bear fruit across towns, villages, and remote regions in places where the name of Christ is yet unknown, and where our calling persistently beckons us.",
-    "author": "Hasken Rayuwa Africa Publicity",
-    "published_date": "2025-05-13T14:37:46.606Z",
-    "updated_date": "2025-05-13T14:37:46.606Z",
-    "is_featured": false,
-    "created_by": [
-      "-"
-    ],
-    "last_modified_by": [
-      "-"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 7,
-  "fields": {
-    "created_at": "2025-07-02T10:15:17Z",
-    "updated_at": "2025-07-02T10:16:42.344Z",
-    "title": "HOW TO CONQUER THE CITY OF GIANTS",
-    "slug": "Conquerthecities",
-    "featured_image": "blog/conque.png",
-    "content": "<p>The man Moses, son of Amram, the younger brother to Aaron and Miriam had a walk with God and he happened to be the man God used to establish the covenant God had with the children of Israel as regards the possession of their promised land. This was a season where Moses and the children of Israel conquered many cities and lands given to them as inheritance as revealed to them a promise made by God Himself to their fathers.</p>\r\n\r\n<p>In those days part of the lands that were conquered were the city of Jerico, there was an interesting thing that happened this period when Moses sent spies to go spy and investigate the land. The people came back after their tore and were divided into two groups. Some (which were the majority) stated that; &ldquo;<span style=\"background-color:white\"><span style=\"color:black\">The land, through which they have gone to search is a land that eats up the inhabitants in it; and all the people that they saw in it are men of a great stature (giants)&rdquo; this was an evil report and it made the heart of the children of Israel melt until the second team spoke up quieting the people with the evil report. The second team comprised of only two men (Joshua and Caleb) stated that the land was a good land and the children of Israel were capable to possess it (Numbers chapter 13 and 14)</span></span></p>\r\n\r\n<p>This singular act of courage displayed by Caleb and Joshua, engendered a declaration of a promised allocation of lands to Caleb if he can conquer it, for Moses told him wherever thy foot tread it is yours. It came to pass that even after Moses had gone to be with the Lord and Joshua became the leader of the Children of Israel, it has been 45 years after the declaration from Moses, Caleb met Joshua request permission to take possession of the land stating that he was strong to conquer the land of Hebron saying that he might have advanced in years because it has been 45 years since he received the declaration from Moses but his strength didn&rsquo;t depreciate at all.</p>\r\n\r\n<p>The<strong> </strong>name of the land in question is called Hebron which is also called Kiriath Arba, the land being named after the Man Arba who is a giant, a son of Anak and he is the biggest and strongest of the giant. So, I like to establish that the inhabitants of the land for which Caleb was asking about were the biggest and strongest of the giants since Arba is the biggest and strongest of the Anakins.</p>\r\n\r\n<p>There were certain convictions that Caleb had in his heart as regards his ability to chase the Anakins out of the land and possess it. He stated it in Joshua chapter 14 verses 7 where he referred the report he made from his tore from Jerico.&nbsp; he said, &ldquo;I brought him word again as it was in my heart&rdquo;. This established that although there were giants in the land, the people were strong, the cities are fortified, the topography of the city might also be a discouragement to human heart, yet Caleb was confident that the word of God, the promises of God, the ability and enablement of God will bring conquest for Him. This was exactly the posture of His heart when he and Joshua brought a contrary report from their spying tore from Jerico and with this he is saying that even though he has advanced in number of years, he hasn&rsquo;t lost the posture of his heart concerning God winning and bringing him victory over a look-like impossible situation as confronting the sons of Anakins and taking their land.</p>\r\n\r\n<p>There comes a time in every believer&rsquo;s life when God invites them to step into promises that seem impossible. The land is fruitful. The opportunity is great. But there are giants in the way. Some return in doubt and fear. Others rise in faith. What makes the difference? The state of the heart. It was never about the size of the giants, it was about the size of their trust in God. The Israelites who gave a bad report saw themselves as grasshoppers (Numbers 13:33). But Joshua and Caleb saw victory. Their hearts were full of faith.</p>\r\n\r\n<p>Today, we explore how to cultivate that kind of heart&mdash;and conquer the City of Giants.</p>\r\n\r\n<p>I. <strong>Believe the Word of God</strong></p>\r\n\r\n<p>Joshua 14:7&ndash;8, Numbers 13:30</p>\r\n\r\n<p>Many profess faith but secretly struggle to believe God will actually do what He promised. We quote Scripture, yet tremble when the giants appear. But faith begins with belief. Joshua and Caleb saw the same giants the others saw&mdash;but they chose to believe God&rsquo;s Word over what their eyes saw. &ldquo;Let us go up at once and possess it,&rdquo; Caleb declared, &ldquo;for we are well able to overcome it!&rdquo; (Numbers 13:30) What you believe shapes how you respond to challenges. Faith begins with taking God at His Word, even when everything else says otherwise.</p>\r\n\r\n<p>II. <strong>Meditate on the Word Until It Becomes Your Reality</strong></p>\r\n\r\n<p>Deuteronomy 6:6, Joshua 1:8</p>\r\n\r\n<p>It&rsquo;s not enough to know the Word of God. It must live in you. God told Joshua to meditate on the Word day and night so he could observe to do it. That&rsquo;s where transformation happens. David&rsquo;s boldness against Goliath didn&rsquo;t come from empty courage&mdash;it came from a heart anchored in God&rsquo;s past faithfulness. &ldquo;The Lord who delivered me from the paw of the lion and the paw of the bear will deliver me from the hand of this Philistine.&rdquo; (1 Samuel 17:37) Your heart must be so filled with the truth of God&#39;s Word that fear no longer has room to dwell.</p>\r\n\r\n<p>III. <strong>Act on the Word without Compromise</strong></p>\r\n\r\n<p>Joshua 21:11, 24:29</p>\r\n\r\n<p>Faith is not passive. It moves. It builds. It acts. James reminds us: &ldquo;Faith without works is dead&rdquo; (James 2:17). Caleb didn&rsquo;t just believe God had given him Hebron&mdash;he went and claimed it, giants and all (Joshua 14:12&ndash;14). Faith acts, even when it&rsquo;s hard. Let me share a personal story: Everything we were able to do in this ministry came from our faith and our trust in the Lord. Zero reliance on any single source of income. It all came by faith, laying hold of what God has said for years and staying with it until we see result. That&rsquo;s how faith works&mdash;it lays hold of God&rsquo;s promise and stays with it until the mountain moves.</p>\r\n\r\n<p>IV. <strong>Maintain Your Confession despite Opposition</strong></p>\r\n\r\n<p>&nbsp;Hebrews 10:23. Faith not only acts&mdash;it speaks. When everyone else is doubting, faith declares the promises of God. Even when there&rsquo;s no proof, faith continues to speak life. &ldquo;Let us hold fast the confession of our hope without wavering, for He who promised is faithful.&rdquo; (Hebrews 10:23)</p>\r\n\r\n<p>I&rsquo;ve seen this firsthand: Many people don&rsquo;t believe us when we started this ministry. Many people don&rsquo;t believe what I tell them, simply because they don&rsquo;t see any proof, nothing physical to prove to them. But we held on to the Word, we held onto the promises of God, which to me is the reality, and it&#39;s enough. And now it&#39;s obvious, and it is coming to pass. Glory to God! And this confession isn&#39;t just in the past. It&rsquo;s still alive today. Let me take you to Sokoto, the seat of the Caliphate. A land where many believe the gospel has zero chance of penetrating. A place where many have come and eventually left, overwhelmed by the giants in the land. I&rsquo;ve been called to serve in Sokoto the seat of the Caliphate. Humanly speaking, there&rsquo;s zero chance of making any impact for the Kingdom. Many came and left. The soil is hard. The giants are real. What do I see in Sokoto? Giants Islamic strongholds, persecution, hatred toward the gospel. The Amalekite is staring right at us. But our confession remains the same: Millions of souls for the Kingdom. We see it, and we know, it is coming to pass. This is the spirit of Caleb. This is what it means to hold fast your confession in a land where everything screams &quot;impossible.&quot;</p>\r\n\r\n<p>V. <strong>The Result: Testimonies of God&rsquo;s Faithfulness</strong></p>\r\n\r\n<p>Joshua 24:13, 1 Samuel 17:45&ndash;47. The giants may have been big, but they weren&rsquo;t bigger than God. God delivered the land into Israel&rsquo;s hands, just as He said. David said to Goliath: &ldquo;This day the Lord will deliver you into my hand that all the earth may know that there is a God in Israel&hellip; for the battle is the Lord&rsquo;s.&rdquo; (1 Samuel 17:46&ndash;47) When faith speaks louder than fear, giants fall. Just like Joshua, Caleb, and David, your obedience and belief will produce testimonies that no one can deny.</p>\r\n\r\n<p><strong>Question:</strong> <strong>What Giant are you facing?</strong></p>\r\n\r\n<p>We all face giants. Financial lack, sickness, fear, doubt, rejection. But the principle remains the same.</p>\r\n\r\n<p>&nbsp;<strong>Here Are Your 3 Keys to Victory:</strong></p>\r\n\r\n<ol>\r\n\t<li><strong>Believe the Word of God.</strong></li>\r\n\t<li><strong>Meditate on it until it becomes your reality</strong>.</li>\r\n\t<li><strong>Act on it without compromise.</strong></li>\r\n</ol>\r\n\r\n<p>In conclusion, whenever fear rises, speak the Word. When doubt creeps in, declare your faith. When nothing looks like it is working, hold your ground. &ldquo;The battle is the Lord&rsquo;s.&rdquo; (1 Samuel 17:47) The city of giants is not unconquerable, it is your inheritance. So rise in faith, step forward in boldness, and take what God has already given you. Victory is on the other side of your obedience.</p>",
-    "excerpt": "There were certain convictions that Caleb had in his heart as regards his ability to chase the Anakins out of the land and possess it. He stated it in Joshua chapter 14 verses 7 where he referred the report he made from his tore from Jerico.  he said, “I brought him word again as it was in my heart”",
-    "author": "Hasken Rayuwa Africa Publication",
-    "published_date": "2025-07-02T10:15:17.184Z",
-    "updated_date": "2025-07-02T10:16:42.344Z",
-    "is_featured": false,
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 8,
-  "fields": {
-    "created_at": "2025-09-28T09:13:05Z",
-    "updated_at": "2025-09-28T09:56:09.381Z",
-    "title": "MY REFLECTION ON THE BATTLE BETWEEN THE FLESH AND THE SPIRIT",
-    "slug": "Spirit_Vs_Flesh",
-    "featured_image": "blog/fleshSpirit_Battle_NvcTp3z.png",
-    "content": "<p>Dear partners, as I continue my spiritual journey, I find myself immersed in the ongoing battle between the desires of my flesh and the guidance of the Holy Spirit. This struggle often reminds me of the historical clash between the houses of Saul and David in the books of Samuel a profound illustration of the internal conflicts we face as believers seeking to grow in faith.</p>\r\n\r\n<p>&lrm;One key realization I&#39;ve had is that relying solely on human reasoning can lead me down the wrong path. Saul serves as a cautionary example; his dependence on personal logic often resulted in chaos and ineffective leadership. His failure to unite a strong army reflects the dangers of allowing my own understanding to dictate my actions. Proverbs 3:5-6 encourages me: &quot;Trust in the Lord with all your heart, and lean not on your own understanding.&quot;</p>\r\n\r\n<p>&lrm;In contrast, David embodies a life led by the Spirit, marked by divine clarity and purpose. He consistently sought God&#39;s direction, especially in critical moments, demonstrating the power of faith over doubt. I strive to follow David&#39;s example, understanding that true strength comes from aligning my decisions with God&#39;s will. James 1:5 tells us, &quot;If any of you lacks wisdom, let him ask of God.&quot; This reminds me that I can always turn to Him for guidance.</p>\r\n\r\n<p>&lrm;Reflecting on Saul&rsquo;s reign, I see the consequences of missed opportunities and a passive approach to leadership. His indecision resonates with me; I&#39;ve experienced times when I hesitated, squandering precious moments that could have been spent pursuing God&#39;s purpose. David, on the other hand, actively sought God&rsquo;s counsel and rallied a spiritually aligned army, illustrating what it means to lead with purpose. Galatians 5:16 challenges me to &quot;walk in the Spirit, and you shall not fulfill the lust of the flesh,&quot; reminding me that small compromises can lead to significant spiritual blockages.</p>\r\n\r\n<p>&lrm;The confessions of Saul, Goliath, and David serve as powerful lessons. Saul&rsquo;s fear-driven words expose his reliance on human wisdom, while Goliath&rsquo;s arrogance symbolizes the enemy&#39;s attempts to instill fear. However, David stands firm, boldly proclaiming faith in God&rsquo;s ability to deliver. When he faced Goliath, he declared, &ldquo;I come to you in the name of the Lord of hosts&rdquo; (1 Samuel 17:45). This unwavering confidence in God&rsquo;s purpose inspires me to overcome my own fears and doubts.</p>\r\n\r\n<p>&lrm;Moreover, I&#39;ve come to realize that love is crucial in fulfilling God&rsquo;s divine purpose. In times of conflict or fear, I must focus on the empowerment and strength found in the Holy Spirit. Romans 8:37 assures me that &quot;in all these things we are more than conquerors through him who loved us.&quot; Embracing the Spirit enables me to align my actions with God&rsquo;s will, anchored in faith, love, and hope.</p>\r\n\r\n<p>&lrm;As I meditate on these reflections, I commit to prayer and seek God&rsquo;s guidance through this internal battle. I invite each of you to join me on this journey, seeking the wisdom and strength that only He can provide. Together, let&rsquo;s strive to live lives centered on the Spirit, embracing the fullness of God&#39;s love and fulfilling our divine purpose.</p>\r\n\r\n<p>&lrm;</p>\r\n\r\n<p>&lrm;Blessings,</p>\r\n\r\n<p>&lrm;Pastor Ibrahim Nathaniel</p>",
-    "excerpt": "One key realization I've had is that relying solely on human reasoning can lead me down the wrong path.",
-    "author": "Hasken Rayuwa Africa Publication",
-    "published_date": "2025-09-28T09:13:05.128Z",
-    "updated_date": "2025-09-28T09:56:09.385Z",
-    "is_featured": false,
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 9,
-  "fields": {
-    "created_at": "2025-09-28T10:09:29.025Z",
-    "updated_at": "2025-09-28T10:09:29.026Z",
-    "title": "ABIDING IN THE VINE",
-    "slug": "Abide_in_Jesus_the_Vine",
-    "featured_image": "blog/abide.png",
-    "content": "<p>Let me share with you what I&rsquo;ve been reflecting on lately about a powerful image in the Scriptures: Jesus describing Himself as the True Vine (John 13-15). This metaphor goes beyond being just beautiful language; it&rsquo;s packed with deep truths and practical wisdom that resonate with us.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Think about it if God the Father is the Owner of this vine, He is meticulously overseeing His vineyard, ensuring everything is in order. He&rsquo;s shaping and pruning it to fulfill His divine purposes. The vine thrives, but it always remains under His watchful care.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Now, Jesus, as the Vine, is this living source of life. We, as His disciples, are the branches connected to Him. It&rsquo;s a bit humbling to realize just how dependent we are on Him. We might think we&rsquo;re strong on our own, but truthfully, if we&rsquo;re cut off from the Vine, we wither away.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>This brings us to fruitfulness. It&rsquo;s not just about striving for personal success or ticking off moral boxes. True fruitfulness is about expanding God&rsquo;s Kingdom drawing people into His light and transforming lives. That&rsquo;s what glorifies the Father! But here&rsquo;s the catch: bearing fruit isn&rsquo;t automatic. It requires us to be cleansed and to embrace love continuously.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>The Word of God plays such A vital role in this. It&rsquo;s like water for a thirsty plant purifying us and renewing our spirits. It doesn&rsquo;t just inform us; it transforms us, removing what&rsquo;s unnecessary and helping us grow in holiness. Without engaging with the Word, I know I&rsquo;d be lost and unfruitful.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Speaking of love it&rsquo;s not just a nice idea but a command from Jesus: &ldquo;love one another as I have loved you.&rdquo; Love is the foundation of our community and the true mark of being His disciple. It&rsquo;s how the world will recognize us as belonging to Him. When we don&rsquo;t love, our fruit withers, but when we embrace love, we reflect the very character of the Vine.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Now, let&rsquo;s talk about inheritance. Scripture takes it seriously; inheritance is a sacred trust. The story of Naboth stands out to me he wouldn&rsquo;t give up his vineyard, not even to a king. For him, it symbolized life and faith passed down through generations. Similarly, our Kingdom inheritance in Christ is sacred. It isn&rsquo;t bought or traded but given by the Spirit, and we&rsquo;re called to guard it for those who come after us.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>This often means sacrifice whether it&rsquo;s time, comfort, or even more. But nothing is wasted when it&rsquo;s done in obedience to God. True inheritance comes only from His Spirit, and we can&rsquo;t buy or fake that.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>The imagery shifts again as we consider Jesus as the Good Shepherd (John 10). He genuinely cares for His sheep, guiding them to safety. Unfortunately, dangers are always lurking thieves and wolves seek to lead us astray. Our safety lies in remaining within God&rsquo;s will, for wandering off puts us in peril. But with the Good Shepherd watching over us, there&rsquo;s protection and life to be found.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Jesus didn&rsquo;t leave us alone; He promised the Holy Spirit as our Comforter (John 14-16). This Spirit dwells within us permanently, teaching us and reminding us of Jesus&rsquo; words, ensuring His message stays alive through the generations. Living in the Spirit is about walking daily in dependence on Him, rooted in the Word, loving others, and using the gifts He&rsquo;s given us. This isn&rsquo;t a sign of weakness; it&rsquo;s where true strength lies!</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>So, as I wrap up these thoughts, I&rsquo;m reminded that life in Christ is both a tremendous gift and a profound responsibility. God the Father owns the vine, Jesus sustains us, and the Holy Spirit empowers us. It&rsquo;s up to us to remain, love, guard, and walk faithfully. In doing this, we don&rsquo;t just exist; we bear fruit, glorify the Father, and preserve our Kingdom inheritance for future generations. How amazing is that?</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Blessings,</p>\r\n\r\n<p>&lrm;Pastor Ibrahim Nathaniel</p>",
-    "excerpt": "God the Father owns the vine, Jesus sustains us, and the Holy Spirit empowers us. It’s up to us to remain, love, guard, and walk faithfully. In doing this, we don’t just exist; we bear fruit, glorify the Father, and preserve our Kingdom inheritance for future generations. \r\nHow amazing is that?",
-    "author": "Hasken Rayuwa Africa Publication",
-    "published_date": "2025-09-28T10:09:29.027Z",
-    "updated_date": "2025-09-28T10:09:29.027Z",
-    "is_featured": false,
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 10,
-  "fields": {
-    "created_at": "2025-09-30T11:04:33.084Z",
-    "updated_at": "2025-09-30T11:04:33.084Z",
-    "title": "A LIFE OF PURPOSE",
-    "slug": "Purpose_Life",
-    "featured_image": "blog/Purpose_1.png",
-    "content": "<p>You know, loving God has become one of the most profound experiences in my life. It&rsquo;s easy to slip into thinking it&rsquo;s just about feeling good or having a spiritual high. But I&rsquo;ve come to realize that true love for God goes much deeper. It&rsquo;s about a genuine commitment to align with His will and actively pursue His eternal purpose.</p>\r\n\r\n<p>I often reflect on the life of Daniel, a prophet described as &ldquo;<strong>greatly loved&rdquo;</strong> by God. Why? Because his entire life was centered around one divine objective. Even while he was exiled in a pagan land, he prayed tirelessly not for his own comfort, but for the restoration of Jerusalem, knowing it would lead to the coming Messiah. Daniel&rsquo;s example shows me what true devotion looks like.</p>\r\n\r\n<p>When I look at the big picture in Scripture, it feels like history is a timeline pointing to that foundational promise from <strong>Genesis 3:15. </strong>Every major covenant and every believer&rsquo;s choice contributes to the ultimate fulfillment of that promise. Noah&rsquo;s example stands out for me. In a corrupt world, he built the ark faithfully, preserving the Messianic line. It&rsquo;s a reminder that I also have a crucial role to play in God&rsquo;s redemptive plan today.</p>\r\n\r\n<p>I&rsquo;ve realized that choosing to serve God is the only path to fulfilling His purpose in Christ. Disobedience isn&rsquo;t just a personal failing; it&rsquo;s a rebellion against God&rsquo;s plan. I think of Solomon, who started with great wisdom but eventually strayed, leading to a fractured kingdom. It&rsquo;s a sobering thought that my choices can either help or hinder God&rsquo;s purpose.</p>\r\n\r\n<p>Living in a world of conflicting kingdoms God&rsquo;s versus the enemy&rsquo;s reminds me of the importance of obedience. When I delay my obedience, I delay God&rsquo;s plans, which gives the devil room to work. <strong><em>Jeroboam&rsquo;s</em></strong> story serves as a cautionary tale; he let fear, youthful exuberance and strange evil desires to cling to power drive him to lead people into idol worship, which caused significant consequences.</p>\r\n\r\n<p>The distinction between the <strong><em>House of David and the House of Jeroboam is clear.</em></strong> I want to point others away from rebellion and back to obedience. It&rsquo;s crucial not to preach what simply pleases the flesh; I must adhere to the truth, even if it&rsquo;s uncomfortable. Jesus&rsquo; instruction to seek first the Kingdom of God resonates deeply with me and that&rsquo;s why I insist we do what we do at Hasken Rayuwa Afrika.</p>\r\n\r\n<p>Daniel&rsquo;s commitment to God&rsquo;s purpose teaches me that pursuing Him brings divine intervention. When I earnestly pray for His desires, I find that God takes responsibility for my needs and future. It&rsquo;s comforting to know that when I focus solely on His Kingdom, everything about my life becomes His concern.</p>\r\n\r\n<p>On a final note, I&rsquo;ve learned that loving God means aligning courageously with His eternal purpose. From Daniel&rsquo;s faithfulness to Jesus&rsquo; commitment, the Bible illustrates the stark difference between obedience and rebellion. I strive to remain Kingdom focused, actively cooperate with God, and resist the spirit of rebellion. When I make these choices, I step into the fullness of His presence, allowing His eternal purpose to unfold through me.</p>",
-    "excerpt": "I’ve come to realize that true love for God goes much deeper. It’s about a genuine commitment to align with His will and actively pursue His eternal purpose",
-    "author": "Hasken Rayuwa Africa Publication",
-    "published_date": "2025-09-30T11:04:33.101Z",
-    "updated_date": "2025-09-30T11:04:33.101Z",
-    "is_featured": false,
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 11,
-  "fields": {
-    "created_at": "2026-02-05T08:32:04.400Z",
-    "updated_at": "2026-02-05T08:32:04.401Z",
-    "title": "THE SOURCE OF TRUTH: REVELATION AND DANIEL’S PRAYER",
-    "slug": "SourceofTruth",
-    "featured_image": "blog/Rebuiding_the_walls.png",
-    "content": "<p style=\"margin-left:40px; margin-right:40px\"><strong><em><span style=\"color:#1f1f1f\">The Scribe&rsquo;s Insight</span></em></strong></p>\r\n\r\n<p style=\"margin-left:40px; margin-right:40px\"><em><span style=\"color:#1f1f1f\">The transition from the &quot;Old&quot; to the &quot;New&quot; is not merely a change of building materials, but a change of nature. To move from the ignorance of the Night into the revelation of the Day, we must follow the progression of the fathers: we seek the Secret Revelation (Daniel), we engage in Prophetic Action (Ezra), and we maintain Strategic Consecration (Nehemiah). We are not just building walls; we are preparing a Temple for the King&rsquo;s return.</span></em></p>\r\n\r\n<p style=\"margin-left:40px; margin-right:40px\">&nbsp;</p>\r\n\r\n<p><span style=\"color:#1f1f1f\">Daniel chapter 1 shows three levels of understanding: the understanding of science, the wisdom of Babylon, and the understanding of the Word, the Book of Truth. This last level is the highest and comes only by divine revelation. As seen in Daniel 9:20&ndash;22, this understanding cannot be gained by study or books; it must be given by God.</span></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">As established, there are three levels of knowledge seen in the book of Daniel: knowledge of science, knowledge of the wisdom of Babylon, and the highest knowledge, which comes from divine revelation. In the past, angels appeared, but today we have the Holy Spirit dwelling in us. We do not need to insist on seeing angels, because we have the very life of God within us. Insisting on signs such as angelic visitations as a requirement can still be a form of carnality. Not every form of carnality is visible, but every sin is rooted in carnality. Science has its place, but seeking the wisdom of God must be our priority.</span></p>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">The Call to Rebuild: Transitioning the Glory</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">Ezra 3 (especially verse 11) records the people responding responsibly, declaring that the Lord is good. This response serves as praise, affirmation, and confirmation. Scripture draws a clear parallel between the old and the new: the old and new temple, wine, and clothes (Luke 5:33&ndash;39). The former and latter house, and the glory of the temple, are also seen in Isaiah 53:3 and Haggai 2:9.</span></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">In Ezra, the older generation cried over the former glory, while the younger rejoiced because they saw God&rsquo;s purpose coming to pass. The old wineskin and old temple represent the natural man, while the new wineskin and new temple represent the new creation in Christ. The glory of the New Testament cannot be compared to the past. God is not coming for the former temple, but the latter, prepared hearts for His return.</span></p>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">Overcoming Resistance: Prophecy as a Catalyst</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">As seen in Ezra chapter 4, opposition comes during the building. The building today is people. We must teach the truth, watch out for disguised helpers, and give the sincere milk of the Word. Though discouragement, fear, accusations, and resistance will arise, nothing can stop God&rsquo;s purpose if we remain faithful.</span></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">Ezra chapter 5 shows a clear change from what we saw earlier. The opposition that forcefully stopped the work now becomes more diplomatic with Zerubbabel, Joshua, and the elders. The difference is that prophecy came (Ezra 5:1). In times of opposition, we need prophecy like in the days of Haggai and Zechariah. Opposition to the assignment God has given should not push us into rest or withdrawal; it should drive us into deeper prayer and a greater desire to hear from God. In their case, prophecy shifted everything.</span></p>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">The Weapon of Consecration and Strategic Labor</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">The purpose of prophecy, as seen in the book of Ezra, is to awaken people and move them to action. In Ezra chapter 6, the people arose and got to work. One of the believer&rsquo;s greatest weapons is consecration. Consecration brings victory over the adversary, over naysayers, and over resistance of every kind. If consecration is kept, we can go farther than we imagine by the mercy of God.</span></p>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">THE WALL, THE WORD, AND THE WORLD</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">In Nehemiah, the broken walls of Jerusalem symbolized shame and insecurity. Rebuilding wasn&#39;t just about construction, it was about preserving the lineage of the Messiah. Nehemiah teaches us:</span></p>\r\n\r\n<ol>\r\n\t<li><span style=\"color:#1f1f1f\"><strong>Empathy that grows to compassion beats Sympathy:</strong> Carrying the burden and doing something about it, not just feeling it.</span></li>\r\n\t<li><span style=\"color:#1f1f1f\"><strong>Prayer + Strategy:</strong> Chapter 1 for prayer; Chapter 2 for favor and action.</span></li>\r\n\t<li><span style=\"color:#1f1f1f\"><strong>The Ultimate Hope:</strong> Our labor isn&#39;t in vain because of the Resurrection. From the first Adam to the second Adam (Jesus), we have moved from corruption to power!</span></li>\r\n</ol>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">The Living Temple: Purity and Sanity</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">God is interested in people being involved in building temples not physical structures, but the Spirit of God in the hearts of men. According to 2 Corinthians chapters 3 and 6, the temple is the lives of individuals and the church collectively. This is what Jesus is coming for.</span></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">1 Thessalonians chapter 4 emphasizes sanctification. Self-control is not optional. The body must be kept under control. We can control how we respond by disciplining our bodies. We are taught to live a quiet life, work with our own hands, and not be dependent on others. Remaining at rest while God&rsquo;s work and kingdom mandate lies in ruins is wickedness (Zechariah 1:11).</span></p>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">Active Sobriety: Waiting for the Day</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">We are not destined for wrath; our destiny is salvation. 1 Thessalonians chapters 4 and 5 encourage active sobriety: waiting, watching, and expecting. We are not to live like those who sleep, meaning those in darkness and ignorance. Such people will be caught unaware when the Lord returns like a thief in the night.</span></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">The language used about the Lord&rsquo;s day, thief in the night, labor pains, a pregnant woman, highlights two kinds of people: those of the night and those of the day. Those who sleep lack awareness of what God is doing, but we are of the day, and therefore we stay awake and sober. Night represents ignorance and lack of revelation. We are not of the night.</span></p>\r\n\r\n<p><strong><span style=\"color:#1f1f1f\">The Scribe&rsquo;s Responsibility</span></strong></p>\r\n\r\n<p><span style=\"color:#1f1f1f\">Ezra was not an ordinary believer. He was a scribe with a clear understanding and knowledge, not merely a copyist or writer. Therefore, we must be deliberate in our study, meditation, and understanding of the Scriptures. Salvation is the greatest miracle in history, paid for by the life of God&#39;s Son. It&rsquo;s our responsibility to know it, study it, and take it to a world that is waiting.</span></p>",
-    "excerpt": "The transition from the \"Old\" to the \"New\" is not merely a change of building materials, but a change of nature. To move from the ignorance of the Night into the revelation of the Day, we must follow the progression of the fathers. we are preparing a Temple for the King’s return.",
-    "author": "Hasken Rayuwa Africa Publicity",
-    "published_date": "2026-02-05T08:32:04.404Z",
-    "updated_date": "2026-02-05T08:32:04.404Z",
-    "is_featured": false,
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ]
-  }
-},
-{
-  "model": "core.blogpost",
-  "pk": 12,
-  "fields": {
-    "created_at": "2026-02-28T03:02:20Z",
-    "updated_at": "2026-02-28T03:06:19.764Z",
-    "title": "FROM TRANSACTION TO TRUST: WALKING IN GOD’S PURPOSE",
-    "slug": "Transact_Trust",
-    "featured_image": "blog/Article_Post_1.png",
-    "content": "<p>In Genesis 15, Abraham asked a deeply human question: <em>&ldquo;What will You give me?&rdquo;</em> It reveals how easily our walk with God can slip into transaction. We want clarity. We want visible assurance. We want guarantees.</p>\r\n\r\n<p>But faith cannot mature where everything is measured by what we receive. When we mix our desires with the purpose of God, we risk missing His best. Abraham&rsquo;s journey calls us to move from calculation to trust.</p>\r\n\r\n<p>Yet we must reflect on his life carefully.</p>\r\n\r\n<p>In Matthew 23:29&ndash;31 and Luke 6:7&ndash;8, we are warned not to assume we would have done better than those who came before us. Many today, placed under similar pressure, might do worse. The safer ground is humility, recognizing that we stand only by the mercy of God.</p>\r\n\r\n<p>When the heart is not rightly disposed toward Him, we cannot receive from Him.</p>\r\n\r\n<p>Consider this: in Genesis chapters 12, 13, and 14, there are 62 verses. Only 10 record what God says. The remaining 52 describe human actions. Movement, fear, decisions, and excesses. Scripture itself shows how much room exists for human response.</p>\r\n\r\n<p>God, in His wisdom, makes room for our weakness, impatience, and the quiet questions: <em>Will this work? What is the guarantee? What if?</em> He allows seasons when we do not fully understand the vision. He even allows moments when we turn back because we do not feel safe.</p>\r\n\r\n<p>But making room does not remove responsibility.</p>\r\n\r\n<p>In Genesis 16, we see that no one in God&rsquo;s service is ordinary. When you step into His will, the hand of God rests upon you. And that anointing magnifies everything. Not only obedience, but also mistakes.</p>\r\n\r\n<p>Abraham&rsquo;s decision concerning Hagar was not insignificant. When human effort is added to what God has already promised, consequences follow. Though God graciously makes room for failure and limitation, our actions still carry weight.</p>\r\n\r\n<p>By Genesis 21:13 to the end, we see the repercussions unfolding. God remains faithful to His promise yet Abraham&rsquo;s earlier choices continue to shape events.</p>\r\n\r\n<p>This principle is not confined to Abraham&rsquo;s story.</p>\r\n\r\n<p>In Acts 5, Ananias and Sapphira attempted to attach human strategy and deception to what God was already doing. The result was immediate and severe. Their account reminds us that working with God demands total trust. We cannot improve upon His work with hidden adjustments or calculated additions.</p>\r\n\r\n<p>Even when God forgives, actions still carry consequence.</p>\r\n\r\n<p>And yet this is not a message of fear, but of alignment.</p>\r\n\r\n<p>In Romans 8:3 &mdash; and the assurance that follows, we are reminded: <em>If God is for us&hellip;</em></p>\r\n\r\n<p>If we truly believe that God is for us, then we do not need to manipulate outcomes. We do not need to &ldquo;help&rdquo; Him fulfill His word. Trust becomes our safest posture.</p>\r\n\r\n<p>Abraham&rsquo;s journey teaches us three steady truths:</p>\r\n\r\n<ul>\r\n\t<li>Humility &mdash; because we stand only by mercy.</li>\r\n\t<li>Reverence &mdash; because every action carries consequence.</li>\r\n\t<li>Trust &mdash; because God is for us.</li>\r\n</ul>\r\n\r\n<p>May we grow beyond asking, <em>&ldquo;What will You give me?&rdquo;</em><br />\r\nMay we rest in the deeper confidence that He is with us.</p>\r\n\r\n<p>And if He is for us, nothing else ultimately matters, yet how we respond to Him matters deeply.</p>",
-    "excerpt": "God, in His wisdom, makes room for our weakness, impatience, and the quiet questions: Will this work?",
-    "author": "Hasken Rayuwa Africa Publicity",
-    "published_date": "2026-02-28T03:02:20.128Z",
-    "updated_date": "2026-02-28T03:06:19.765Z",
-    "is_featured": true,
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ]
   }
 },
 {
@@ -1015,12 +518,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:16.046Z",
-    "updated_at": "2025-01-11T14:01:16.202Z",
-    "title": "True Worship, Praise and Thanksgiving.",
-    "description": "Discover the depth of gratitude and worship that will transform your relationship with God. Watch now and be blessed!",
+    "created_at": "2026-04-18T09:18:05.993Z",
+    "updated_at": "2026-04-18T09:18:06.057Z",
+    "title": "True Worship, Praise & Thanksgiving",
+    "description": "\"Join Pastor Ibrahim Nathaniel the National Director of Hasken Rayuwa Afrika as he shares a powerful message on 'True Worship, Praise, and Thanksgiving'. Pastor Ibrahim reveals three reasons to thank God:\r\n\r\nBecause of what God has done in YOUR life\r\nBecause of what God has done in the life of OTHERS\r\nBecause God CAN DO IT!",
     "video_id": "QWThBnhyrOM",
-    "published_date": "2024-12-03T15:07:39Z",
+    "published_date": "2024-12-03T10:44:11Z",
     "is_featured": true
   }
 },
@@ -1030,12 +533,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:16.046Z",
-    "updated_at": "2025-01-11T14:01:16.202Z",
-    "title": "Challenges Faced In Mission",
-    "description": "In this episode, Pastor Ibrahim Nathaniel explains, using his experiences and the word of God, the most pressing question of our faith: Challenges faced in mission.",
+    "created_at": "2026-04-18T09:18:05.993Z",
+    "updated_at": "2026-04-18T09:18:06.057Z",
+    "title": "Challenges Faced in Mission",
+    "description": "In this episode, Pastor Ibrahim Nathaniel explains, using his experiences and the word of God, the most pressing question of our faith: Challenges faced in mission. Join them as they dive deep into the Importance of the Great Commission.",
     "video_id": "D_lGu4EO_Co",
-    "published_date": "2024-11-30T15:12:00Z",
+    "published_date": "2024-11-30T13:54:25Z",
     "is_featured": true
   }
 },
@@ -1045,81 +548,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:16.046Z",
-    "updated_at": "2025-01-11T14:01:16.202Z",
+    "created_at": "2026-04-18T09:18:05.993Z",
+    "updated_at": "2026-04-18T09:18:06.057Z",
     "title": "Importance of the Great Commission",
-    "description": "In this episode, Pastor Ibrahim Nathaniel explains, using his experiences and the word of God, the most pressing question of our faith: what is the Great Commission.",
+    "description": "In this episode, Pastor Ibrahim Nathaniel explains, using his experiences and the word of God, the most pressing question of our faith: what is the Great Commission. Join them as they dive deep into the Importance of the Great Commission.",
     "video_id": "lu7iNaXAeWs",
-    "published_date": "2024-11-12T15:17:05Z",
-    "is_featured": true
-  }
-},
-{
-  "model": "core.youtubevideo",
-  "pk": 4,
-  "fields": {
-    "created_by": null,
-    "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:16.046Z",
-    "updated_at": "2025-01-11T14:01:16.202Z",
-    "title": "A Message of Gratitude and Christmas Cheer",
-    "description": "As the year comes to a close, Pastor Ibrahim Nathaniel, National Director of Hasken Rayuwa Afrika, takes a moment to reflect on the journey so far and express his deepest gratitude to all partners",
-    "video_id": "pwEcqFCZ2TA",
-    "published_date": "2024-12-25T03:09:32Z",
-    "is_featured": true
-  }
-},
-{
-  "model": "core.youtubevideo",
-  "pk": 5,
-  "fields": {
-    "created_by": [
-      "harunaemma"
-    ],
-    "last_modified_by": [
-      "harunaemma"
-    ],
-    "created_at": "2025-06-19T13:40:59.774Z",
-    "updated_at": "2025-06-19T13:40:59.774Z",
-    "title": "Solution to the world troubles",
-    "description": "Join Ibrahim Nathaniel as he shares a powerful message about the root cause of earth's troubles and the solution that can bring about real change. Discover how Jesus' teachings and the book of Joshua hold the key to solving the problems we face today. Watch now and be inspired to take action!",
-    "video_id": "986Rd5jgA84",
-    "published_date": "2025-06-19T13:40:51Z",
-    "is_featured": true
-  }
-},
-{
-  "model": "core.youtubevideo",
-  "pk": 6,
-  "fields": {
-    "created_by": [
-      "tony"
-    ],
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-11-18T14:51:09.351Z",
-    "updated_at": "2025-11-18T14:51:09.351Z",
-    "title": "The First Disciple Jesus Called",
-    "description": "Join Mrs. Gotname Ibrahim and Pastor Ibrahim Nathaniel on Missionary Journal as they explore the story of Andrew, the first disciple, in John 1:35-42. Discover how this humble fisherman became a pivotal figure in Jesus' ministry, bringing his own brother Simon Peter to meet the Messiah. We'll discuss the significance of Andrew's actions and what they reveal about the heart of God and the importance of sharing our faith with others.",
-    "video_id": "uwH0xHb8YqKftH8z",
-    "published_date": "2025-11-18T14:50:56Z",
-    "is_featured": true
-  }
-},
-{
-  "model": "core.spotifypodcast",
-  "pk": 1,
-  "fields": {
-    "created_by": null,
-    "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:15.229Z",
-    "updated_at": "2025-01-11T14:01:15.534Z",
-    "title": "A Message of Gratitude and Christmas Cheer",
-    "description": "As the year comes to a close, Pastor Ibrahim Nathaniel, National Director of Hasken Rayuwa Afrika, takes a moment to reflect on the journey so far and express his deepest gratitude to all partners",
-    "spotify_id": "7faTgBUD4PTle5G1t9GT71?si=piBBTKu8Q0OpwYifW2WzDQ",
-    "published_date": "2024-12-25T03:28:58Z",
-    "duration": "07:12",
+    "published_date": "2024-11-11T10:44:11Z",
     "is_featured": true
   }
 },
@@ -1128,14 +562,12 @@
   "pk": 1,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "onahjonah"
-    ],
-    "created_at": "2025-01-11T14:01:13.909Z",
-    "updated_at": "2025-01-14T21:13:48.122Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.367Z",
+    "updated_at": "2026-04-18T09:18:05.390Z",
     "title": "GIVE",
-    "header_image": "donations/rsz_group_1.jpg",
-    "description": "Romans 10:15\r\nAnd how are they to preach unless they are sent? As it is written, “How beautiful are the feet of those who preach the good news!”\r\n\r\n2 Corinthians 9:8\r\nAnd God is able to make all grace abound to you, so that having all sufficiency in all things at all times, you may abound in every good work.",
+    "header_image": "donations/3.jpg",
+    "description": "At Hasken Rayuwa Afrika, one of our main activities is humanitarian outreach. We assist underprivileged communities, especially in northern Nigeria, with both their physical needs and the Gospel. Many villages face environmental challenges and insurgency-related hardships. Our outreach aims to support as many individuals and communities as possible in these areas.",
     "bank_name": "Zenith Bank Plc."
   }
 },
@@ -1145,12 +577,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:13.419Z",
-    "updated_at": "2025-01-11T14:01:13.538Z",
-    "bank_name": "Zenith bank",
-    "account_name": "Hasken Rayuwa Afrika Ministry",
-    "account_number": "5070985611",
-    "description": "Dollar Account"
+    "created_at": "2026-04-18T09:18:05.222Z",
+    "updated_at": "2026-04-18T09:18:05.238Z",
+    "bank_name": "Zenith Bank",
+    "account_name": "Hasken Rayuwa",
+    "account_number": "1016088435",
+    "description": "Main Account"
   }
 },
 {
@@ -1159,12 +591,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:13.419Z",
-    "updated_at": "2025-01-11T14:01:13.538Z",
+    "created_at": "2026-04-18T09:18:05.222Z",
+    "updated_at": "2026-04-18T09:18:05.238Z",
     "bank_name": "Zenith Bank",
-    "account_name": "Hasken Rayuwa Afrika Ministry",
-    "account_number": "5060399398",
-    "description": "Pounds Sterling Account"
+    "account_name": "Hasken Rayuwa",
+    "account_number": "1016475161",
+    "description": "Humanitarian"
   }
 },
 {
@@ -1173,12 +605,12 @@
   "fields": {
     "created_by": null,
     "last_modified_by": null,
-    "created_at": "2025-01-11T14:01:13.419Z",
-    "updated_at": "2025-01-11T14:01:13.538Z",
+    "created_at": "2026-04-18T09:18:05.222Z",
+    "updated_at": "2026-04-18T09:18:05.238Z",
     "bank_name": "Zenith Bank",
-    "account_name": "Hasken Rayuwa Afrika Ministry",
+    "account_name": "Hasken Rayuwa",
     "account_number": "1016475178",
-    "description": "Projects Account (Naira)"
+    "description": "Projects"
   }
 },
 {
@@ -1186,146 +618,27 @@
   "pk": 4,
   "fields": {
     "created_by": null,
-    "last_modified_by": [
-      "tony"
-    ],
-    "created_at": "2025-01-11T14:01:13.419Z",
-    "updated_at": "2025-11-11T10:12:21.551Z",
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.222Z",
+    "updated_at": "2026-04-18T09:18:05.238Z",
     "bank_name": "Zenith Bank",
-    "account_name": "Hasken Rayuwa Afrika Ministry",
-    "account_number": "1016088435",
-    "description": "\"Support A Mission Team Weekly to Visit an Unreached Location\""
+    "account_name": "Hasken Rayuwa",
+    "account_number": "5070985611",
+    "description": "Dollar Account"
   }
 },
 {
-  "model": "core.page",
-  "pk": 1,
+  "model": "core.bankaccount",
+  "pk": 5,
   "fields": {
-    "title": "Our History",
-    "nav_label": "",
-    "slug": "our-history",
-    "meta_description": "",
-    "header_image": "",
-    "is_published": true,
-    "show_header": false,
-    "show_in_nav": false,
-    "nav_order": 0,
-    "created_at": "2026-04-16T14:31:22.265Z",
-    "updated_at": "2026-04-16T15:11:43.596Z"
-  }
-},
-{
-  "model": "core.pagesection",
-  "pk": 1,
-  "fields": {
-    "page": 1,
-    "section_type": "hero",
-    "order": 0,
-    "title": "LEARN OUR HISTORY",
-    "subtitle": "History of Hasken Rayuwa",
-    "body": "<p><br></p>",
-    "image": "pages/sections/pexels-photo-733856_8fltE33.jpeg",
-    "image_position": "right",
-    "button_text": "Learn More",
-    "button_url": "/about/",
-    "button2_text": "Donate",
-    "button2_url": "/give/",
-    "background": "white",
-    "css_class": "",
-    "is_visible": true,
-    "extra_data": "",
-    "created_at": "2026-04-16T14:31:30.917Z",
-    "updated_at": "2026-04-16T14:33:33.039Z"
-  }
-},
-{
-  "model": "core.pagesection",
-  "pk": 2,
-  "fields": {
-    "page": 1,
-    "section_type": "cards",
-    "order": 1,
-    "title": "Placeat in ipsam fu",
-    "subtitle": "Aute ipsum dicta ear",
-    "body": "<p>Dolorum quo quae dig.</p>",
-    "image": "",
-    "image_position": "left",
-    "button_text": "Rerum minus omnis do",
-    "button_url": "Magni commodi aut la",
-    "button2_text": "Deserunt sequi nihil",
-    "button2_url": "Consequat Esse quam",
-    "background": "white",
-    "css_class": "Provident officia v",
-    "is_visible": true,
-    "extra_data": "",
-    "created_at": "2026-04-16T14:40:56.651Z",
-    "updated_at": "2026-04-16T20:32:20.535Z"
-  }
-},
-{
-  "model": "core.pagesection",
-  "pk": 3,
-  "fields": {
-    "page": 1,
-    "section_type": "image_text",
-    "order": 2,
-    "title": "Saepe amet explicab",
-    "subtitle": "Vero nostrum qui seq",
-    "body": "<p>Consequat. Velit et .</p>",
-    "image": "",
-    "image_position": "left",
-    "button_text": "Dolor maiores ut ani",
-    "button_url": "Eos eos proident f",
-    "button2_text": "Accusamus dignissimo",
-    "button2_url": "Tempore quis optio",
-    "background": "white",
-    "css_class": "Nihil a laudantium ",
-    "is_visible": true,
-    "extra_data": "",
-    "created_at": "2026-04-16T14:51:52.735Z",
-    "updated_at": "2026-04-16T14:52:03.611Z"
-  }
-},
-{
-  "model": "core.pagesectioncard",
-  "pk": 1,
-  "fields": {
-    "section": 2,
-    "icon": "fas fa-gear",
-    "image": "",
-    "title": "Vitae qui consequatu",
-    "body": "Aut fugit ipsum ex",
-    "link_text": "Ducimus repellendus",
-    "link_url": "Reiciendis neque aut",
-    "order": 0
-  }
-},
-{
-  "model": "core.pagesectioncard",
-  "pk": 2,
-  "fields": {
-    "section": 2,
-    "icon": "fas fa-cross",
-    "image": "",
-    "title": "Mollit tempor conseq",
-    "body": "Cillum praesentium i",
-    "link_text": "Ad tempor ea ea et v",
-    "link_url": "Est voluptas impedi",
-    "order": 1
-  }
-},
-{
-  "model": "core.pagesectioncard",
-  "pk": 3,
-  "fields": {
-    "section": 2,
-    "icon": "Assumenda doloremque",
-    "image": "",
-    "title": "Quis aute accusamus ",
-    "body": "Ullamco eaque quas d",
-    "link_text": "Ipsa consectetur s",
-    "link_url": "Velit est culpa duc",
-    "order": 2
+    "created_by": null,
+    "last_modified_by": null,
+    "created_at": "2026-04-18T09:18:05.222Z",
+    "updated_at": "2026-04-18T09:18:05.238Z",
+    "bank_name": "Zenith Bank",
+    "account_name": "Hasken Rayuwa",
+    "account_number": "5060399398",
+    "description": "Pounds Account"
   }
 }
 ]
