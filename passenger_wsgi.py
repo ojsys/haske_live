@@ -12,17 +12,9 @@ if PROJECT_ROOT not in sys.path:
 if VENV_SITE not in sys.path:
     sys.path.insert(1, VENV_SITE)
 
-# ── Environment variables ──────────────────────────────────────────────────────
-os.environ['PIPELINE']   = 'production'
-os.environ['SECRET_KEY'] = 'REPLACE-WITH-A-LONG-RANDOM-SECRET-KEY'
-os.environ['DEBUG']      = 'False'
-
-# MySQL database (cPanel)
-os.environ['DB_NAME']    = 'lightofl_haske_db'
-os.environ['DB_USER_NM'] = 'lightofl_haskedb_user'
-os.environ['DB_USER_PW'] = 'REPLACE-WITH-DB-PASSWORD'
-os.environ['DB_IP']      = 'localhost'
-os.environ['DB_PORT']    = '3306'
+# ── Tell settings/__init__.py to use the production config ────────────────────
+# All other secrets (SECRET_KEY, DB_*, DEBUG) are loaded from .env automatically
+os.environ['PIPELINE'] = 'production'
 
 # ── WSGI application ───────────────────────────────────────────────────────────
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'haske_pro.settings')
