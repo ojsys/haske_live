@@ -160,6 +160,20 @@ class Ministry(BaseAuditModel):
     def __str__(self):
         return self.title
 
+class Activity(BaseAuditModel):
+    """Field activity cards shown in the home-page Activities carousel."""
+    title = models.CharField(max_length=200, help_text="e.g. Film Show, Discipleship, Medicals, Training")
+    image = models.ImageField(upload_to='activities/', help_text="Background image for the activity card")
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name_plural = "Activities"
+
+    def __str__(self):
+        return self.title
+
+
 class Gallery(BaseAuditModel):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='gallery/')

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.db.models import Sum, Count
 from django.contrib import messages
 from django.views.generic import TemplateView
-from .models import HeroSlide, Statistics, Achievement, Ministry, MinistrySection, Gallery, DemographicData, SiteLogo, AboutPage, AboutMinistry, MissionVision, Challenge, BoardMember
+from .models import HeroSlide, Statistics, Achievement, Ministry, MinistrySection, Gallery, Activity, DemographicData, SiteLogo, AboutPage, AboutMinistry, MissionVision, Challenge, BoardMember
 from .models import Project, ProjectPage, VolunteerPage, GoTeam, PrayerPartner, GiveSection, VolunteerApplication
 from .models import BlogPost, YouTubeVideo, SpotifyPodcast, MediaPage, ContactSubmission, DonationPage, BankAccount
 from .models import Page
@@ -158,6 +158,8 @@ def home(request):
         'gallery_items': Gallery.objects.filter(is_featured=True)[:6],
         'logo': SiteLogo.objects.last(),
         'recent_posts': BlogPost.objects.order_by('-published_date')[:8],
+        'youtube_videos': YouTubeVideo.objects.order_by('-published_date')[:12],
+        'activities': Activity.objects.order_by('order')[:16],
     }
     return render(request, 'core/home.html', context)
 

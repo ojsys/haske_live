@@ -171,6 +171,7 @@ p:last-child { margin-bottom: 0; }
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 0;
   background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 100%);
   pointer-events: none;
 }
@@ -180,17 +181,19 @@ p:last-child { margin-bottom: 0; }
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* Logo */
-.site-logo { flex-shrink: 0; z-index: 5; }
+.site-logo { flex-shrink: 0; position: relative; z-index: 5; }
 
 .site-logo img {
   height: 50px;
   width: auto;
   object-fit: contain;
   display: block;
-  filter: brightness(0) invert(1);
+  border-radius: 10px;
   transition: height var(--transition);
 }
 
@@ -2313,13 +2316,68 @@ select.form-control {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .media-video-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
-.mvc-embed {
-  position: relative; aspect-ratio: 16/9; overflow: hidden; background: var(--navy);
+/* Thumbnail */
+.mvc-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
 }
-.mvc-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.mvc-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.media-video-card:hover .mvc-thumb img { transform: scale(1.05); }
+
+/* Red YouTube play button overlay */
+.mvc-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.25);
+  transition: background 0.3s;
+}
+.mvc-play-btn i {
+  font-size: 4rem;
+  color: #ff0000;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.7));
+  transition: transform 0.3s, color 0.3s;
+}
+.media-video-card:hover .mvc-play-btn { background: rgba(0,0,0,0.45); }
+.media-video-card:hover .mvc-play-btn i { transform: scale(1.12); color: #ff2222; }
+
+/* Featured badge */
+.mvc-feat-badge {
+  position: absolute;
+  top: 0.65rem; left: 0.65rem;
+  font-size: 0.67rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #ff0000;
+  color: #fff;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
+  pointer-events: none;
+}
+
+/* Card body */
 .mvc-body { padding: 1.25rem 1.5rem; }
+.mvc-meta {
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  margin-bottom: 0.5rem;
+}
+.mvc-meta i { margin-right: 0.2rem; color: var(--gold); }
 .mvc-body h4 { font-size: 1rem; color: var(--navy); margin-bottom: 0.4rem; font-family: var(--font-heading); }
-.mvc-body p { font-size: 0.85rem; color: var(--gray-500); margin: 0; }
+.mvc-body p { font-size: 0.85rem; color: var(--gray-500); margin: 0 0 0.75rem; }
+.mvc-watch-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.8rem; font-weight: 700;
+  color: #ff0000;
+  transition: gap 0.2s;
+}
+.media-video-card:hover .mvc-watch-link { gap: 0.6rem; }
 
 .media-podcast-card {
   display: flex; align-items: center; gap: 1rem;
@@ -2343,6 +2401,46 @@ select.form-control {
 .mpc-dur { font-size: 0.78rem; color: var(--gray-500); }
 .mpc-arrow { color: var(--gray-300); font-size: 0.8rem; transition: color 0.2s, transform 0.2s; }
 .media-podcast-card:hover .mpc-arrow { color: var(--gold); transform: translateX(3px); }
+
+.btn-youtube {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: #ff0000;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  padding: 0.65rem 1.75rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-youtube:hover {
+  background: #cc0000;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,0,0,0.35);
+  text-decoration: none;
+}
+.btn-youtube i { font-size: 1.2rem; }
+
+.btn-spotify {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: #1ed760;
+  color: #000;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  padding: 0.65rem 1.75rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-spotify:hover {
+  background: #17b34e;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30,215,96,0.35);
+  text-decoration: none;
+}
+.btn-spotify i { font-size: 1.2rem; }
 
 /* ============================================================
    BLOG DETAIL PAGE
@@ -2629,10 +2727,12 @@ select.form-control {
   position: fixed; inset: 0; z-index: 9500;
   background: rgba(4,10,20,0.97);
   display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s ease;
+  visibility: hidden; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-.gallery-lightbox.active { opacity: 1; pointer-events: all; }
+.gallery-lightbox.active {
+  visibility: visible; opacity: 1; pointer-events: all;
+}
 
 .glb-stage {
   display: flex; flex-direction: column; align-items: center;
@@ -2784,4 +2884,282 @@ select.form-control {
 .mmb-text {
   font-size: 0.95rem; color: rgba(255,255,255,0.78);
   line-height: 1.85; margin: 0;
+}
+
+/* ============================================================
+   MISSIONARY JOURNAL PODCAST — YouTube video carousel
+   ============================================================ */
+.yt-pod-section {
+  background: var(--navy-dark, #06111e);
+  padding: 5rem 0 4rem;
+}
+.yt-pod-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+}
+.yt-pod-header h2 { color: var(--white); margin-bottom: 0; }
+.yt-pod-header .section-eyebrow { color: var(--gold-light, #e4a83c); }
+.yt-pod-header .divider { background: var(--gold); }
+.yt-pod-header .section-subtitle { color: rgba(255,255,255,0.68); margin-bottom: 0; }
+.yt-pod-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* "All Videos" button */
+.yt-all-btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: #ff0000;
+  color: #fff;
+  font-size: 0.8rem; font-weight: 700;
+  padding: 0.5rem 1.1rem;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+  border: none;
+}
+.yt-all-btn:hover { background: #cc0000; transform: scale(1.04); color: #fff; }
+
+/* light-coloured arrow buttons used on dark section */
+.hscroll-btn-light {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.hscroll-btn-light:hover:not(:disabled) {
+  background: rgba(255,255,255,0.22);
+  color: #fff;
+}
+.hscroll-btn-light:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Track */
+.yt-track-wrap { overflow: hidden; }
+.yt-track {
+  display: flex;
+  gap: 1.25rem;
+  transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+  user-select: none;
+}
+
+/* Cards — sized so exactly 3 fit on desktop */
+.yt-card {
+  width: calc((100vw - 2 * 1.5rem - 2 * 1.25rem) / 3);
+  max-width: 360px;
+  min-width: 260px;
+  flex-shrink: 0;
+  background: var(--surface, #111f30);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-xl, 18px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.yt-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 55px rgba(0,0,0,0.6);
+  text-decoration: none;
+  color: inherit;
+}
+.yt-card-featured {
+  border-color: rgba(255, 0, 0, 0.4);
+  box-shadow: 0 0 0 2px rgba(255,0,0,0.18);
+}
+
+/* Thumbnail */
+.yt-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+.yt-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.yt-card:hover .yt-thumb img { transform: scale(1.05); }
+
+/* Red YouTube play button overlay */
+.yt-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.25);
+  transition: background 0.3s;
+}
+.yt-play-btn i {
+  font-size: 3.5rem;
+  color: #ff0000;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7));
+  transition: transform 0.3s, color 0.3s;
+}
+.yt-card:hover .yt-play-btn { background: rgba(0,0,0,0.45); }
+.yt-card:hover .yt-play-btn i { transform: scale(1.12); color: #ff2222; }
+
+/* Featured badge */
+.yt-feat-badge {
+  position: absolute;
+  top: 0.65rem; left: 0.65rem;
+  font-size: 0.67rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #ff0000;
+  color: #fff;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
+  pointer-events: none;
+}
+
+/* Card body */
+.yt-card-body {
+  padding: 1rem 1.25rem 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.yt-card-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted, #5e7d9a);
+  margin-bottom: 0.55rem;
+}
+.yt-card-meta i { margin-right: 0.2rem; color: var(--gold); }
+.yt-card-title {
+  font-size: 0.97rem; font-weight: 700;
+  color: var(--white, #fff);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.yt-card-desc {
+  font-size: 0.82rem; color: rgba(255,255,255,0.5);
+  line-height: 1.6; margin: 0 0 auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.yt-watch-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  margin-top: 0.85rem;
+  font-size: 0.8rem; font-weight: 700;
+  color: #ff4444;
+  transition: gap 0.2s;
+}
+.yt-card:hover .yt-watch-link { gap: 0.6rem; }
+
+/* Responsive */
+@media (max-width: 991px) {
+  .yt-card {
+    width: calc((100vw - 2 * 1.5rem - 1.25rem) / 2);
+    max-width: 340px;
+  }
+}
+@media (max-width: 575px) {
+  .yt-card { width: 280px; max-width: 280px; }
+  .yt-pod-header { flex-direction: column; align-items: flex-start; }
+  .yt-pod-header-right { width: 100%; }
+}
+
+/* ============================================================
+   FIELD ACTIVITIES — tilted-card carousel
+   ============================================================ */
+.act-section {
+  background: var(--cream, #f7f2ed);
+  padding: 5rem 0 4rem;
+  overflow: hidden;
+}
+.act-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+}
+.act-arrows {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding-bottom: 0.25rem;
+}
+
+.act-track-wrap { overflow: hidden; }
+.act-track {
+  display: flex;
+  gap: 12px;
+  transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+  user-select: none;
+  padding: 16px 0 20px;   /* room for drop-shadow */
+}
+
+/* Parallelogram card */
+.act-card {
+  position: relative;
+  width: 210px;
+  height: 300px;
+  flex-shrink: 0;
+  overflow: hidden;
+  cursor: pointer;
+  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+  transition: clip-path 0.3s, transform 0.35s;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.28);
+}
+/* Alternate tilt: even cards lean the other way */
+.act-card.act-card-r {
+  clip-path: polygon(0% 0%, 90% 0%, 100% 100%, 10% 100%);
+}
+.act-card:hover {
+  transform: scale(1.04);
+  clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+  z-index: 2;
+}
+.act-card.act-card-r:hover {
+  clip-path: polygon(0% 0%, 95% 0%, 100% 100%, 5% 100%);
+}
+.act-card img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.55s ease;
+}
+.act-card:hover img { transform: scale(1.1); }
+.act-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(5,15,30,0.72) 100%
+  );
+  pointer-events: none;
+}
+.act-card-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0.85rem 1rem 0.75rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+  line-height: 1.2;
+}
+
+@media (max-width: 575px) {
+  .act-card { width: 165px; height: 240px; }
+  .act-section-header { flex-direction: column; align-items: flex-start; }
 }

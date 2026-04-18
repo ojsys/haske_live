@@ -6,7 +6,7 @@ from django.urls import path
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill
 from datetime import datetime
-from .models import HeroSlide, Statistics, Achievement, Ministry, MinistrySection, Gallery, DemographicData, SiteLogo, Subscriber, AboutPage, AboutMinistry, MissionVision, Challenge, BoardMember
+from .models import HeroSlide, Statistics, Achievement, Ministry, MinistrySection, Gallery, Activity, DemographicData, SiteLogo, Subscriber, AboutPage, AboutMinistry, MissionVision, Challenge, BoardMember
 from .models import Project, ProjectPage, VolunteerPage, GoTeam, GiveSection, PrayerPartner, VolunteerApplication
 from .models import BlogPost, BlogImage, YouTubeVideo, SpotifyPodcast, MediaPage, DonationPage, BankAccount
 from .models import Page, PageSection, PageSectionCard
@@ -99,6 +99,14 @@ class GalleryAdmin(AuditAdminMixin):
     list_editable = ('is_featured',)
     search_fields = ('title', 'description')
     list_filter = ('is_featured',)
+
+
+@admin.register(Activity)
+class ActivityAdmin(AuditAdminMixin):
+    list_display = ('title', 'order')
+    list_editable = ('order',)
+    search_fields = ('title',)
+    ordering = ('order',)
     
 
 @admin.register(MinistrySection)

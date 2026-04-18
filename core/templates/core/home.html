@@ -286,6 +286,83 @@
 {% endif %}
 
 <!-- ============================================================
+     MISSIONARY JOURNAL PODCAST — YouTube video carousel
+     ============================================================ -->
+{% if youtube_videos %}
+<section class="section yt-pod-section">
+  <div class="container">
+
+    <div class="yt-pod-header" data-animate>
+      <div>
+        <span class="section-eyebrow" style="color:var(--gold-light);">Video Messages</span>
+        <h2 style="color:var(--white);">Missionary Journal Podcast</h2>
+        <div class="divider" style="background:var(--gold);"></div>
+        <p class="section-subtitle" style="color:rgba(255,255,255,0.65);max-width:520px;">
+          Watch testimonies, teachings and stories from our missionaries across Nigeria.
+        </p>
+      </div>
+      <div class="yt-pod-header-right">
+        <div class="hscroll-arrows">
+          <button class="hscroll-btn hscroll-btn-light" id="ytPrev" aria-label="Previous" disabled>
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <button class="hscroll-btn hscroll-btn-light" id="ytNext" aria-label="Next">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+        <a href="https://www.youtube.com" target="_blank" rel="noopener"
+           class="btn btn-sm yt-all-btn d-none d-md-inline-flex">
+          <i class="fab fa-youtube"></i> All Videos
+        </a>
+      </div>
+    </div>
+
+    <div class="yt-track-wrap" data-animate data-animate-delay="1">
+      <div class="yt-track" id="ytTrack">
+        {% for video in youtube_videos %}
+        <a href="https://www.youtube.com/watch?v={{ video.video_id }}"
+           target="_blank" rel="noopener"
+           class="yt-card{% if video.is_featured %} yt-card-featured{% endif %}">
+
+          <!-- Thumbnail -->
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/{{ video.video_id }}/hqdefault.jpg"
+                 alt="{{ video.title }}" loading="lazy">
+            <div class="yt-play-btn">
+              <i class="fab fa-youtube"></i>
+            </div>
+            {% if video.is_featured %}
+            <span class="yt-feat-badge">Featured</span>
+            {% endif %}
+          </div>
+
+          <!-- Card body -->
+          <div class="yt-card-body">
+            <div class="yt-card-meta">
+              <i class="fas fa-calendar-alt"></i>
+              {{ video.published_date|date:"M d, Y" }}
+            </div>
+            <h4 class="yt-card-title">{{ video.title }}</h4>
+            <p class="yt-card-desc">{{ video.description|truncatechars:100 }}</p>
+            <span class="yt-watch-link">
+              Watch Video <i class="fas fa-arrow-right"></i>
+            </span>
+          </div>
+
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="hscroll-progress-wrap" style="margin-top:1.5rem;">
+      <div class="hscroll-progress-bar" id="ytProgress"></div>
+    </div>
+
+  </div>
+</section>
+{% endif %}
+
+<!-- ============================================================
      STORIES FROM THE FIELD — horizontal scroll carousel
      ============================================================ -->
 {% if recent_posts %}
@@ -404,6 +481,42 @@
   </div>
 </section>
 
+{% if activities %}
+<!-- ============================================================
+     ACTIVITIES CAROUSEL — tilted parallelogram cards
+     ============================================================ -->
+<section class="section act-section">
+  <div class="container">
+    <div class="act-section-header" data-animate>
+      <div>
+        <span class="section-eyebrow">Reaching Nigeria</span>
+        <h2>Field Activities</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="act-arrows">
+        <button class="hscroll-btn" id="actPrev" aria-label="Previous" disabled>
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <button class="hscroll-btn" id="actNext" aria-label="Next">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+    <div class="act-track-wrap" data-animate data-animate-delay="1">
+      <div class="act-track" id="actTrack">
+        {% for activity in activities %}
+        <div class="act-card act-card-{% cycle 'l' 'r' %}">
+          <img src="{{ activity.image.url }}" alt="{{ activity.title }}" loading="lazy">
+          <div class="act-card-overlay"></div>
+          <div class="act-card-label">{{ activity.title }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% if gallery_items %}
 <!-- ============================================================
      GALLERY — Activities Collage
@@ -421,7 +534,7 @@
     <div class="gallery-collage gc-n{% if cnt >= 5 %}5{% elif cnt == 4 %}4{% elif cnt == 3 %}3{% elif cnt == 2 %}2{% else %}1{% endif %}" data-animate>
       {% for item in gallery_items %}
       {% if forloop.counter <= 5 %}
-      <div class="gc-item gc-item-{{ forloop.counter }}" data-idx="{{ forloop.counter0 }}" onclick="openGalleryLightbox({{ forloop.counter0 }})">
+      <div class="gc-item gc-item-{{ forloop.counter }}" data-idx="{{ forloop.counter0 }}" role="button" tabindex="0" aria-label="View {{ item.title }}"  style="cursor:pointer;">
         <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
         {% if forloop.counter == 5 and cnt > 5 %}
         <div class="gc-overlay gc-more">
@@ -447,9 +560,9 @@
 </section>
 
 <!-- Gallery Lightbox Modal -->
-<div class="gallery-lightbox" id="galleryLightbox">
-  <button class="glb-close" onclick="closeGalleryLightbox()"><i class="fas fa-times"></i></button>
-  <button class="glb-nav glb-prev" id="glbPrev" onclick="galleryNav(-1)"><i class="fas fa-chevron-left"></i></button>
+<div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true">
+  <button class="glb-close" id="glbClose" aria-label="Close"><i class="fas fa-times"></i></button>
+  <button class="glb-nav glb-prev" id="glbPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
   <div class="glb-stage">
     <div class="glb-img-wrap">
       <img src="" alt="" id="glbImg">
@@ -459,55 +572,10 @@
       <span class="glb-counter" id="glbCounter"></span>
     </div>
   </div>
-  <button class="glb-nav glb-next" id="glbNext" onclick="galleryNav(1)"><i class="fas fa-chevron-right"></i></button>
+  <button class="glb-nav glb-next" id="glbNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
 </div>
-
-<script>
-(function(){
-  const galleryItems = [{% for item in gallery_items %}{"url":"{{ item.image.url }}","title":"{{ item.title|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}];
-  let glbCurrent = 0;
-
-  window.openGalleryLightbox = function(idx) {
-    glbCurrent = idx;
-    renderLightbox();
-    document.getElementById('galleryLightbox').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
-  window.closeGalleryLightbox = function() {
-    document.getElementById('galleryLightbox').classList.remove('active');
-    document.body.style.overflow = '';
-  };
-  window.galleryNav = function(dir) {
-    glbCurrent = (glbCurrent + dir + galleryItems.length) % galleryItems.length;
-    renderLightbox();
-  };
-
-  function renderLightbox() {
-    const item = galleryItems[glbCurrent];
-    const img = document.getElementById('glbImg');
-    img.style.opacity = '0';
-    img.src = item.url;
-    img.alt = item.title;
-    img.onload = function(){ img.style.transition = 'opacity 0.25s'; img.style.opacity = '1'; };
-    document.getElementById('glbTitle').textContent = item.title || '';
-    document.getElementById('glbCounter').textContent = (glbCurrent + 1) + ' \u2f ' + galleryItems.length;
-    const multi = galleryItems.length > 1;
-    document.getElementById('glbPrev').style.display = multi ? '' : 'none';
-    document.getElementById('glbNext').style.display = multi ? '' : 'none';
-  }
-
-  document.addEventListener('keydown', function(e) {
-    const lb = document.getElementById('galleryLightbox');
-    if (!lb.classList.contains('active')) return;
-    if (e.key === 'Escape')      closeGalleryLightbox();
-    if (e.key === 'ArrowLeft')   galleryNav(-1);
-    if (e.key === 'ArrowRight')  galleryNav(1);
-  });
-  document.getElementById('galleryLightbox').addEventListener('click', function(e) {
-    if (e.target === this) closeGalleryLightbox();
-  });
-})();
-</script>
+{# Gallery items JSON data for lightbox — rendered here, script moved to {% block js %} #}
+<script id="galleryData" type="application/json">[{% for item in gallery_items %}{"url":"{{ item.image.url }}","title":"{{ item.title|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}]</script>
 {% endif %}
 
 <!-- ============================================================
@@ -653,17 +721,71 @@ document.getElementById('subscribeForm').addEventListener('submit', function(e) 
 });
 
 /* ============================================================
-   PhotoSwipe Gallery
+   Gallery Lightbox
    ============================================================ */
-const lightbox = new PhotoSwipeLightbox({
-  gallery: '#pswpGallery',
-  children: 'a',
-  pswpModule: PhotoSwipe
-});
-lightbox.init();
+(function () {
+  const dataEl = document.getElementById('galleryData');
+  if (!dataEl) return;
+  const galleryItems = JSON.parse(dataEl.textContent);
+  const lb    = document.getElementById('galleryLightbox');
+  const img   = document.getElementById('glbImg');
+  const title = document.getElementById('glbTitle');
+  const ctr   = document.getElementById('glbCounter');
+  const prev  = document.getElementById('glbPrev');
+  const next  = document.getElementById('glbNext');
+  if (!lb) return;
+  let current = 0;
+
+  function render() {
+    const item = galleryItems[current];
+    img.style.opacity = '0';
+    img.onload = function () { img.style.transition = 'opacity .25s'; img.style.opacity = '1'; };
+    img.src = item.url;
+    img.alt = item.title || '';
+    title.textContent = item.title || '';
+    ctr.textContent   = (current + 1) + ' / ' + galleryItems.length;
+    const multi = galleryItems.length > 1;
+    if (prev) prev.style.visibility = multi ? 'visible' : 'hidden';
+    if (next) next.style.visibility = multi ? 'visible' : 'hidden';
+  }
+
+  window.openGalleryLightbox = function (idx) {
+    current = idx;
+    render();
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeGalleryLightbox = function () {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  window.galleryNav = function (dir) {
+    current = (current + dir + galleryItems.length) % galleryItems.length;
+    render();
+  };
+
+  /* gc-item onclick wired via data attribute (avoid inline onclick issues) */
+  document.querySelectorAll('.gc-item').forEach(function (el) {
+    el.addEventListener('click', function () {
+      window.openGalleryLightbox(parseInt(el.dataset.idx, 10));
+    });
+  });
+
+  document.getElementById('glbClose').addEventListener('click', window.closeGalleryLightbox);
+  if (prev) prev.addEventListener('click', function () { window.galleryNav(-1); });
+  if (next) next.addEventListener('click', function () { window.galleryNav(1); });
+
+  lb.addEventListener('click', function (e) { if (e.target === lb) window.closeGalleryLightbox(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape')     window.closeGalleryLightbox();
+    if (e.key === 'ArrowLeft')  window.galleryNav(-1);
+    if (e.key === 'ArrowRight') window.galleryNav(1);
+  });
+})();
 
 /* ============================================================
-   Horizontal Scroll Carousel
+   Blog Stories — Horizontal Scroll Carousel
    ============================================================ */
 (function () {
   const track    = document.getElementById('hsTrack');
@@ -693,6 +815,90 @@ lightbox.init();
 
   btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 2));
   btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 2));
+
+  let startX = 0, startOffset = 0, dragging = false;
+  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });
+  document.addEventListener('mousemove', e => { if (!dragging) return; slideTo(startOffset - (e.clientX - startX)); });
+  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; }, { passive: true });
+  track.addEventListener('touchmove', e => { slideTo(startOffset - (e.touches[0].clientX - startX)); }, { passive: true });
+  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); });
+  window.addEventListener('resize', () => slideTo(offset));
+  updateUI();
+})();
+
+/* ============================================================
+   YouTube Podcast Carousel
+   ============================================================ */
+(function () {
+  const track    = document.getElementById('ytTrack');
+  const btnPrev  = document.getElementById('ytPrev');
+  const btnNext  = document.getElementById('ytNext');
+  const progress = document.getElementById('ytProgress');
+  if (!track) return;
+  const CARD_GAP = 20;
+  let offset = 0;
+
+  function cardWidth() {
+    const card = track.querySelector('.yt-card');
+    return card ? card.offsetWidth + CARD_GAP : 320;
+  }
+  function maxOffset() { return Math.max(0, track.scrollWidth - track.parentElement.offsetWidth); }
+  function updateUI() {
+    const max = maxOffset();
+    if (btnPrev) btnPrev.disabled = offset <= 0;
+    if (btnNext) btnNext.disabled = offset >= max;
+    if (progress) progress.style.width = (max > 0 ? Math.min(100, (offset / max) * 100) : 0) + '%';
+  }
+  function slideTo(v) {
+    offset = Math.max(0, Math.min(v, maxOffset()));
+    track.style.transform = `translateX(-${offset}px)`;
+    updateUI();
+  }
+
+  if (btnNext) btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 3));
+  if (btnPrev) btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 3));
+
+  let startX = 0, startOffset = 0, dragging = false;
+  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });
+  document.addEventListener('mousemove', e => { if (!dragging) return; slideTo(startOffset - (e.clientX - startX)); });
+  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; }, { passive: true });
+  track.addEventListener('touchmove', e => { slideTo(startOffset - (e.touches[0].clientX - startX)); }, { passive: true });
+  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); });
+  window.addEventListener('resize', () => slideTo(offset));
+  updateUI();
+})();
+
+/* ============================================================
+   Activities Carousel
+   ============================================================ */
+(function () {
+  const track    = document.getElementById('actTrack');
+  const btnPrev  = document.getElementById('actPrev');
+  const btnNext  = document.getElementById('actNext');
+  if (!track) return;
+  const CARD_GAP = 12;
+  let offset = 0;
+
+  function cardWidth() {
+    const card = track.querySelector('.act-card');
+    return card ? card.offsetWidth + CARD_GAP : 230;
+  }
+  function maxOffset() { return Math.max(0, track.scrollWidth - track.parentElement.offsetWidth); }
+  function updateUI() {
+    const max = maxOffset();
+    if (btnPrev) btnPrev.disabled = offset <= 0;
+    if (btnNext) btnNext.disabled = offset >= max;
+  }
+  function slideTo(v) {
+    offset = Math.max(0, Math.min(v, maxOffset()));
+    track.style.transform = `translateX(-${offset}px)`;
+    updateUI();
+  }
+
+  if (btnNext) btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 3));
+  if (btnPrev) btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 3));
 
   let startX = 0, startOffset = 0, dragging = false;
   track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });

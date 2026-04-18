@@ -64,17 +64,37 @@
     <div class="row g-4 mt-2">
       {% for video in videos %}
       <div class="col-md-6" data-animate data-animate-delay="{{ forloop.counter }}">
-        <div class="media-video-card">
-          <div class="mvc-embed">
-            <iframe src="{{ video.embed_url }}" title="{{ video.title }}" allowfullscreen loading="lazy"></iframe>
+        <a href="https://www.youtube.com/watch?v={{ video.video_id }}"
+           target="_blank" rel="noopener"
+           class="media-video-card text-decoration-none">
+          <div class="mvc-thumb">
+            <img src="https://img.youtube.com/vi/{{ video.video_id }}/hqdefault.jpg"
+                 alt="{{ video.title }}" loading="lazy">
+            <div class="mvc-play-btn">
+              <i class="fab fa-youtube"></i>
+            </div>
+            {% if video.is_featured %}
+            <span class="mvc-feat-badge">Featured</span>
+            {% endif %}
           </div>
           <div class="mvc-body">
+            <div class="mvc-meta">
+              <i class="fas fa-calendar-alt"></i> {{ video.published_date|date:"M d, Y" }}
+            </div>
             <h4>{{ video.title }}</h4>
             <p>{{ video.description|truncatechars:120 }}</p>
+            <span class="mvc-watch-link">Watch on YouTube <i class="fas fa-arrow-right"></i></span>
           </div>
-        </div>
+        </a>
       </div>
       {% endfor %}
+    </div>
+    <div class="text-center mt-5" data-animate>
+      <a href="https://www.youtube.com/@HaskeProject"
+         target="_blank" rel="noopener"
+         class="btn btn-youtube btn-lg">
+        <i class="fab fa-youtube"></i> View All on YouTube
+      </a>
     </div>
   </div>
 </section>
@@ -102,6 +122,13 @@
         </div>
       </div>
       {% endfor %}
+    </div>
+    <div class="text-center mt-5" data-animate>
+      <a href="https://open.spotify.com/show/2P8KYcKzvZdJqCaUmPfRqG"
+         target="_blank" rel="noopener"
+         class="btn btn-spotify btn-lg">
+        <i class="fab fa-spotify"></i> View All on Spotify
+      </a>
     </div>
   </div>
 </section>

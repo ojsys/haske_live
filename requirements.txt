@@ -6,9 +6,11 @@ django-cors-headers==4.6.0
 django-import-export==4.3.3
 django-jazzmin==3.0.1
 django-js-asset==2.2.0
+django-simple-history==3.7.0
 django-tinymce==4.1.0
 djangorestframework==3.15.2
 et_xmlfile==2.0.0
+mysqlclient==2.2.4
 openpyxl==3.1.5
 pillow==11.0.0
 python-decouple==3.8
@@ -16,5 +18,3 @@ sqlparse==0.5.2
 tablib==3.7.0
 whitenoise==6.8.2
 XlsxWriter==3.2.0
-gunicorn
-django-cors-headers

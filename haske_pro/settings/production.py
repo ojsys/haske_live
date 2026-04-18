@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from haske_pro.settings import get_secret
+from haske_pro.settings import get_secret  # noqa: E402 — loaded after env vars set
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -119,20 +119,17 @@ WSGI_APPLICATION = 'haske_pro.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-DB_NAME = get_secret("DB_NAME")
-DB_USER_NM = get_secret("DB_USER_NM")
-DB_USER_PW = get_secret("DB_USER_PW")
-DB_IP = get_secret("DB_IP")
-DB_PORT = get_secret("DB_PORT")
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,
-        'USER': DB_USER_NM,
-        'PASSWORD': DB_USER_PW,
-        'HOST': DB_IP,
-        'PORT': DB_PORT,
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': get_secret("DB_NAME"),
+        'USER': get_secret("DB_USER_NM"),
+        'PASSWORD': get_secret("DB_USER_PW"),
+        'HOST': get_secret("DB_IP", default='localhost'),
+        'PORT': get_secret("DB_PORT", default='3306'),
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -172,11 +169,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / '/staticfiles/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR.parent / 'static']
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = False   # cPanel handles SSL termination
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 # Default primary key field type
