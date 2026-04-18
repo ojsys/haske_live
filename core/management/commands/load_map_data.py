@@ -30,15 +30,19 @@ class Command(BaseCommand):
             app_dir = Path(__file__).resolve().parent.parent.parent
             fixture_path = str(app_dir / "fixtures" / "map_data.json")
 
-        # Clear existing data
-        from core.models import DemographicData
-        count = DemographicData.objects.count()
-        DemographicData.objects.all().delete()
-        self.stdout.write(f"Cleared {count} existing records.")
+        # Truncate via raw SQL — bypasses ORM and clears any orphaned rows
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("SET FOREIGN_KEY_CHECKS=0;")
+            cursor.execute("TRUNCATE TABLE core_demographicdata;")
+            cursor.execute("TRUNCATE TABLE core_historicaldemographicdata;")
+            cursor.execute("SET FOREIGN_KEY_CHECKS=1;")
+        self.stdout.write("Truncated core_demographicdata table.")
 
         # Load fresh
         self.stdout.write("Loading map_data.json…")
         call_command("loaddata", fixture_path)
 
+        from core.models import DemographicData
         new_count = DemographicData.objects.count()
         self.stdout.write(self.style.SUCCESS(f"✓ Loaded {new_count} records."))
