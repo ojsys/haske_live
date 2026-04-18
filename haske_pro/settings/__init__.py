@@ -1,4 +1,6 @@
 import os
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 def get_secret(secret_id, backup=None, default=None, cast=None):
