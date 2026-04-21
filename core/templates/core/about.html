@@ -293,9 +293,239 @@
 {% endif %}
 
 <!-- ============================================================
-     BOARD MEMBERS — cinematic portrait cards
+     BOARD MEMBERS — portrait cards with custom bio modal
      ============================================================ -->
 {% if board_members %}
+<style>
+/* ── Board Member Cards ── */
+.about-member-card {
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+}
+.amc-portrait {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 0;
+}
+.amc-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+  display: block;
+}
+.about-member-card:hover .amc-portrait img { transform: scale(1.05); }
+.about-member-card:hover .amc-portrait { box-shadow: 0 12px 40px rgba(0,0,0,0.22); }
+.amc-portrait-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7,17,31,0.82) 0%, rgba(7,17,31,0.15) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1.1rem 0.75rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.about-member-card:hover .amc-portrait-overlay { opacity: 1; }
+.amc-view-bio-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #c8922a;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+.amc-info {
+  padding: 0.85rem 0.25rem 0;
+}
+.amc-info h5 {
+  font-family: var(--font-heading, serif);
+  font-size: 0.98rem;
+  color: #0b1f3a;
+  margin-bottom: 0.2rem;
+}
+.amc-info .amc-position {
+  font-size: 0.75rem;
+  color: #c8922a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+}
+.amc-cta-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: #0b1f3a;
+  opacity: 0.5;
+  margin-top: 0.45rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s;
+}
+.about-member-card:hover .amc-cta-hint { opacity: 0.85; }
+.amc-cta-hint i { font-size: 0.65rem; }
+
+/* ── Bio Modal Overlay ── */
+.bio-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(7,17,31,0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.bio-modal-overlay.active { display: flex; }
+
+.bio-modal-box {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+  position: relative;
+  margin: auto;
+  animation: bioModalIn 0.28s cubic-bezier(0.34,1.28,0.64,1) both;
+}
+@keyframes bioModalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.bio-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.bio-modal-close:hover { background: #0b1f3a; }
+
+/* Photo strip */
+.bio-modal-photo {
+  width: 100%;
+  height: 220px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  background: #0b1f3a;
+}
+.bio-modal-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+.bio-modal-photo-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7,17,31,0.7) 0%, transparent 55%);
+}
+.bio-modal-photo-id {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.5rem;
+  right: 4rem;
+}
+.bio-modal-photo-id h3 {
+  color: #fff;
+  font-size: 1.35rem;
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+}
+.bio-modal-role-badge {
+  display: inline-block;
+  background: #c8922a;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 50px;
+}
+
+/* Scrollable body */
+.bio-modal-body {
+  padding: 1.75rem 2rem 2rem;
+  overflow-y: auto;
+  flex: 1;
+}
+.bio-modal-divider {
+  height: 2px;
+  width: 40px;
+  background: #c8922a;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+}
+.bio-modal-bio-text {
+  font-size: 0.96rem;
+  line-height: 1.85;
+  color: #444;
+  white-space: pre-line;
+}
+
+@media (min-width: 576px) {
+  .bio-modal-photo { height: 280px; }
+}
+@media (min-width: 768px) {
+  .bio-modal-box {
+    flex-direction: row;
+    max-height: 88vh;
+  }
+  .bio-modal-photo {
+    width: 260px;
+    height: auto;
+    flex-shrink: 0;
+    flex-direction: column;
+    border-radius: 0;
+  }
+  .bio-modal-photo img { object-position: top center; }
+  .bio-modal-photo-gradient {
+    background: linear-gradient(to top, rgba(7,17,31,0.8) 0%, transparent 50%);
+  }
+  .bio-modal-photo-id { bottom: 1.5rem; left: 1.25rem; right: 1.25rem; }
+  .bio-modal-body {
+    padding: 2rem 2rem 2rem 1.75rem;
+    overflow-y: auto;
+  }
+}
+</style>
+
 <section class="section bg-white">
   <div class="container">
     <div class="section-header center" data-animate>
@@ -309,43 +539,22 @@
       {% for member in board_members %}
       <div class="col-6 col-md-4 col-lg-3" data-animate data-animate-delay="{{ forloop.counter }}">
 
-        <!-- Card (click opens modal) -->
-        <div class="about-member-card" data-bs-toggle="modal" data-bs-target="#memberModal{{ member.pk }}" role="button" tabindex="0">
+        <div class="about-member-card"
+             onclick="openBioModal({{ member.pk }})"
+             onkeydown="if(event.key==='Enter'||event.key===' ')openBioModal({{ member.pk }})"
+             role="button"
+             tabindex="0"
+             aria-label="View {{ member.name }}'s full bio">
           <div class="amc-portrait">
             <img src="{{ member.image.url }}" alt="{{ member.name }}" loading="lazy">
             <div class="amc-portrait-overlay">
-              <i class="fas fa-plus"></i>
+              <span class="amc-view-bio-badge"><i class="fas fa-user"></i> View Bio</span>
             </div>
           </div>
           <div class="amc-info">
             <h5>{{ member.name }}</h5>
-            <span>{{ member.position }}</span>
-          </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="memberModal{{ member.pk }}" tabindex="-1" aria-label="{{ member.name }}">
-          <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content about-member-modal">
-              <button type="button" class="amc-modal-close" data-bs-dismiss="modal" aria-label="Close">
-                <i class="fas fa-times"></i>
-              </button>
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div class="amc-modal-photo">
-                    <img src="{{ member.image.url }}" alt="{{ member.name }}">
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="amc-modal-body">
-                    <h3>{{ member.name }}</h3>
-                    <span class="amc-modal-role">{{ member.position }}</span>
-                    <div class="divider" style="margin-top:1rem;margin-bottom:1.25rem;"></div>
-                    <p>{{ member.bio }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <span class="amc-position">{{ member.position }}</span>
+            <div class="amc-cta-hint"><i class="fas fa-arrow-up-right-from-square"></i> Click to read full bio</div>
           </div>
         </div>
 
@@ -354,6 +563,79 @@
     </div>
   </div>
 </section>
+
+<!-- Bio Modals (one per member) -->
+{% for member in board_members %}
+<div class="bio-modal-overlay" id="bioModal{{ member.pk }}" role="dialog" aria-modal="true" aria-label="{{ member.name }}">
+  <div class="bio-modal-box">
+
+    <button class="bio-modal-close" onclick="closeBioModal({{ member.pk }})" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+
+    {% if member.image %}
+    <div class="bio-modal-photo">
+      <img src="{{ member.image.url }}" alt="{{ member.name }}">
+      <div class="bio-modal-photo-gradient"></div>
+      <div class="bio-modal-photo-id">
+        <h3>{{ member.name }}</h3>
+        <span class="bio-modal-role-badge">{{ member.position }}</span>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="bio-modal-body">
+      {% if not member.image %}
+      <h3 style="color:#0b1f3a;margin-bottom:0.25rem;">{{ member.name }}</h3>
+      <span class="bio-modal-role-badge" style="margin-bottom:1rem;display:inline-block;">{{ member.position }}</span>
+      {% endif %}
+      <div class="bio-modal-divider"></div>
+      <div class="bio-modal-bio-text">{{ member.bio }}</div>
+    </div>
+
+  </div>
+</div>
+{% endfor %}
+
+<script>
+(function () {
+  function openBioModal(id) {
+    const el = document.getElementById('bioModal' + id);
+    if (!el) return;
+    el.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    el.querySelector('.bio-modal-close')?.focus();
+  }
+  function closeBioModal(id) {
+    const el = document.getElementById('bioModal' + id);
+    if (!el) return;
+    el.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  window.openBioModal  = openBioModal;
+  window.closeBioModal = closeBioModal;
+
+  // Close on overlay click
+  document.querySelectorAll('.bio-modal-overlay').forEach(function (overlay) {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.bio-modal-overlay.active').forEach(function (m) {
+        m.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+})();
+</script>
 {% endif %}
 
 <!-- ============================================================
