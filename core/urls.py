@@ -1,7 +1,8 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from .views import StateDemographicView, DemographicsMapView
 from django.conf.urls.static import static
+from django.views.static import serve
 from . import views
 from . import editor_views
 
@@ -143,4 +144,6 @@ urlpatterns = [
     path('editor/api/blog/<int:post_id>/save/', editor_views.editor_blog_save, name='editor_blog_save_update'),
     path('editor/api/blog/<int:post_id>/delete/', editor_views.editor_blog_delete, name='editor_blog_delete'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Serve media files in all environments (including production/DEBUG=False)
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]

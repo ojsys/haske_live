@@ -236,55 +236,58 @@ p:last-child { margin-bottom: 0; }
 .nav-link-item:hover,
 .nav-link-item.active { color: var(--gold-light); }
 
-/* Dropdown */
+/* Dropdown — shared */
 .has-dropdown { position: relative; }
 
-/* Invisible bridge fills the gap so cursor doesn't leave the hover zone */
-.has-dropdown::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0; right: 0;
-  height: 12px;   /* covers the gap + arrow area */
-}
+/* Desktop-only: absolute flyout panel */
+@media (min-width: 992px) {
+  /* Invisible bridge keeps hover zone across the gap */
+  .has-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    height: 12px;
+  }
 
-.has-dropdown:hover .nav-dropdown,
-.has-dropdown.open .nav-dropdown {
-  opacity: 1;
-  transform: translate(-50%, 0);
-  pointer-events: all;
-  visibility: visible;
-}
+  .nav-dropdown {
+    visibility: hidden;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translate(-50%, -6px);
+    min-width: 210px;
+    background: var(--navy);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 200;
+  }
 
-.nav-dropdown {
-  visibility: hidden;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translate(-50%, -6px);
-  min-width: 210px;
-  background: var(--navy);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: var(--radius-md);
-  padding: 0.5rem;
-  box-shadow: 0 12px 36px rgba(0,0,0,0.35);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-  z-index: 200;
-}
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown.open .nav-dropdown {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: all;
+    visibility: visible;
+  }
 
-/* Arrow */
-.nav-dropdown::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 10px; height: 10px;
-  background: var(--navy);
-  border-left: 1px solid rgba(255,255,255,0.09);
-  border-top: 1px solid rgba(255,255,255,0.09);
+  /* Arrow tip */
+  .nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px; height: 10px;
+    background: var(--navy);
+    border-left: 1px solid rgba(255,255,255,0.09);
+    border-top: 1px solid rgba(255,255,255,0.09);
+  }
 }
 
 .nav-dropdown-item {
@@ -1499,36 +1502,19 @@ select.form-control {
     transform: rotate(180deg);
   }
 
-  /* ---- Mobile dropdown: fix the alignment/visibility bug ---- */
-  /* Reset ALL dropdown positioning for mobile — use !important to
-     beat the higher-specificity desktop open-state rules */
-  .nav-dropdown,
-  .has-dropdown:hover .nav-dropdown,
-  .has-dropdown.open .nav-dropdown {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: all !important;
+  /* Mobile dropdown — clean accordion, no position conflicts */
+  .nav-dropdown {
     display: block;
-    box-shadow: none;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    margin: 0;
     width: 100%;
-    background: rgba(255,255,255,0.04);
     overflow: hidden;
     max-height: 0;
+    background: rgba(255,255,255,0.04);
     transition: max-height 0.35s ease;
   }
-  .nav-dropdown::before { display: none !important; }
 
-  /* Open state: expand */
+  /* Expand when parent is open */
   .has-dropdown.open .nav-dropdown {
-    max-height: 400px !important;
+    max-height: 400px;
   }
 
   /* Dropdown items indented */
@@ -1578,11 +1564,15 @@ select.form-control {
 
 /* ---- Mobile (767px) ---------------------------------------- */
 @media (max-width: 767px) {
-  /* Hero */
-  .hero-content h1 { font-size: clamp(1.75rem, 6.5vw, 2.4rem); }
-  .hero-content { padding: 7.5rem 0 5rem; text-align: left; }
-  .hero-actions { flex-direction: column; align-items: stretch; }
-  .hero-actions .btn { width: 100%; justify-content: center; }
+  /* Hero — scaled down so background image shows */
+  .hero-content { padding: 6rem 0 3.5rem; }
+  .hero-content h1 { font-size: clamp(1.4rem, 5.5vw, 1.9rem); margin-bottom: 0.75rem; }
+  .hero-subtitle, .hero-content p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.25rem; }
+  .hero-eyebrow-wrap { margin-bottom: 0.75rem; }
+  .section-eyebrow { font-size: 0.7rem; }
+  /* Shrink hero buttons */
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 0.6rem; margin-top: 0.75rem !important; }
+  .hero-actions .btn { width: 100%; justify-content: center; padding: 0.65rem 1.25rem; font-size: 0.88rem; }
 
   /* Page banner */
   .page-banner { padding: 6rem 0 2.5rem; min-height: auto; }
@@ -1699,7 +1689,8 @@ select.form-control {
   .home-newsletter-card { padding: 1.25rem; }
 
   /* Hero */
-  .hero-content { padding: 6.5rem 0 4rem; }
+  .hero-content { padding: 5.5rem 0 3rem; }
+  .hero-content h1 { font-size: clamp(1.25rem, 5vw, 1.6rem); }
   .hero-eyebrow-wrap { justify-content: flex-start; }
 
   /* Bank card numbers */
