@@ -813,18 +813,31 @@ document.getElementById('subscribeForm').addEventListener('submit', function(e) 
     updateUI();
   }
 
-  btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 2));
-  btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 2));
+  btnNext.addEventListener('click', () => { autoStop(); slideTo(offset + cardWidth() * 2); autoStart(); });
+  btnPrev.addEventListener('click', () => { autoStop(); slideTo(offset - cardWidth() * 2); autoStart(); });
 
   let startX = 0, startOffset = 0, dragging = false;
-  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });
+  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; autoStop(); });
   document.addEventListener('mousemove', e => { if (!dragging) return; slideTo(startOffset - (e.clientX - startX)); });
-  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); });
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; }, { passive: true });
+  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); autoStart(); });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; autoStop(); }, { passive: true });
   track.addEventListener('touchmove', e => { slideTo(startOffset - (e.touches[0].clientX - startX)); }, { passive: true });
-  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); });
+  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); autoStart(); });
   window.addEventListener('resize', () => slideTo(offset));
   updateUI();
+
+  // Auto-advance
+  let hsAutoTimer;
+  function autoStart() {
+    hsAutoTimer = setInterval(() => {
+      const max = maxOffset();
+      slideTo(offset >= max ? 0 : offset + cardWidth());
+    }, 4000);
+  }
+  function autoStop() { clearInterval(hsAutoTimer); }
+  track.parentElement.addEventListener('mouseenter', autoStop);
+  track.parentElement.addEventListener('mouseleave', autoStart);
+  autoStart();
 })();
 
 /* ============================================================
@@ -856,18 +869,31 @@ document.getElementById('subscribeForm').addEventListener('submit', function(e) 
     updateUI();
   }
 
-  if (btnNext) btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 3));
-  if (btnPrev) btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 3));
+  if (btnNext) btnNext.addEventListener('click', () => { ytAutoStop(); slideTo(offset + cardWidth() * 3); ytAutoStart(); });
+  if (btnPrev) btnPrev.addEventListener('click', () => { ytAutoStop(); slideTo(offset - cardWidth() * 3); ytAutoStart(); });
 
   let startX = 0, startOffset = 0, dragging = false;
-  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });
+  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; ytAutoStop(); });
   document.addEventListener('mousemove', e => { if (!dragging) return; slideTo(startOffset - (e.clientX - startX)); });
-  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); });
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; }, { passive: true });
+  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); ytAutoStart(); });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; ytAutoStop(); }, { passive: true });
   track.addEventListener('touchmove', e => { slideTo(startOffset - (e.touches[0].clientX - startX)); }, { passive: true });
-  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); });
+  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); ytAutoStart(); });
   window.addEventListener('resize', () => slideTo(offset));
   updateUI();
+
+  // Auto-advance
+  let ytAutoTimer;
+  function ytAutoStart() {
+    ytAutoTimer = setInterval(() => {
+      const max = maxOffset();
+      slideTo(offset >= max ? 0 : offset + cardWidth());
+    }, 4500);
+  }
+  function ytAutoStop() { clearInterval(ytAutoTimer); }
+  track.parentElement.addEventListener('mouseenter', ytAutoStop);
+  track.parentElement.addEventListener('mouseleave', ytAutoStart);
+  ytAutoStart();
 })();
 
 /* ============================================================
@@ -897,18 +923,31 @@ document.getElementById('subscribeForm').addEventListener('submit', function(e) 
     updateUI();
   }
 
-  if (btnNext) btnNext.addEventListener('click', () => slideTo(offset + cardWidth() * 3));
-  if (btnPrev) btnPrev.addEventListener('click', () => slideTo(offset - cardWidth() * 3));
+  if (btnNext) btnNext.addEventListener('click', () => { actAutoStop(); slideTo(offset + cardWidth() * 3); actAutoStart(); });
+  if (btnPrev) btnPrev.addEventListener('click', () => { actAutoStop(); slideTo(offset - cardWidth() * 3); actAutoStart(); });
 
   let startX = 0, startOffset = 0, dragging = false;
-  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; });
+  track.addEventListener('mousedown', e => { dragging = true; startX = e.clientX; startOffset = offset; track.style.transition = 'none'; actAutoStop(); });
   document.addEventListener('mousemove', e => { if (!dragging) return; slideTo(startOffset - (e.clientX - startX)); });
-  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); });
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; }, { passive: true });
+  document.addEventListener('mouseup', () => { dragging = false; track.style.transition = ''; updateUI(); actAutoStart(); });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startOffset = offset; track.style.transition = 'none'; actAutoStop(); }, { passive: true });
   track.addEventListener('touchmove', e => { slideTo(startOffset - (e.touches[0].clientX - startX)); }, { passive: true });
-  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); });
+  track.addEventListener('touchend', () => { track.style.transition = ''; updateUI(); actAutoStart(); });
   window.addEventListener('resize', () => slideTo(offset));
   updateUI();
+
+  // Auto-advance
+  let actAutoTimer;
+  function actAutoStart() {
+    actAutoTimer = setInterval(() => {
+      const max = maxOffset();
+      slideTo(offset >= max ? 0 : offset + cardWidth());
+    }, 3500);
+  }
+  function actAutoStop() { clearInterval(actAutoTimer); }
+  track.parentElement.addEventListener('mouseenter', actAutoStop);
+  track.parentElement.addEventListener('mouseleave', actAutoStart);
+  actAutoStart();
 })();
 </script>
 {% endblock %}
