@@ -29,6 +29,140 @@
   <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
   {% block css %}{% endblock %}
+
+  <!-- Mobile nav override — inline so it bypasses collectstatic caching -->
+  <style>
+  @media (max-width: 991px) {
+
+    /* ── Drawer ── */
+    .nav-list {
+      position: fixed !important;
+      top: 0 !important;
+      right: -100% !important;
+      width: min(300px, 90vw) !important;
+      height: 100dvh !important;
+      background: #07111f !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      justify-content: flex-start !important;
+      padding: 0 0 2rem !important;
+      overflow-y: auto !important;
+      transition: right 0.3s ease !important;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.7) !important;
+      z-index: 1000 !important;
+      list-style: none !important;
+      gap: 0 !important;
+    }
+    .nav-list.is-open { right: 0 !important; }
+
+    /* header bar inside drawer */
+    .nav-list::before {
+      content: 'NAVIGATION' !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 56px !important;
+      padding: 0 1.25rem !important;
+      font-size: 0.6rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.2em !important;
+      color: rgba(255,255,255,0.25) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+      flex-shrink: 0 !important;
+      margin-bottom: 0.25rem !important;
+    }
+
+    .nav-list > li { width: 100% !important; }
+
+    /* regular link */
+    .nav-link-item {
+      display: flex !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 0.95rem 1.25rem !important;
+      font-size: 0.98rem !important;
+      font-weight: 500 !important;
+      color: rgba(255,255,255,0.85) !important;
+      border-radius: 0 !important;
+      border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+      white-space: normal !important;
+    }
+
+    /* "Our Work" — non-interactive section label */
+    .has-dropdown > .nav-link-item {
+      font-size: 0.62rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.18em !important;
+      text-transform: uppercase !important;
+      color: #c8922a !important;
+      padding: 0.9rem 1.25rem 0.35rem !important;
+      border-bottom: none !important;
+      pointer-events: none !important;
+      cursor: default !important;
+    }
+    .has-dropdown > .nav-link-item i { display: none !important; }
+
+    /* ── DROPDOWN — always visible, no toggle ── */
+    .nav-dropdown {
+      display: block !important;
+      position: static !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: none !important;
+      max-height: none !important;
+      overflow: visible !important;
+      background: rgba(255,255,255,0.04) !important;
+      border: 1px solid rgba(255,255,255,0.09) !important;
+      border-radius: 8px !important;
+      margin: 0 1rem 0.75rem !important;
+      padding: 2px 0 !important;
+      box-shadow: none !important;
+      pointer-events: all !important;
+      z-index: auto !important;
+      width: auto !important;
+      min-width: 0 !important;
+      left: auto !important;
+      top: auto !important;
+    }
+    .nav-dropdown::before { display: none !important; }
+
+    /* dropdown items */
+    .nav-dropdown-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.6rem !important;
+      padding: 0.85rem 1.25rem !important;
+      font-size: 0.93rem !important;
+      color: rgba(255,255,255,0.8) !important;
+      border-radius: 0 !important;
+      border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+      min-height: 48px !important;
+      position: static !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    .nav-dropdown-item:last-child { border-bottom: none !important; }
+    .nav-dropdown-item i { color: #c8922a !important; width: 16px !important; text-align: center !important; flex-shrink: 0 !important; }
+
+    /* Give button */
+    .btn-give {
+      display: flex !important;
+      margin: 1rem 1.25rem 0 !important;
+      width: calc(100% - 2.5rem) !important;
+      justify-content: center !important;
+      border-radius: 8px !important;
+    }
+
+    /* overlay */
+    .mob-overlay {
+      display: none;
+      position: fixed !important;
+      inset: 0 !important;
+      background: rgba(0,0,0,0.6) !important;
+      z-index: 999 !important;
+    }
+    .mob-overlay.show { display: block !important; }
+  }
+  </style>
 </head>
 <body>
 
