@@ -311,34 +311,26 @@ function closeNav() {
   mobOverlay.classList.remove('show');
   document.body.style.overflow = '';
   hamburger.setAttribute('aria-expanded', 'false');
-  document.querySelectorAll('.has-dropdown.open').forEach(d => d.classList.remove('open'));
 }
 
 hamburger.addEventListener('click', () => navList.classList.contains('is-open') ? closeNav() : openNav());
 mobOverlay.addEventListener('click', closeNav);
 
-// Dropdown: hover on desktop, click-toggle on mobile
+// Dropdown: hover-open on desktop only (mobile always shows items)
 document.querySelectorAll('.has-dropdown').forEach(item => {
   const trigger = item.querySelector('.nav-link-item');
   trigger.addEventListener('click', e => {
-    if (window.innerWidth <= 991) {
-      e.preventDefault();
-      document.querySelectorAll('.has-dropdown.open').forEach(other => {
-        if (other !== item) other.classList.remove('open');
-      });
-      item.classList.toggle('open');
+    if (window.innerWidth >= 992) {
+      // Desktop: prevent default on the # link, toggling handled by CSS :hover
     }
   });
 });
 
-// Close nav when any leaf link (non-dropdown-trigger) is tapped on mobile
+// Close nav when any nav link is tapped on mobile
 navList.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     if (window.innerWidth <= 991) {
-      const parentLi = link.closest('li');
-      if (!parentLi || !parentLi.classList.contains('has-dropdown')) {
-        closeNav();
-      }
+      closeNav();
     }
   });
 });
