@@ -297,19 +297,48 @@ function handleScroll() {
 window.addEventListener('scroll', handleScroll, { passive: true });
 handleScroll();
 
-function openNav()  { navList.classList.add('is-open'); hamburger.classList.add('is-open'); mobOverlay.classList.add('show'); document.body.style.overflow = 'hidden'; hamburger.setAttribute('aria-expanded', 'true'); }
-function closeNav() { navList.classList.remove('is-open'); hamburger.classList.remove('is-open'); mobOverlay.classList.remove('show'); document.body.style.overflow = ''; hamburger.setAttribute('aria-expanded', 'false'); }
+function openNav() {
+  navList.classList.add('is-open');
+  hamburger.classList.add('is-open');
+  mobOverlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  hamburger.setAttribute('aria-expanded', 'true');
+}
+
+function closeNav() {
+  navList.classList.remove('is-open');
+  hamburger.classList.remove('is-open');
+  mobOverlay.classList.remove('show');
+  document.body.style.overflow = '';
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.querySelectorAll('.has-dropdown.open').forEach(d => d.classList.remove('open'));
+}
 
 hamburger.addEventListener('click', () => navList.classList.contains('is-open') ? closeNav() : openNav());
 mobOverlay.addEventListener('click', closeNav);
 
-// Dropdown: hover on desktop, click on mobile
+// Dropdown: hover on desktop, click-toggle on mobile
 document.querySelectorAll('.has-dropdown').forEach(item => {
   const trigger = item.querySelector('.nav-link-item');
   trigger.addEventListener('click', e => {
     if (window.innerWidth <= 991) {
       e.preventDefault();
+      document.querySelectorAll('.has-dropdown.open').forEach(other => {
+        if (other !== item) other.classList.remove('open');
+      });
       item.classList.toggle('open');
+    }
+  });
+});
+
+// Close nav when any leaf link (non-dropdown-trigger) is tapped on mobile
+navList.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 991) {
+      const parentLi = link.closest('li');
+      if (!parentLi || !parentLi.classList.contains('has-dropdown')) {
+        closeNav();
+      }
     }
   });
 });

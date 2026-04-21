@@ -1446,83 +1446,297 @@ select.form-control {
 /* ============================================================
    Responsive
    ============================================================ */
+
+/* ---- Tablet & below (991px) -------------------------------- */
 @media (max-width: 991px) {
   .hamburger { display: flex; }
 
+  /* Mobile nav drawer */
   .nav-list {
     position: fixed;
     top: 0; right: -100%;
-    width: min(380px, 85vw);
-    height: 100vh;
+    width: min(340px, 88vw);
+    height: 100%;
+    height: 100dvh;
     background: var(--navy);
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    padding: 5.5rem 1.5rem 2rem;
+    padding: 0 0 2.5rem;
     overflow-y: auto;
     transition: right var(--transition-slow);
-    box-shadow: -6px 0 32px rgba(0,0,0,0.35);
+    box-shadow: -8px 0 40px rgba(0,0,0,0.45);
     gap: 0;
     z-index: 1000;
   }
 
+  /* Space for the hamburger/X button at top of drawer */
+  .nav-list::before {
+    content: '';
+    display: block;
+    height: 70px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 0.5rem;
+  }
+
   .nav-list.is-open { right: 0; }
 
+  .nav-list > li { width: 100%; }
+
   .nav-link-item {
-    padding: 0.9rem 1rem;
-    border-radius: var(--radius-md);
-    font-size: 0.97rem;
+    display: flex;
+    padding: 0.95rem 1.5rem;
+    border-radius: 0;
+    font-size: 1rem;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    width: 100%;
   }
 
-  .nav-dropdown {
-    position: static;
+  /* Rotate chevron when dropdown is open */
+  .has-dropdown.open > .nav-link-item i {
+    transform: rotate(180deg);
+  }
+
+  /* ---- Mobile dropdown: fix the alignment/visibility bug ---- */
+  /* Reset ALL dropdown positioning for mobile — use !important to
+     beat the higher-specificity desktop open-state rules */
+  .nav-dropdown,
+  .has-dropdown:hover .nav-dropdown,
+  .has-dropdown.open .nav-dropdown {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
     display: block;
-    transform: none;
-    opacity: 1;
-    pointer-events: all;
-    background: rgba(255,255,255,0.05);
     box-shadow: none;
     border: none;
-    border-radius: var(--radius-md);
-    padding: 0.25rem 0;
-    margin: 0.25rem 0 0;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.04);
     overflow: hidden;
     max-height: 0;
-    transition: max-height var(--transition-slow);
+    transition: max-height 0.35s ease;
   }
-  .nav-dropdown::before { display: none; }
-  .has-dropdown.open .nav-dropdown { max-height: 300px; }
+  .nav-dropdown::before { display: none !important; }
 
-  .btn-give { margin-left: 0; margin-top: 1rem; width: 100%; justify-content: center; }
+  /* Open state: expand */
+  .has-dropdown.open .nav-dropdown {
+    max-height: 400px !important;
+  }
 
+  /* Dropdown items indented */
+  .nav-dropdown-item {
+    padding: 0.8rem 1.5rem 0.8rem 2.75rem;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.93rem;
+    min-height: 48px;
+  }
+  .nav-dropdown-item:last-child { border-bottom: none; }
+
+  /* Give CTA button inside drawer */
+  .btn-give {
+    display: flex;
+    margin: 1.25rem 1.5rem 0;
+    width: calc(100% - 3rem);
+    justify-content: center;
+    border-radius: var(--radius-md);
+  }
+
+  /* Overlay */
   .mob-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.55);
     z-index: 999;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
   .mob-overlay.show { display: block; }
+
+  /* Page banner reduced padding */
+  .page-banner { padding: 7rem 0 3rem; }
+
+  /* Hero stat bar — wrap on tablet */
+  .hsb-inner { flex-wrap: wrap; }
+  .hsb-item { flex: 1 1 calc(50% - 1rem); min-width: 130px; }
+  .hsb-divider { display: none; }
+  .hsb-cta { width: 100%; text-align: center; padding: 0.75rem 1rem 1.25rem; }
+  .hsb-cta .btn { width: 100%; justify-content: center; }
+
+  /* Section headers */
+  .section-header { margin-bottom: 2.5rem; }
 }
 
+/* ---- Mobile (767px) ---------------------------------------- */
 @media (max-width: 767px) {
-  .hero-content h1 { font-size: 2.1rem; }
-  .hero-actions { flex-direction: column; }
+  /* Hero */
+  .hero-content h1 { font-size: clamp(1.75rem, 6.5vw, 2.4rem); }
+  .hero-content { padding: 7.5rem 0 5rem; text-align: left; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
   .hero-actions .btn { width: 100%; justify-content: center; }
+
+  /* Page banner */
+  .page-banner { padding: 6rem 0 2.5rem; min-height: auto; }
+  .page-banner h1 { font-size: clamp(1.5rem, 6vw, 2rem); }
+
+  /* Stats strip */
+  .stats-strip .stat-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1.25rem 1rem;
+  }
+  .stats-strip .stat-col:last-child { border-bottom: none; }
+  .stats-strip .stat-number { font-size: 2rem; }
+
+  /* Carousel arrows */
+  .carousel-prev, .carousel-next { display: none; }
+
+  /* Newsletter form */
   .newsletter-form { flex-direction: column; }
   .newsletter-form .btn { width: 100%; }
-  .stats-strip .stat-col { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .stats-strip .stat-col:last-child { border-bottom: none; }
-  .carousel-prev, .carousel-next { display: none; }
+  .home-newsletter-card { padding: 1.75rem 1.5rem; }
+
+  /* Blog content */
+  .blog-content { font-size: 0.97rem; }
+  .blog-content h2 { font-size: 1.45rem; margin: 1.75rem 0 0.75rem; }
+  .blog-content h3 { font-size: 1.2rem; }
+
+  /* Blog author bar — stack on small screens */
+  .blog-author-bar { flex-wrap: wrap; gap: 0.75rem; }
+
+  /* Contact info panel — allow height auto when stacked */
+  .contact-info-panel { height: auto; }
+  .contact-form-card { height: auto; padding: 1.75rem; }
+
+  /* Give page */
+  .give-online-card { padding: 2rem 1.5rem; }
+
+  /* Volunteer form card */
+  .vol-form-card { padding: 1.75rem; }
+
+  /* Impact cards */
+  .impact-card .ic-number { font-size: 2.2rem; }
+
+  /* Gallery grid */
+  .gallery-grid { gap: 0.4rem; }
+
+  /* Pagination */
+  .pagination-wrap { gap: 0.2rem; }
+  .page-btn { min-width: 38px; height: 38px; font-size: 0.83rem; padding: 0 0.6rem; }
+
+  /* Ministry card */
+  .ministry-card { padding: 1rem; }
+
+  /* Section header */
+  .section-header { margin-bottom: 2rem; }
+  .section-subtitle { font-size: 1rem; }
+
+  /* Scroll-to-top */
+  .scroll-top-btn { bottom: 1.25rem; right: 1.25rem; width: 40px; height: 40px; }
+
+  /* About page */
+  .about-banner { min-height: 380px; padding-bottom: 3rem; }
+  .about-banner-sub { font-size: 0.95rem; }
+  .ais-badge { display: none; }
+  .amc-modal-photo { min-height: 200px; }
+  .amc-modal-body { padding: 1.5rem; }
+  .amc-modal-body h3 { font-size: 1.3rem; }
+
+  /* Horizontal scroll cards */
+  .hscroll-card { flex: 0 0 270px; }
+  .hscroll-header { flex-direction: column; align-items: flex-start; }
+
+  /* Map */
+  #map { height: 360px; }
+
+  /* imap */
+  .imap-header { padding: 1rem; }
+  .imap-legend { font-size: 0.76rem; }
+
+  /* State detail */
+  .state-stat-card .value { font-size: 1.65rem; }
 }
 
+/* ---- Small mobile (575px) ---------------------------------- */
 @media (max-width: 575px) {
-  .section, .section-lg { padding: 3.5rem 0; }
-  .action-card { padding: 1.75rem 1.5rem; }
-  .footer-bottom-row { flex-direction: column; text-align: center; }
-  .hscroll-card { flex: 0 0 240px; }
+  .section, .section-lg { padding: 3rem 0; }
+  .section-sm { padding: 2rem 0; }
+
+  /* Page banner */
+  .page-banner { padding: 5.5rem 0 2rem; }
+
+  /* Action cards */
+  .action-card { padding: 1.5rem 1.25rem; }
+
+  /* Footer */
+  .footer-bottom-row { flex-direction: column; text-align: center; gap: 0.5rem; }
+  .footer-social { flex-wrap: wrap; }
+  .site-footer { padding-top: 3.5rem; }
+
+  /* Horizontal scroll */
+  .hscroll-card { flex: 0 0 248px; }
+
+  /* Home gallery masonry */
+  .home-gallery-masonry { grid-template-columns: 1fr 1fr; }
+
+  /* Home stat grid */
+  .home-stat-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Hero stat bar hidden on small mobile */
+  .hero-stat-bar { display: none; }
+  .hsb-cta { display: none; }
+
+  /* Newsletter card */
+  .home-newsletter-card { padding: 1.25rem; }
+
+  /* Hero */
+  .hero-content { padding: 6.5rem 0 4rem; }
+  .hero-eyebrow-wrap { justify-content: flex-start; }
+
+  /* Bank card numbers */
+  .bank-card .bk-number,
+  .gbc-number { font-size: 1.1rem; letter-spacing: 0.05em; }
+
+  /* Impact sub stats */
+  .impact-card .ic-sub { gap: 0.75rem; }
+  .impact-card .ic-sub-number { font-size: 1rem; }
+
+  /* Gallery collage single column */
+  .gallery-collage.gc-n3,
+  .gallery-collage.gc-n4,
+  .gallery-collage.gc-n5,
+  .gallery-collage.gc-n6 {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+  .gallery-collage .gc-item { min-height: 200px; grid-row: span 1 !important; grid-column: span 1 !important; }
+
+  /* Donate page trust badges */
+  .goc-trust { gap: 0.75rem; font-size: 0.74rem; }
+
+  /* Vol form */
+  .vol-form-card { padding: 1.25rem; }
+
+  /* Give page */
+  .give-online-card { padding: 1.5rem 1.25rem; }
+
+  /* Contact form */
+  .contact-info-panel, .contact-form-card { padding: 1.5rem; }
+
+  /* Map */
+  #map { height: 300px; }
+
+  /* Blog sidebar */
+  .blog-sidebar-card { padding: 1.25rem; }
 }
 
 /* ============================================================
