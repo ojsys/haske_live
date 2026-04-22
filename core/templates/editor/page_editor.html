@@ -200,6 +200,19 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+
+/* Type note (info banner per section type) */
+.type-note{background:rgba(200,146,42,.07);border:1px solid rgba(200,146,42,.2);border-radius:7px;padding:.65rem .9rem;font-size:.8rem;color:var(--text-muted);margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:.5rem}
+.type-note i{color:var(--gold);flex-shrink:0;margin-top:.1rem}
+
+/* Builder (stats + accordion) */
+.builder-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.builder-head > label{margin:0;font-size:.73rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+.builder-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.85rem;margin-bottom:.6rem}
+.builder-item-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.builder-item-head span{font-size:.78rem;font-weight:600;color:var(--text-muted)}
+.field-note{font-size:.72rem;color:var(--text-dim);margin-top:.4rem}
+.grid-3col{display:grid;grid-template-columns:1fr 2fr auto;gap:.5rem;align-items:end}
 </style>
 </head>
 <body>
@@ -349,37 +362,51 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
 // ----------------------------------------------------------------
 //  Initial data
 // ----------------------------------------------------------------
-const PAGE_ID    = {{ page.id }};
-const CSRF       = '{{ csrf_token }}';
+const PAGE_ID       = {{ page.id }};
+const CSRF          = '{{ csrf_token }}';
 const INIT_SECTIONS = {{ sections_json|safe }};
 
-const SECTION_TYPES = [
-  {% for val, label in section_types %}
-  { val: "{{ val }}", label: "{{ label }}" },
-  {% endfor %}
-];
-const BG_CHOICES = [
-  {% for val, label in background_choices %}
-  { val: "{{ val }}", label: "{{ label }}" },
-  {% endfor %}
-];
-const IMG_POSITIONS = [
-  {% for val, label in image_positions %}
-  { val: "{{ val }}", label: "{{ label }}" },
-  {% endfor %}
-];
+const SECTION_TYPES = [{% for val, label in section_types %}{ val: "{{ val }}", label: "{{ label }}" },{% endfor %}];
+const BG_CHOICES    = [{% for val, label in background_choices %}{ val: "{{ val }}", label: "{{ label }}" },{% endfor %}];
+const IMG_POSITIONS = [{% for val, label in image_positions %}{ val: "{{ val }}", label: "{{ label }}" },{% endfor %}];
 
 const TYPE_ICONS = {
-  hero: 'fa-mountain', text: 'fa-align-left', image_text: 'fa-columns',
-  cards: 'fa-th-large', stats: 'fa-chart-bar', cta: 'fa-bullhorn',
-  gallery: 'fa-images', video: 'fa-play-circle', team: 'fa-users',
-  newsletter: 'fa-envelope', map: 'fa-map-marked-alt', accordion: 'fa-list',
+  hero:'fa-mountain', text:'fa-align-left', image_text:'fa-columns',
+  cards:'fa-th-large', stats:'fa-chart-bar', cta:'fa-bullhorn',
+  gallery:'fa-images', video:'fa-play-circle', team:'fa-users',
+  newsletter:'fa-envelope', map:'fa-map-marked-alt', accordion:'fa-list',
 };
 const TYPE_COLORS = {
-  hero: '#C8922A', text: '#3498db', image_text: '#9b59b6',
-  cards: '#1abc9c', stats: '#e67e22', cta: '#e74c3c',
-  gallery: '#2ecc71', video: '#e74c3c', team: '#3498db',
-  newsletter: '#1D6A4A', map: '#27ae60', accordion: '#95a5a6',
+  hero:'#C8922A', text:'#3498db', image_text:'#9b59b6',
+  cards:'#1abc9c', stats:'#e67e22', cta:'#e74c3c',
+  gallery:'#2ecc71', video:'#e74c3c', team:'#3498db',
+  newsletter:'#1D6A4A', map:'#27ae60', accordion:'#95a5a6',
+};
+
+// ── Which fields each section type uses ──────────────────────────
+// Keys: subtitle, title, body, image, imgpos, btn1, btn2, bg,
+//       video_url, stats_builder, acc_builder, cards
+const TYPE_SPECS = {
+  hero:       ['image','subtitle','title','body','btn1','btn2','bg'],
+  text:       ['subtitle','title','body','btn1','btn2','bg'],
+  image_text: ['subtitle','title','image','imgpos','body','btn1','btn2','bg'],
+  cards:      ['subtitle','title','bg','cards'],
+  stats:      ['subtitle','title','stats_builder','bg'],
+  cta:        ['subtitle','title','body','btn1','btn2'],
+  gallery:    ['subtitle','title','bg'],
+  video:      ['title','subtitle','video_url','body'],
+  team:       ['subtitle','title','bg'],
+  newsletter: ['title','subtitle','bg'],
+  map:        ['subtitle','title','body'],
+  accordion:  ['subtitle','title','acc_builder'],
+};
+
+// Info notes shown at the top of gallery/team editors
+const TYPE_NOTES = {
+  gallery: 'Gallery images are managed via the <strong>Admin panel → Gallery</strong> section.',
+  team:    'Team members are pulled from <strong>Board Members</strong> in the Admin panel.',
+  stats:   'The stat numbers below are custom. The page also auto-shows achievement stats from the database.',
+  map:     'The map is automatically generated from state data loaded in the Admin panel.',
 };
 
 // ----------------------------------------------------------------
@@ -387,8 +414,8 @@ const TYPE_COLORS = {
 // ----------------------------------------------------------------
 let sections = JSON.parse(JSON.stringify(INIT_SECTIONS));
 let activeSectionId = null;
-let quillInstance = null;
-let isPublished = {{ page.is_published|yesno:"true,false" }};
+let quillInstance   = null;
+let isPublished     = {{ page.is_published|yesno:"true,false" }};
 
 // ----------------------------------------------------------------
 //  Tab switching
@@ -404,17 +431,15 @@ function switchTab(tab) {
 function renderSectionsList() {
   const list = document.getElementById('sections-list');
   list.innerHTML = '';
-
   if (!sections.length) {
     list.innerHTML = `<div class="sections-empty"><i class="fas fa-th-list"></i>No sections yet.<br>Click + Add to start.</div>`;
     return;
   }
-
-  sections.slice().sort((a, b) => a.order - b.order).forEach(s => {
+  sections.slice().sort((a,b) => a.order - b.order).forEach(s => {
     const el = document.createElement('div');
     el.className = `section-item${activeSectionId === s.id ? ' active' : ''}`;
     el.dataset.id = s.id;
-    const icon = TYPE_ICONS[s.section_type] || 'fa-square';
+    const icon  = TYPE_ICONS[s.section_type]  || 'fa-square';
     const color = TYPE_COLORS[s.section_type] || '#888';
     el.innerHTML = `
       <span class="drag-handle" title="Drag to reorder"><i class="fas fa-grip-vertical"></i></span>
@@ -422,38 +447,25 @@ function renderSectionsList() {
       <span class="si-name">${esc(s.title || s.section_type_display)}</span>
       ${!s.is_visible ? '<span class="si-hidden-badge">Hidden</span>' : ''}
       <div class="si-actions">
-        <button class="si-btn danger" title="Delete section" onclick="confirmDelete(${s.id}, event)">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-    `;
+        <button class="si-btn danger" title="Delete" onclick="confirmDelete(${s.id}, event)"><i class="fas fa-trash"></i></button>
+      </div>`;
     el.addEventListener('click', () => selectSection(s.id));
     list.appendChild(el);
   });
-
-  // Init drag-and-drop
   Sortable.create(list, {
-    handle: '.drag-handle',
-    animation: 150,
-    onEnd(evt) {
-      const ids = [...list.querySelectorAll('.section-item')].map((el, i) => ({
-        id: parseInt(el.dataset.id), order: i
-      }));
-      ids.forEach(item => {
-        const s = sections.find(x => x.id === item.id);
-        if (s) s.order = item.order;
-      });
+    handle: '.drag-handle', animation: 150,
+    onEnd() {
+      const ids = [...list.querySelectorAll('.section-item')].map((el,i) => ({ id: parseInt(el.dataset.id), order: i }));
+      ids.forEach(item => { const s = sections.find(x => x.id === item.id); if (s) s.order = item.order; });
       fetch(`/editor/api/pages/${PAGE_ID}/reorder/`, {
-        method: 'POST',
-        headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/json' },
-        body: JSON.stringify(ids),
-      }).catch(() => toast('Reorder failed', 'error'));
+        method:'POST', headers:{'X-CSRFToken':CSRF,'Content-Type':'application/json'}, body:JSON.stringify(ids),
+      }).catch(() => toast('Reorder failed','error'));
     },
   });
 }
 
 // ----------------------------------------------------------------
-//  Select section → show editor
+//  Select section
 // ----------------------------------------------------------------
 function selectSection(id) {
   if (activeSectionId === id) return;
@@ -464,26 +476,24 @@ function selectSection(id) {
 }
 
 function saveCurrentSection() {
-  if (activeSectionId) {
-    saveSectionById(activeSectionId);
-  } else {
-    savePageSettings();
-  }
+  activeSectionId ? saveSectionById(activeSectionId) : savePageSettings();
 }
 
 // ----------------------------------------------------------------
-//  Section editor
+//  Type-aware section editor
 // ----------------------------------------------------------------
 function renderSectionEditor(s) {
   document.getElementById('main-empty').style.display = 'none';
   const panel = document.getElementById('section-editor');
   panel.style.display = 'block';
+  quillInstance = null;
 
-  const icon = TYPE_ICONS[s.section_type] || 'fa-square';
+  const icon  = TYPE_ICONS[s.section_type]  || 'fa-square';
   const color = TYPE_COLORS[s.section_type] || '#888';
+  const spec  = TYPE_SPECS[s.section_type]  || ['subtitle','title','body','bg'];
+  const has   = f => spec.includes(f);
 
-  // Build HTML skeleton (no user content injected via innerHTML)
-  panel.innerHTML = `
+  let html = `
     <div class="sec-editor-header">
       <div class="sec-editor-type">
         <span class="type-icon" style="background:${color}20;color:${color}"><i class="fas ${icon}"></i></span>
@@ -491,188 +501,329 @@ function renderSectionEditor(s) {
       </div>
       <div class="sec-editor-actions">
         <button class="btn btn-danger btn-sm" onclick="confirmDelete(${s.id})"><i class="fas fa-trash"></i></button>
-        <button class="btn btn-gold btn-sm" onclick="saveSectionById(${s.id})"><i class="fas fa-save"></i> Save Section</button>
+        <button class="btn btn-gold btn-sm" id="btn-save-sec" onclick="saveSectionById(${s.id})"><i class="fas fa-save"></i> Save Section</button>
       </div>
-    </div>
+    </div>`;
 
-    <div class="field-grid">
-      <div class="fgroup">
-        <label>Title</label>
-        <input type="text" id="f-title">
-      </div>
-      <div class="fgroup">
-        <label>Subtitle</label>
-        <input type="text" id="f-subtitle">
-      </div>
-    </div>
+  if (TYPE_NOTES[s.section_type]) {
+    html += `<div class="type-note"><i class="fas fa-info-circle"></i><span>${TYPE_NOTES[s.section_type]}</span></div>`;
+  }
 
-    <div class="fgroup mb">
-      <label>Body Content</label>
-      <div id="quill-body"></div>
-    </div>
-
-    <div class="field-grid">
-      <div class="fgroup">
-        <label>Button 1 Text</label>
-        <input type="text" id="f-btn-text" placeholder="e.g. Learn More">
-      </div>
-      <div class="fgroup">
-        <label>Button 1 URL</label>
-        <input type="text" id="f-btn-url" placeholder="/about/">
-      </div>
-      <div class="fgroup">
-        <label>Button 2 Text <span class="field-hint">optional</span></label>
-        <input type="text" id="f-btn2-text" placeholder="e.g. Donate">
-      </div>
-      <div class="fgroup">
-        <label>Button 2 URL</label>
-        <input type="text" id="f-btn2-url" placeholder="/give/">
-      </div>
-    </div>
-
-    <hr class="sec-divider">
-
-    <div class="field-grid">
-      <div class="fgroup">
-        <label>Section Image</label>
+  // ── Image (hero bg or image_text photo) ──────────────────────
+  if (has('image')) {
+    const imgLabel = s.section_type === 'hero' ? 'Background Image (full-width)' : 'Section Image';
+    html += `
+      <div class="fgroup mb">
+        <label>${imgLabel}</label>
         <div class="img-field-wrap">
           <span id="sec-img-thumb"></span>
           <div class="img-field-controls">
-            <label class="img-file-btn">
-              <i class="fas fa-upload"></i> Upload Image
+            <label class="img-file-btn"><i class="fas fa-upload"></i> Upload Image
               <input type="file" id="f-image" accept="image/*" onchange="previewSectionImage(this)">
             </label>
             <button class="img-remove-link" id="btn-remove-img" onclick="removeSectionImage()" style="display:none">Remove image</button>
           </div>
         </div>
-      </div>
-      <div class="fgroup">
-        <label>Image Position</label>
-        <select id="f-img-pos">
-          ${IMG_POSITIONS.map(p => `<option value="${p.val}">${p.label}</option>`).join('')}
-        </select>
-      </div>
-    </div>
-
-    <div class="fgroup mb">
-      <label>Background</label>
-      <div class="bg-picker" id="bg-picker"></div>
-    </div>
-
-    <div class="fgroup mb">
-      <label>CSS Class <span class="field-hint">extra classes</span></label>
-      <input type="text" id="f-css-class" placeholder="optional">
-    </div>
-
-    <div class="toggle-row fgroup mb">
-      <label>Section Visible</label>
-      <label class="toggle">
-        <input type="checkbox" id="f-is-visible">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-
-    ${ ['accordion', 'stats'].includes(s.section_type) ? `
-    <div class="fgroup mb">
-      <label>Extra Data <span class="field-hint">JSON — e.g. [{"question":"...","answer":"..."}]</span></label>
-      <textarea id="f-extra-data" rows="5" style="font-family:monospace;font-size:.78rem"></textarea>
-    </div>` : '' }
-
-    ${ s.section_type === 'cards' ? '<div id="cards-editor"></div>' : '' }
-  `;
-
-  // ---- Populate fields safely (no innerHTML) ----
-  document.getElementById('f-title').value         = s.title || '';
-  document.getElementById('f-subtitle').value      = s.subtitle || '';
-  document.getElementById('f-btn-text').value      = s.button_text || '';
-  document.getElementById('f-btn-url').value       = s.button_url || '';
-  document.getElementById('f-btn2-text').value     = s.button2_text || '';
-  document.getElementById('f-btn2-url').value      = s.button2_url || '';
-  document.getElementById('f-css-class').value     = s.css_class || '';
-  document.getElementById('f-is-visible').checked  = s.is_visible;
-  document.getElementById('f-img-pos').value       = s.image_position || 'right';
-  if (document.getElementById('f-extra-data'))
-    document.getElementById('f-extra-data').value  = s.extra_data || '';
-
-  // ---- Quill ----
-  quillInstance = new Quill('#quill-body', {
-    theme: 'snow',
-    placeholder: 'Write your content here...',
-    modules: { toolbar: [
-      [{ header: [2, 3, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'blockquote'],
-      ['clean'],
-    ]},
-  });
-  if (s.body) quillInstance.clipboard.dangerouslyPasteHTML(0, s.body);
-
-  // ---- Background picker ----
-  const bgPicker = document.getElementById('bg-picker');
-  BG_CHOICES.forEach(bg => {
-    const lbl = document.createElement('label');
-    lbl.className = 'bg-option';
-    lbl.title = bg.label;
-    lbl.innerHTML = `<input type="radio" name="bg" value="${bg.val}" ${s.background === bg.val ? 'checked' : ''}><span class="bg-swatch bg-swatch-${bg.val}"></span>`;
-    bgPicker.appendChild(lbl);
-  });
-
-  // ---- Image thumb ----
-  const thumb = document.getElementById('sec-img-thumb');
-  if (s.image_url) {
-    thumb.innerHTML = `<img src="${s.image_url}" class="img-field-thumb" id="img-thumb-el">`;
-    document.getElementById('btn-remove-img').style.display = 'block';
-  } else {
-    thumb.innerHTML = `<div class="img-field-thumb placeholder"><i class="fas fa-image"></i></div>`;
+      </div>`;
   }
 
-  // ---- Cards editor ----
-  if (s.section_type === 'cards') renderCardsEditor(s);
+  // ── Video embed URL (stored in button_url) ───────────────────
+  if (has('video_url')) {
+    html += `
+      <div class="fgroup mb">
+        <label>Embed URL <span class="field-hint">YouTube or Vimeo embed link — e.g. https://www.youtube.com/embed/VIDEO_ID</span></label>
+        <input type="text" id="f-btn-url" placeholder="https://www.youtube.com/embed/...">
+      </div>`;
+  }
+
+  // ── Eyebrow + Heading ────────────────────────────────────────
+  if (has('subtitle') || has('title')) {
+    html += `<div class="field-grid">`;
+    if (has('subtitle'))
+      html += `<div class="fgroup"><label>Eyebrow Text <span class="field-hint">small text above heading</span></label><input type="text" id="f-subtitle" placeholder="e.g. Our Mission"></div>`;
+    if (has('title'))
+      html += `<div class="fgroup"><label>Heading</label><input type="text" id="f-title"></div>`;
+    html += `</div>`;
+  }
+
+  // ── Body / rich text ─────────────────────────────────────────
+  if (has('body')) {
+    const bodyLabel = s.section_type === 'video' ? 'Caption / Description (below video)' :
+                      s.section_type === 'map'   ? 'Description' : 'Body Content';
+    html += `<div class="fgroup mb"><label>${bodyLabel}</label><div id="quill-body"></div></div>`;
+  }
+
+  // ── Image position (image_text only) ─────────────────────────
+  if (has('imgpos')) {
+    html += `
+      <div class="fgroup mb">
+        <label>Image Position</label>
+        <select id="f-img-pos">${IMG_POSITIONS.map(p => `<option value="${p.val}">${p.label}</option>`).join('')}</select>
+      </div>`;
+  }
+
+  // ── Buttons ──────────────────────────────────────────────────
+  if (has('btn1') || has('btn2')) {
+    html += `<div class="field-grid">`;
+    if (has('btn1')) {
+      html += `
+        <div class="fgroup"><label>Button 1 Label</label><input type="text" id="f-btn-text" placeholder="e.g. Learn More"></div>
+        <div class="fgroup"><label>Button 1 URL</label><input type="text" id="f-btn-url" placeholder="/about/"></div>`;
+    }
+    if (has('btn2')) {
+      html += `
+        <div class="fgroup"><label>Button 2 Label <span class="field-hint">optional</span></label><input type="text" id="f-btn2-text" placeholder="e.g. Donate"></div>
+        <div class="fgroup"><label>Button 2 URL</label><input type="text" id="f-btn2-url" placeholder="/give/"></div>`;
+    }
+    html += `</div>`;
+  }
+
+  // ── Background picker ────────────────────────────────────────
+  if (has('bg')) {
+    html += `<div class="fgroup mb"><label>Background</label><div class="bg-picker" id="bg-picker"></div></div>`;
+  }
+
+  // ── Stats builder ────────────────────────────────────────────
+  if (has('stats_builder')) {
+    html += `
+      <div class="fgroup mb">
+        <div class="builder-head">
+          <label>Custom Stat Items</label>
+          <button class="btn btn-outline btn-sm" type="button" onclick="addStatItem()"><i class="fas fa-plus"></i> Add Stat</button>
+        </div>
+        <div id="stats-items-list"></div>
+        <p class="field-note">Each stat displays a bold number + a label beneath it.</p>
+      </div>`;
+  }
+
+  // ── Accordion builder ────────────────────────────────────────
+  if (has('acc_builder')) {
+    html += `
+      <div class="fgroup mb">
+        <div class="builder-head">
+          <label>FAQ / Accordion Items</label>
+          <button class="btn btn-outline btn-sm" type="button" onclick="addAccItem()"><i class="fas fa-plus"></i> Add Item</button>
+        </div>
+        <div id="acc-items-list"></div>
+      </div>`;
+  }
+
+  // ── Cards placeholder ────────────────────────────────────────
+  if (has('cards')) {
+    html += `<div id="cards-editor"></div>`;
+  }
+
+  // ── Common: visibility + css class ──────────────────────────
+  html += `
+    <hr class="sec-divider">
+    <div class="field-grid">
+      <div class="fgroup">
+        <label>CSS Class <span class="field-hint">optional</span></label>
+        <input type="text" id="f-css-class" placeholder="optional">
+      </div>
+      <div class="toggle-row fgroup" style="align-items:center">
+        <label style="margin-bottom:0">Section Visible</label>
+        <label class="toggle">
+          <input type="checkbox" id="f-is-visible"><span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>`;
+
+  panel.innerHTML = html;
+
+  // ── Populate fields ───────────────────────────────────────────
+  if (has('title')    && document.getElementById('f-title'))    document.getElementById('f-title').value     = s.title    || '';
+  if (has('subtitle') && document.getElementById('f-subtitle')) document.getElementById('f-subtitle').value  = s.subtitle || '';
+  if (has('btn1')     && document.getElementById('f-btn-text')) document.getElementById('f-btn-text').value  = s.button_text  || '';
+  if ((has('btn1') || has('video_url')) && document.getElementById('f-btn-url'))
+    document.getElementById('f-btn-url').value = s.button_url || '';
+  if (has('btn2') && document.getElementById('f-btn2-text')) document.getElementById('f-btn2-text').value = s.button2_text || '';
+  if (has('btn2') && document.getElementById('f-btn2-url'))  document.getElementById('f-btn2-url').value  = s.button2_url  || '';
+  if (document.getElementById('f-css-class')) document.getElementById('f-css-class').value = s.css_class || '';
+  if (document.getElementById('f-is-visible')) document.getElementById('f-is-visible').checked = s.is_visible;
+  if (has('imgpos') && document.getElementById('f-img-pos')) document.getElementById('f-img-pos').value = s.image_position || 'right';
+
+  // Quill
+  if (has('body') && document.getElementById('quill-body')) {
+    quillInstance = new Quill('#quill-body', {
+      theme: 'snow',
+      placeholder: 'Write content here...',
+      modules: { toolbar: [[{header:[2,3,false]}],['bold','italic','underline'],[{list:'ordered'},{list:'bullet'}],['link','blockquote'],['clean']] },
+    });
+    if (s.body) quillInstance.clipboard.dangerouslyPasteHTML(0, s.body);
+  }
+
+  // Background picker
+  if (has('bg') && document.getElementById('bg-picker')) {
+    const bgPicker = document.getElementById('bg-picker');
+    BG_CHOICES.forEach(bg => {
+      const lbl = document.createElement('label');
+      lbl.className = 'bg-option'; lbl.title = bg.label;
+      lbl.innerHTML = `<input type="radio" name="bg" value="${bg.val}" ${s.background === bg.val ? 'checked' : ''}><span class="bg-swatch bg-swatch-${bg.val}"></span>`;
+      bgPicker.appendChild(lbl);
+    });
+  }
+
+  // Image thumb
+  if (has('image') && document.getElementById('sec-img-thumb')) {
+    const thumb = document.getElementById('sec-img-thumb');
+    if (s.image_url) {
+      thumb.innerHTML = `<img src="${s.image_url}" class="img-field-thumb">`;
+      document.getElementById('btn-remove-img').style.display = 'block';
+    } else {
+      thumb.innerHTML = `<div class="img-field-thumb placeholder"><i class="fas fa-image"></i></div>`;
+    }
+  }
+
+  // Stats builder
+  if (has('stats_builder')) {
+    let items = [];
+    try { items = JSON.parse(s.extra_data || '[]'); } catch(e) {}
+    renderStatItems(Array.isArray(items) ? items : []);
+  }
+
+  // Accordion builder
+  if (has('acc_builder')) {
+    let items = [];
+    try { items = JSON.parse(s.extra_data || '[]'); } catch(e) {}
+    renderAccItems(Array.isArray(items) ? items : []);
+  }
+
+  // Cards editor
+  if (has('cards')) renderCardsEditor(s);
 }
 
+// ── Image helpers ─────────────────────────────────────────────────
 function previewSectionImage(input) {
   if (!input.files[0]) return;
-  const url = URL.createObjectURL(input.files[0]);
-  const thumb = document.getElementById('sec-img-thumb');
-  thumb.innerHTML = `<img src="${url}" class="img-field-thumb" id="img-thumb-el">`;
+  document.getElementById('sec-img-thumb').innerHTML =
+    `<img src="${URL.createObjectURL(input.files[0])}" class="img-field-thumb">`;
   document.getElementById('btn-remove-img').style.display = 'block';
 }
-
 function removeSectionImage() {
-  const thumb = document.getElementById('sec-img-thumb');
-  thumb.innerHTML = `<div class="img-field-thumb placeholder"><i class="fas fa-image"></i></div>`;
+  document.getElementById('sec-img-thumb').innerHTML =
+    `<div class="img-field-thumb placeholder"><i class="fas fa-image"></i></div>`;
   document.getElementById('btn-remove-img').style.display = 'none';
-  document.getElementById('f-image').value = '';
-  // Mark for removal on save
-  document.getElementById('f-image').dataset.remove = 'true';
+  const fi = document.getElementById('f-image');
+  if (fi) { fi.value = ''; fi.dataset.remove = 'true'; }
+}
+
+// ----------------------------------------------------------------
+//  Stats builder
+// ----------------------------------------------------------------
+function renderStatItems(items) {
+  const list = document.getElementById('stats-items-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!items.length) {
+    list.innerHTML = `<p style="font-size:.8rem;color:var(--text-dim);padding:.3rem 0">No stats yet. Click + Add Stat.</p>`;
+    return;
+  }
+  items.forEach((item, idx) => {
+    const el = document.createElement('div');
+    el.className = 'builder-item';
+    el.dataset.idx = idx;
+    el.innerHTML = `
+      <div class="grid-3col">
+        <div class="fgroup">
+          <label>Number</label>
+          <input type="text" class="si-number" value="${esc(item.number||'')}" placeholder="e.g. 500">
+        </div>
+        <div class="fgroup">
+          <label>Label</label>
+          <input type="text" class="si-label" value="${esc(item.label||'')}" placeholder="e.g. Villages Reached">
+        </div>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="removeStatItem(${idx})" title="Remove"><i class="fas fa-trash"></i></button>
+      </div>`;
+    list.appendChild(el);
+  });
+}
+function collectStatItems() {
+  return [...(document.getElementById('stats-items-list')?.querySelectorAll('.builder-item') || [])].map(el => ({
+    number: el.querySelector('.si-number')?.value || '',
+    label:  el.querySelector('.si-label')?.value  || '',
+  }));
+}
+function addStatItem() { renderStatItems([...collectStatItems(), { number:'', label:'' }]); }
+function removeStatItem(idx) {
+  const items = collectStatItems();
+  items.splice(idx, 1);
+  renderStatItems(items);
+}
+
+// ----------------------------------------------------------------
+//  Accordion builder
+// ----------------------------------------------------------------
+function renderAccItems(items) {
+  const list = document.getElementById('acc-items-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!items.length) {
+    list.innerHTML = `<p style="font-size:.8rem;color:var(--text-dim);padding:.3rem 0">No items yet. Click + Add Item.</p>`;
+    return;
+  }
+  items.forEach((item, idx) => {
+    const el = document.createElement('div');
+    el.className = 'builder-item';
+    el.dataset.idx = idx;
+    el.innerHTML = `
+      <div class="builder-item-head">
+        <span>Item ${idx + 1}</span>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="removeAccItem(${idx})"><i class="fas fa-trash"></i></button>
+      </div>
+      <div class="fgroup" style="margin-bottom:.5rem">
+        <label>Question</label>
+        <input type="text" class="acc-question" value="${esc(item.question||'')}" placeholder="What is...">
+      </div>
+      <div class="fgroup">
+        <label>Answer</label>
+        <textarea class="acc-answer" rows="2" placeholder="The answer...">${esc(item.answer||'')}</textarea>
+      </div>`;
+    list.appendChild(el);
+  });
+}
+function collectAccItems() {
+  return [...(document.getElementById('acc-items-list')?.querySelectorAll('.builder-item') || [])].map(el => ({
+    question: el.querySelector('.acc-question')?.value || '',
+    answer:   el.querySelector('.acc-answer')?.value   || '',
+  }));
+}
+function addAccItem() { renderAccItems([...collectAccItems(), { question:'', answer:'' }]); }
+function removeAccItem(idx) {
+  const items = collectAccItems();
+  items.splice(idx, 1);
+  renderAccItems(items);
 }
 
 // ----------------------------------------------------------------
 //  Save section
 // ----------------------------------------------------------------
 function saveSectionById(id) {
-  const btn = document.querySelector('#section-editor .btn-gold.btn-sm');
+  const btn = document.getElementById('btn-save-sec');
   const origText = btn ? btn.innerHTML : '';
   if (btn) btn.innerHTML = '<i class="fas fa-circle-notch spin"></i> Saving...';
 
   const fd = new FormData();
-  fd.append('title',         document.getElementById('f-title')?.value || '');
-  fd.append('subtitle',      document.getElementById('f-subtitle')?.value || '');
-  fd.append('body',          quillInstance ? quillInstance.root.innerHTML : '');
-  fd.append('button_text',   document.getElementById('f-btn-text')?.value || '');
-  fd.append('button_url',    document.getElementById('f-btn-url')?.value || '');
-  fd.append('button2_text',  document.getElementById('f-btn2-text')?.value || '');
-  fd.append('button2_url',   document.getElementById('f-btn2-url')?.value || '');
-  fd.append('css_class',     document.getElementById('f-css-class')?.value || '');
-  fd.append('is_visible',    document.getElementById('f-is-visible')?.checked ? 'true' : 'false');
-  fd.append('image_position',document.getElementById('f-img-pos')?.value || 'right');
+  fd.append('title',          document.getElementById('f-title')?.value      || '');
+  fd.append('subtitle',       document.getElementById('f-subtitle')?.value   || '');
+  fd.append('body',           quillInstance ? quillInstance.root.innerHTML    : '');
+  fd.append('button_text',    document.getElementById('f-btn-text')?.value   || '');
+  fd.append('button_url',     document.getElementById('f-btn-url')?.value    || '');
+  fd.append('button2_text',   document.getElementById('f-btn2-text')?.value  || '');
+  fd.append('button2_url',    document.getElementById('f-btn2-url')?.value   || '');
+  fd.append('css_class',      document.getElementById('f-css-class')?.value  || '');
+  fd.append('is_visible',     document.getElementById('f-is-visible')?.checked ? 'true' : 'false');
+  fd.append('image_position', document.getElementById('f-img-pos')?.value    || 'right');
 
   const bgEl = document.querySelector('input[name="bg"]:checked');
   if (bgEl) fd.append('background', bgEl.value);
 
-  const extraEl = document.getElementById('f-extra-data');
-  if (extraEl) fd.append('extra_data', extraEl.value);
+  // Serialize builder UIs to extra_data
+  if (document.getElementById('stats-items-list')) {
+    fd.append('extra_data', JSON.stringify(collectStatItems()));
+  } else if (document.getElementById('acc-items-list')) {
+    fd.append('extra_data', JSON.stringify(collectAccItems()));
+  }
 
   const imgInput = document.getElementById('f-image');
   if (imgInput?.files[0]) {
@@ -682,20 +833,17 @@ function saveSectionById(id) {
   }
 
   fetch(`/editor/api/sections/${id}/save/`, {
-    method: 'POST',
-    headers: { 'X-CSRFToken': CSRF },
-    body: fd,
+    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
   })
   .then(r => r.json())
   .then(data => {
     if (btn) btn.innerHTML = origText;
     if (data.status === 'ok') {
-      // Update local state
       const s = sections.find(x => x.id === id);
       if (s) {
-        s.title         = document.getElementById('f-title')?.value || s.title;
-        s.is_visible    = document.getElementById('f-is-visible')?.checked;
-        s.image_url     = data.image_url;
+        s.title      = document.getElementById('f-title')?.value || s.title;
+        s.is_visible = document.getElementById('f-is-visible')?.checked;
+        s.image_url  = data.image_url;
       }
       renderSectionsList();
       toast('Section saved');
@@ -711,18 +859,14 @@ function saveSectionById(id) {
 // ----------------------------------------------------------------
 function toggleVisibility(id, e) {
   if (e) e.stopPropagation();
-  const fd = new FormData();
-  fetch(`/editor/api/sections/${id}/toggle/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/sections/${id}/toggle/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
   .then(r => r.json())
   .then(data => {
     const s = sections.find(x => x.id === id);
     if (s) s.is_visible = data.is_visible;
     renderSectionsList();
-    if (activeSectionId === id && document.getElementById('f-is-visible')) {
+    if (activeSectionId === id && document.getElementById('f-is-visible'))
       document.getElementById('f-is-visible').checked = data.is_visible;
-    }
   });
 }
 
@@ -732,10 +876,7 @@ function toggleVisibility(id, e) {
 function confirmDelete(id, e) {
   if (e) e.stopPropagation();
   if (!confirm('Delete this section? This cannot be undone.')) return;
-  const fd = new FormData();
-  fetch(`/editor/api/sections/${id}/delete/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/sections/${id}/delete/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
   .then(r => r.json())
   .then(() => {
     sections = sections.filter(s => s.id !== id);
@@ -761,34 +902,22 @@ function openAddSection() {
     const color = TYPE_COLORS[t.val] || '#888';
     const el = document.createElement('div');
     el.className = 'type-option';
-    el.innerHTML = `
-      <div class="to-icon" style="background:${color}20;color:${color}"><i class="fas ${icon}"></i></div>
-      <div class="to-label">${t.label}</div>
-    `;
+    el.innerHTML = `<div class="to-icon" style="background:${color}20;color:${color}"><i class="fas ${icon}"></i></div><div class="to-label">${t.label}</div>`;
     el.addEventListener('click', () => addSection(t.val));
     grid.appendChild(el);
   });
   document.getElementById('modal-add-section').classList.add('open');
 }
-
 function closeAddSection(e) {
   if (e.target === e.currentTarget) document.getElementById('modal-add-section').classList.remove('open');
 }
-
 function addSection(type) {
   document.getElementById('modal-add-section').classList.remove('open');
   const fd = new FormData();
   fd.append('section_type', type);
-  fetch(`/editor/api/pages/${PAGE_ID}/sections/add/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/pages/${PAGE_ID}/sections/add/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
   .then(r => r.json())
-  .then(s => {
-    sections.push(s);
-    renderSectionsList();
-    selectSection(s.id);
-    toast(`${s.section_type_display} section added`);
-  })
+  .then(s => { sections.push(s); renderSectionsList(); selectSection(s.id); toast(`${s.section_type_display} section added`); })
   .catch(() => toast('Failed to add section', 'error'));
 }
 
@@ -806,8 +935,7 @@ function renderCardsEditor(s) {
         <button class="btn btn-outline btn-sm" onclick="addCard(${s.id})"><i class="fas fa-plus"></i> Add Card</button>
       </div>
       <div id="cards-list-${s.id}"></div>
-    </div>
-  `;
+    </div>`;
   renderCardsList(s.id, s.cards || []);
 }
 
@@ -833,42 +961,23 @@ function renderCardsList(sectionId, cards) {
       </div>
       <div class="card-item-body" id="card-body-${c.id}">
         <div class="field-grid">
-          <div class="fgroup">
-            <label>Title</label>
-            <input type="text" id="cc-title-${c.id}" value="${esc(c.title)}">
-          </div>
-          <div class="fgroup">
-            <label>Icon <span class="field-hint">fa class</span></label>
-            <input type="text" id="cc-icon-${c.id}" value="${esc(c.icon)}" placeholder="fas fa-cross">
-          </div>
-          <div class="fgroup field-full">
-            <label>Description</label>
-            <textarea id="cc-body-${c.id}" rows="2">${esc(c.body)}</textarea>
-          </div>
-          <div class="fgroup">
-            <label>Link Text</label>
-            <input type="text" id="cc-ltext-${c.id}" value="${esc(c.link_text)}" placeholder="Learn More">
-          </div>
-          <div class="fgroup">
-            <label>Link URL</label>
-            <input type="text" id="cc-lurl-${c.id}" value="${esc(c.link_url)}" placeholder="/about/">
-          </div>
+          <div class="fgroup"><label>Title</label><input type="text" id="cc-title-${c.id}" value="${esc(c.title)}"></div>
+          <div class="fgroup"><label>Icon <span class="field-hint">fa class</span></label><input type="text" id="cc-icon-${c.id}" value="${esc(c.icon)}" placeholder="fas fa-cross"></div>
+          <div class="fgroup field-full"><label>Description</label><textarea id="cc-body-${c.id}" rows="2">${esc(c.body)}</textarea></div>
+          <div class="fgroup"><label>Link Text</label><input type="text" id="cc-ltext-${c.id}" value="${esc(c.link_text)}" placeholder="Learn More"></div>
+          <div class="fgroup"><label>Link URL</label><input type="text" id="cc-lurl-${c.id}" value="${esc(c.link_url)}" placeholder="/about/"></div>
         </div>
         <div class="fgroup" style="margin-top:.5rem">
           <label>Card Image <span class="field-hint">optional</span></label>
           <div class="img-field-wrap">
             ${c.image_url ? `<img src="${c.image_url}" class="img-field-thumb">` : '<div class="img-field-thumb placeholder"><i class="fas fa-image"></i></div>'}
-            <label class="img-file-btn">
-              <i class="fas fa-upload"></i> Upload
-              <input type="file" accept="image/*" onchange="previewCardImage(this, ${c.id})">
-            </label>
+            <label class="img-file-btn"><i class="fas fa-upload"></i> Upload<input type="file" accept="image/*" onchange="previewCardImage(this, ${c.id})"></label>
           </div>
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:.75rem">
           <button class="btn btn-gold btn-sm" onclick="saveCard(${c.id}, ${sectionId})"><i class="fas fa-save"></i> Save Card</button>
         </div>
-      </div>
-    `;
+      </div>`;
     list.appendChild(el);
   });
 }
@@ -879,20 +988,14 @@ function toggleCardExpand(id) {
   body.classList.toggle('open');
   if (chevron) chevron.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
 }
-
 function previewCardImage(input, cardId) {
   if (!input.files[0]) return;
-  const url = URL.createObjectURL(input.files[0]);
   const wrap = input.closest('.img-field-wrap');
   const thumb = wrap.querySelector('.img-field-thumb, img');
-  if (thumb) { thumb.outerHTML = `<img src="${url}" class="img-field-thumb">`; }
+  if (thumb) thumb.outerHTML = `<img src="${URL.createObjectURL(input.files[0])}" class="img-field-thumb">`;
 }
-
 function addCard(sectionId) {
-  const fd = new FormData();
-  fetch(`/editor/api/sections/${sectionId}/cards/add/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/sections/${sectionId}/cards/add/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
   .then(r => r.json())
   .then(card => {
     const s = sections.find(x => x.id === sectionId);
@@ -903,30 +1006,22 @@ function addCard(sectionId) {
   })
   .catch(() => toast('Failed to add card', 'error'));
 }
-
 function saveCard(cardId, sectionId) {
   const fd = new FormData();
-  fd.append('title',     document.getElementById(`cc-title-${cardId}`)?.value || '');
-  fd.append('body',      document.getElementById(`cc-body-${cardId}`)?.value || '');
-  fd.append('icon',      document.getElementById(`cc-icon-${cardId}`)?.value || '');
-  fd.append('link_text', document.getElementById(`cc-ltext-${cardId}`)?.value || '');
-  fd.append('link_url',  document.getElementById(`cc-lurl-${cardId}`)?.value || '');
+  fd.append('title',     document.getElementById(`cc-title-${cardId}`)?.value  || '');
+  fd.append('body',      document.getElementById(`cc-body-${cardId}`)?.value   || '');
+  fd.append('icon',      document.getElementById(`cc-icon-${cardId}`)?.value   || '');
+  fd.append('link_text', document.getElementById(`cc-ltext-${cardId}`)?.value  || '');
+  fd.append('link_url',  document.getElementById(`cc-lurl-${cardId}`)?.value   || '');
   const imgInput = document.querySelector(`#card-${cardId} input[type=file]`);
   if (imgInput?.files[0]) fd.append('image', imgInput.files[0]);
-
-  fetch(`/editor/api/cards/${cardId}/save/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/cards/${cardId}/save/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
   .then(r => r.json())
   .then(data => {
     if (data.status === 'ok') {
       const s = sections.find(x => x.id === sectionId);
       const c = s?.cards?.find(x => x.id === cardId);
-      if (c) {
-        c.title = document.getElementById(`cc-title-${cardId}`)?.value || c.title;
-        if (data.image_url) c.image_url = data.image_url;
-      }
-      // Update card header title
+      if (c) { c.title = document.getElementById(`cc-title-${cardId}`)?.value || c.title; if (data.image_url) c.image_url = data.image_url; }
       const header = document.querySelector(`#card-${cardId} .card-item-header span`);
       if (header) header.textContent = document.getElementById(`cc-title-${cardId}`)?.value || 'Card';
       toast('Card saved');
@@ -934,14 +1029,10 @@ function saveCard(cardId, sectionId) {
   })
   .catch(() => toast('Card save failed', 'error'));
 }
-
 function deleteCard(cardId, e) {
   e.stopPropagation();
   if (!confirm('Delete this card?')) return;
-  const fd = new FormData();
-  fetch(`/editor/api/cards/${cardId}/delete/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/cards/${cardId}/delete/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
   .then(r => r.json())
   .then(() => {
     sections.forEach(s => { if (s.cards) s.cards = s.cards.filter(c => c.id !== cardId); });
@@ -956,23 +1047,17 @@ function deleteCard(cardId, e) {
 // ----------------------------------------------------------------
 function previewSettingsImage(input) {
   if (!input.files[0]) return;
-  const url = URL.createObjectURL(input.files[0]);
   const area = document.getElementById('ps-img-area');
   area.innerHTML = `
-    <img src="${url}" id="ps-img-preview" alt="" style="width:100%;max-height:120px;object-fit:cover;border-radius:6px;display:block">
+    <img src="${URL.createObjectURL(input.files[0])}" id="ps-img-preview" alt="" style="width:100%;max-height:120px;object-fit:cover;border-radius:6px;display:block">
     <input type="file" id="ps-header-image" accept="image/*" onchange="previewSettingsImage(this)">
-    <button class="img-remove-btn" onclick="removePageHeaderImage()">Remove image</button>
-  `;
+    <button class="img-remove-btn" onclick="removePageHeaderImage()">Remove image</button>`;
 }
-
 function removePageHeaderImage() {
-  const area = document.getElementById('ps-img-area');
-  area.innerHTML = `
+  document.getElementById('ps-img-area').innerHTML = `
     <input type="file" id="ps-header-image" accept="image/*" onchange="previewSettingsImage(this)">
-    <div class="img-upload-placeholder"><i class="fas fa-image"></i><span>Click to upload banner image</span></div>
-  `;
+    <div class="img-upload-placeholder"><i class="fas fa-image"></i><span>Click to upload banner image</span></div>`;
 }
-
 function savePageSettings() {
   const fd = new FormData();
   fd.append('title',            document.getElementById('ps-title').value);
@@ -980,16 +1065,12 @@ function savePageSettings() {
   fd.append('slug',             document.getElementById('ps-slug').value);
   fd.append('meta_description', document.getElementById('ps-meta').value);
   fd.append('is_published',     isPublished ? 'true' : 'false');
-  // show_header checkbox is INVERTED: checked = hide banner
   fd.append('show_header',      document.getElementById('ps-show-header').checked ? 'false' : 'true');
   fd.append('show_in_nav',      document.getElementById('ps-show-nav').checked ? 'true' : 'false');
   fd.append('nav_order',        document.getElementById('ps-nav-order').value);
   const imgInput = document.getElementById('ps-header-image');
   if (imgInput?.files[0]) fd.append('header_image', imgInput.files[0]);
-
-  fetch(`/editor/api/pages/${PAGE_ID}/save/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  })
+  fetch(`/editor/api/pages/${PAGE_ID}/save/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
   .then(r => r.json())
   .then(data => {
     if (data.status === 'ok') {
@@ -1000,31 +1081,22 @@ function savePageSettings() {
   })
   .catch(() => toast('Save failed', 'error'));
 }
-
 function togglePublish() {
   isPublished = !isPublished;
   const btn = document.getElementById('btn-publish');
-  if (isPublished) {
-    btn.className = 'btn btn-publish btn-sm';
-    btn.innerHTML = '<i class="fas fa-circle" style="font-size:.5rem"></i> Published';
-  } else {
-    btn.className = 'btn btn-draft btn-sm';
-    btn.innerHTML = '<i class="fas fa-circle" style="font-size:.5rem"></i> Draft';
-  }
+  btn.className = isPublished ? 'btn btn-publish btn-sm' : 'btn btn-draft btn-sm';
+  btn.innerHTML = `<i class="fas fa-circle" style="font-size:.5rem"></i> ${isPublished ? 'Published' : 'Draft'}`;
   const fd = new FormData();
   fd.append('is_published', isPublished ? 'true' : 'false');
-  fetch(`/editor/api/pages/${PAGE_ID}/save/`, {
-    method: 'POST', headers: { 'X-CSRFToken': CSRF }, body: fd,
-  }).catch(() => {});
+  fetch(`/editor/api/pages/${PAGE_ID}/save/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd }).catch(()=>{});
 }
 
 // ----------------------------------------------------------------
 //  Utilities
 // ----------------------------------------------------------------
 function esc(str) {
-  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function toast(msg, type = 'success') {
   const el = document.getElementById('toast');
   el.textContent = msg;
@@ -1037,13 +1109,8 @@ function toast(msg, type = 'success') {
 //  Init
 // ----------------------------------------------------------------
 renderSectionsList();
-
-// Keyboard shortcut: Ctrl/Cmd+S → save
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    saveCurrentSection();
-  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveCurrentSection(); }
 });
 </script>
 </body>
