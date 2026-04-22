@@ -531,8 +531,9 @@ function renderSectionEditor(s) {
   if (has('video_url')) {
     html += `
       <div class="fgroup mb">
-        <label>Embed URL <span class="field-hint">YouTube or Vimeo embed link — e.g. https://www.youtube.com/embed/VIDEO_ID</span></label>
-        <input type="text" id="f-btn-url" placeholder="https://www.youtube.com/embed/...">
+        <label>Video URL <span class="field-hint">Paste any YouTube or Vimeo link — it will be auto-converted</span></label>
+        <input type="text" id="f-btn-url" placeholder="https://www.youtube.com/watch?v=... or youtu.be/...">
+        <div id="video-url-hint" class="field-note" style="margin-top:.4rem;display:none"></div>
       </div>`;
   }
 
@@ -691,6 +692,9 @@ function renderSectionEditor(s) {
 
   // Cards editor
   if (has('cards')) renderCardsEditor(s);
+
+  // Video URL live converter
+  if (has('video_url')) initVideoUrlField();
 }
 
 // ── Image helpers ─────────────────────────────────────────────────
@@ -793,6 +797,50 @@ function removeAccItem(idx) {
   const items = collectAccItems();
   items.splice(idx, 1);
   renderAccItems(items);
+}
+
+// ----------------------------------------------------------------
+//  Video URL helpers
+// ----------------------------------------------------------------
+function normalizeVideoUrl(url) {
+  url = (url || '').trim();
+  if (!url) return '';
+  if (url.includes('youtube.com/embed/') || url.includes('player.vimeo.com/video/')) return url;
+  // youtube.com/watch?v=
+  let m = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  if (m && url.includes('youtube')) return `https://www.youtube.com/embed/${m[1]}`;
+  // youtu.be/
+  m = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (m) return `https://www.youtube.com/embed/${m[1]}`;
+  // youtube.com/shorts/
+  m = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
+  if (m) return `https://www.youtube.com/embed/${m[1]}`;
+  // vimeo.com/ID
+  m = url.match(/(?:www\.)?vimeo\.com\/(\d+)/);
+  if (m) return `https://player.vimeo.com/video/${m[1]}`;
+  return url;
+}
+
+function initVideoUrlField() {
+  const input = document.getElementById('f-btn-url');
+  const hint  = document.getElementById('video-url-hint');
+  if (!input || !hint) return;
+  function update() {
+    const raw       = input.value.trim();
+    const converted = normalizeVideoUrl(raw);
+    if (!raw) { hint.style.display = 'none'; return; }
+    if (converted !== raw) {
+      hint.innerHTML = `<i class="fas fa-check-circle" style="color:#4dba87"></i> Will embed as: <code style="color:#4dba87;font-size:.72rem">${esc(converted)}</code>`;
+    } else if (raw.includes('/embed/') || raw.includes('player.vimeo')) {
+      hint.innerHTML = `<i class="fas fa-check-circle" style="color:#4dba87"></i> Valid embed URL`;
+    } else {
+      hint.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:#e67e22"></i> Could not auto-convert — paste a YouTube or Vimeo link`;
+    }
+    hint.style.display = 'block';
+  }
+  input.addEventListener('input', update);
+  input.addEventListener('paste', () => setTimeout(update, 50));
+  update();
 }
 
 // ----------------------------------------------------------------

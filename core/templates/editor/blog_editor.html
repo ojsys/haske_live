@@ -148,12 +148,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;displ
         </div>
       </div>
 
-      <div class="toggle-row fgroup">
-        <label>Featured Post</label>
-        <label class="toggle">
-          <input type="checkbox" id="f-is-featured" {% if post and post.is_featured %}checked{% endif %}>
-          <span class="toggle-slider"></span>
-        </label>
+      <div class="fgroup">
+        <div class="toggle-row" style="margin-bottom:.3rem">
+          <label style="font-weight:600">Show on Home Page</label>
+          <label class="toggle">
+            <input type="checkbox" id="f-is-featured" {% if post and post.is_featured %}checked{% endif %}>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <p style="font-size:.72rem;color:var(--text-muted);margin:0">When on, this post appears in the "Stories &amp; Updates" carousel on the homepage.</p>
       </div>
 
       {% if post %}

@@ -157,8 +157,8 @@ def home(request):
         'ministries': Ministry.objects.all(),
         'gallery_items': Gallery.objects.filter(is_featured=True)[:6],
         'logo': SiteLogo.objects.last(),
-        'recent_posts': BlogPost.objects.order_by('-published_date')[:8],
-        'youtube_videos': YouTubeVideo.objects.order_by('-published_date')[:12],
+        'recent_posts': BlogPost.objects.filter(is_featured=True).order_by('-published_date')[:8],
+        'youtube_videos': YouTubeVideo.objects.filter(is_featured=True).order_by('-published_date')[:12],
         'activities': Activity.objects.order_by('order')[:16],
     }
     return render(request, 'core/home.html', context)

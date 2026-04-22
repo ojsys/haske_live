@@ -1,4 +1,5 @@
 import json
+import re
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
@@ -17,6 +18,33 @@ from .models import (
 
 def _is_staff(user):
     return user.is_active and user.is_staff
+
+
+def _normalize_video_url(url):
+    """Convert any YouTube / Vimeo URL to its embeddable form."""
+    if not url:
+        return url
+    url = url.strip()
+    # Already an embed URL — return as-is
+    if 'youtube.com/embed/' in url or 'player.vimeo.com/video/' in url:
+        return url
+    # YouTube: watch?v=  or  watch?…&v=
+    m = re.search(r'[?&]v=([a-zA-Z0-9_-]{11})', url)
+    if m and 'youtube' in url:
+        return f'https://www.youtube.com/embed/{m.group(1)}'
+    # YouTube short link: youtu.be/VIDEO_ID
+    m = re.match(r'(?:https?://)?youtu\.be/([a-zA-Z0-9_-]{11})', url)
+    if m:
+        return f'https://www.youtube.com/embed/{m.group(1)}'
+    # YouTube Shorts: youtube.com/shorts/VIDEO_ID
+    m = re.search(r'youtube\.com/shorts/([a-zA-Z0-9_-]{11})', url)
+    if m:
+        return f'https://www.youtube.com/embed/{m.group(1)}'
+    # Vimeo: vimeo.com/VIDEO_ID
+    m = re.match(r'(?:https?://)?(?:www\.)?vimeo\.com/(\d+)', url)
+    if m:
+        return f'https://player.vimeo.com/video/{m.group(1)}'
+    return url
 
 
 def staff_required(view_fn):
@@ -160,6 +188,10 @@ def editor_save_section(request, section_id):
     if d.get('remove_image') == 'true' and section.image:
         section.image.delete(save=False)
         section.image = None
+
+    # Normalize video embed URL on every save so watch/share links work
+    if section.section_type == 'video' and section.button_url:
+        section.button_url = _normalize_video_url(section.button_url)
 
     section.save()
     return JsonResponse({
