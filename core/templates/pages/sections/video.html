@@ -1,4 +1,4 @@
-{% load static %}
+{% load static video_tags %}
 <section class="section">
   <div class="container">
     {% if section.title or section.subtitle %}
@@ -7,23 +7,46 @@
       {% if section.title %}<h2>{{ section.title }}</h2>{% endif %}
     </div>
     {% endif %}
+
     {% if section.button_url %}
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="video-wrap">
-          <div class="video-embed">
-            <iframe
-              src="{{ section.button_url }}"
-              title="{{ section.title }}"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              frameborder="0">
-            </iframe>
+    {% with vid=section.button_url|youtube_id %}
+    <div class="row justify-content-center" data-animate>
+      <div class="col-lg-7 col-md-9">
+        <a href="https://www.youtube.com/watch?v={{ vid }}"
+           target="_blank" rel="noopener"
+           class="vid-section-card">
+          <div class="vid-section-thumb">
+            <img src="https://img.youtube.com/vi/{{ vid }}/maxresdefault.jpg"
+                 onerror="this.src='https://img.youtube.com/vi/{{ vid }}/hqdefault.jpg'"
+                 alt="{{ section.title }}" loading="lazy">
+            <div class="vid-section-play">
+              <i class="fab fa-youtube"></i>
+            </div>
           </div>
-        </div>
+          {% if section.title %}
+          <div class="vid-section-label">
+            <i class="fas fa-play-circle me-2" style="color:var(--gold)"></i>
+            {{ section.title }}
+          </div>
+          {% endif %}
+        </a>
         {% if section.body %}<div class="rich-content mt-3">{{ section.body|safe }}</div>{% endif %}
       </div>
     </div>
+    {% endwith %}
     {% endif %}
   </div>
 </section>
+
+<style>
+.vid-section-card{display:block;text-decoration:none;color:inherit;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.13);transition:transform .2s,box-shadow .2s}
+.vid-section-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.vid-section-thumb{position:relative;width:100%;padding-bottom:56.25%;background:#0d1825;overflow:hidden}
+.vid-section-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.vid-section-card:hover .vid-section-thumb img{transform:scale(1.03)}
+.vid-section-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);transition:background .2s}
+.vid-section-play i{font-size:4rem;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));transition:transform .2s,color .2s}
+.vid-section-card:hover .vid-section-play{background:rgba(0,0,0,.35)}
+.vid-section-card:hover .vid-section-play i{transform:scale(1.1);color:#ff0000}
+.vid-section-label{padding:.85rem 1.1rem;font-weight:600;font-size:.95rem;background:#fff;border-top:3px solid var(--gold)}
+</style>
