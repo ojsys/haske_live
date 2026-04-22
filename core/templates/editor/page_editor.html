@@ -542,8 +542,10 @@ function renderSectionEditor(s) {
     html += `<div class="field-grid">`;
     if (has('subtitle'))
       html += `<div class="fgroup"><label>Eyebrow Text <span class="field-hint">small text above heading</span></label><input type="text" id="f-subtitle" placeholder="e.g. Our Mission"></div>`;
-    if (has('title'))
-      html += `<div class="fgroup"><label>Heading</label><input type="text" id="f-title"></div>`;
+    if (has('title')) {
+      const titleHint = s.section_type === 'video' ? ' <span class="field-hint">optional — leave blank to hide</span>' : '';
+      html += `<div class="fgroup"><label>Heading${titleHint}</label><input type="text" id="f-title" placeholder="${s.section_type === 'video' ? 'Leave blank to show no title' : ''}"></div>`;
+    }
     html += `</div>`;
   }
 
