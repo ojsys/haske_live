@@ -213,19 +213,52 @@ function previewFeaturedImage(input) {
   if (!input.files[0]) return;
   const url = URL.createObjectURL(input.files[0]);
   const area = document.getElementById('feat-img-area');
-  area.innerHTML = `
-    <img src="${url}" id="feat-img-preview" alt="" style="width:100%;max-height:130px;object-fit:cover;border-radius:6px;display:block">
-    <input type="file" id="f-featured-image" accept="image/*" onchange="previewFeaturedImage(this)">
-    <button class="img-remove-btn" onclick="removeFeaturedImage()">Remove image</button>
-  `;
+
+  // Update the preview WITHOUT recreating the file input — replacing the input
+  // would discard the selected file, so it would never get uploaded on save.
+  let img = document.getElementById('feat-img-preview');
+  if (!img) {
+    img = document.createElement('img');
+    img.id = 'feat-img-preview';
+    img.alt = '';
+    area.insertBefore(img, input);
+  }
+  img.src = url;
+
+  const placeholder = area.querySelector('.img-upload-placeholder');
+  if (placeholder) placeholder.style.display = 'none';
+
+  if (!area.querySelector('.img-remove-btn')) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'img-remove-btn';
+    btn.textContent = 'Remove image';
+    btn.onclick = removeFeaturedImage;
+    area.appendChild(btn);
+  }
 }
 
-function removeFeaturedImage() {
+function removeFeaturedImage(e) {
+  if (e && e.preventDefault) e.preventDefault();
   const area = document.getElementById('feat-img-area');
-  area.innerHTML = `
-    <input type="file" id="f-featured-image" accept="image/*" onchange="previewFeaturedImage(this)">
-    <div class="img-upload-placeholder"><i class="fas fa-image"></i><span>Click to upload</span></div>
-  `;
+  const input = document.getElementById('f-featured-image');
+  if (input) input.value = '';
+
+  const img = document.getElementById('feat-img-preview');
+  if (img) img.remove();
+
+  const btn = area.querySelector('.img-remove-btn');
+  if (btn) btn.remove();
+
+  let placeholder = area.querySelector('.img-upload-placeholder');
+  if (placeholder) {
+    placeholder.style.display = '';
+  } else {
+    placeholder = document.createElement('div');
+    placeholder.className = 'img-upload-placeholder';
+    placeholder.innerHTML = '<i class="fas fa-image"></i><span>Click to upload</span>';
+    area.appendChild(placeholder);
+  }
 }
 
 function savePost() {
