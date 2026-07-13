@@ -15,6 +15,7 @@ from .forms import SubscriberForm
 from django.views.generic import ListView
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.views.decorators.cache import never_cache
 
 
 
@@ -148,6 +149,7 @@ def states_with_data(request):
 
     
 ######################################
+@never_cache
 def home(request):
     context = {
         'slides': HeroSlide.objects.filter(is_active=True).order_by('order'),
@@ -189,6 +191,7 @@ def subscribe(request):
 
 ##################### About Page ######################
 
+@never_cache
 def about(request):
     context = {
         'about': AboutPage.objects.first(),
@@ -203,6 +206,7 @@ def about(request):
 ###########################################
 
 ############## PROJECTS Page ###############
+@never_cache
 def projects(request):
     context = {
         'page': ProjectPage.objects.first(),
@@ -214,6 +218,7 @@ def projects(request):
 
 ###########################################
 ############## Volunteer Page ###############
+@never_cache
 def volunteer(request):
     context = {
         'page': VolunteerPage.objects.first(),
@@ -252,6 +257,7 @@ def volunteer_apply(request):
 ###########################################
 
 ############## Media Page ###############
+@never_cache
 def media_center(request):
     # Get page content
     page = MediaPage.objects.first()
@@ -274,6 +280,7 @@ def media_center(request):
     }
     return render(request, 'core/media.html', context)
 
+@never_cache
 def blog_detail(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
     recent_posts = BlogPost.objects.exclude(id=post.id)[:3]
@@ -285,6 +292,7 @@ def blog_detail(request, slug):
     }
     return render(request, 'core/blog_detail.html', context)
 
+@never_cache
 def blog_list(request):
     posts = BlogPost.objects.all()
     paginator = Paginator(posts, 9)  # 9 posts per page
@@ -302,6 +310,7 @@ def blog_list(request):
 
 ############## Contact Page ###############
 
+@never_cache
 def contact(request):
 
     context = {
@@ -340,6 +349,7 @@ def Report(request):
 
 ################# GIVE ####################
 
+@never_cache
 def give(request):
     context = {
         'page': DonationPage.objects.first(),
