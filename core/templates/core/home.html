@@ -393,8 +393,7 @@
         <a href="{{ post.get_absolute_url }}" class="hscroll-card">
           <div class="hscroll-card-thumb">
             {% if post.featured_image %}
-            {# No lazy-loading: cards live in a transform-translated track, so the browser
-               would never load off-flow lazy images even once they're slid into view. #}
+            {# No lazy-loading: cards live in a transform-translated track, so lazy images off-flow never load. #}
             <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
             {% else %}
             <div style="width:100%;height:100%;background:var(--navy);display:flex;align-items:center;justify-content:center;">
