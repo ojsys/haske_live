@@ -22,6 +22,22 @@ def site_globals(request):
     except Exception:
         context['nav_custom_pages'] = []
 
+    # Footer — settings, link columns and social icons
+    try:
+        from .models import FooterSettings, FooterLink, FooterSocial
+        # Fall back to an unsaved instance so the template still renders the
+        # model defaults before an admin has ever saved the footer.
+        context['footer'] = FooterSettings.objects.first() or FooterSettings()
+        links = FooterLink.objects.filter(is_active=True)
+        context['footer_quick_links'] = [l for l in links if l.column == 'quick']
+        context['footer_involved_links'] = [l for l in links if l.column == 'involved']
+        context['footer_socials'] = FooterSocial.objects.filter(is_active=True)
+    except Exception:
+        context['footer'] = None
+        context['footer_quick_links'] = []
+        context['footer_involved_links'] = []
+        context['footer_socials'] = []
+
     # Admin bar: detect if the current path is a custom page so we can link to its editor
     if request.user.is_active and request.user.is_staff:
         context['show_admin_bar'] = True

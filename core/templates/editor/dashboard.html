@@ -168,6 +168,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .sp-icon.volunteer{background:rgba(155,89,182,.12);color:#c39be0}
 .sp-icon.give{background:rgba(231,76,60,.1);color:#f07f73}
 .sp-icon.media{background:rgba(230,126,34,.12);color:#f0a460}
+.sp-icon.footer{background:rgba(94,125,154,.16);color:#8fb3cf}
 .sp-body{flex:1;min-width:0}
 .sp-name{font-weight:600;font-size:.9rem;margin-bottom:.2rem}
 .sp-desc{font-size:.77rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -357,6 +358,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
       <a href="/editor/site/media/" class="sidebar-link"><span class="si"><i class="fas fa-photo-video"></i></span> Media</a>
     </div>
     <div class="sidebar-section">
+      <div class="sidebar-label">Site Wide</div>
+      <a href="/editor/site/footer/" class="sidebar-link"><span class="si"><i class="fas fa-shoe-prints"></i></span> Footer</a>
+    </div>
+    <div class="sidebar-section">
       <div class="sidebar-label">Content</div>
       <a href="/editor/blog/" class="sidebar-link"><span class="si"><i class="fas fa-newspaper"></i></span> Blog Posts</a>
       <a href="/editor/" class="sidebar-link active"><span class="si"><i class="fas fa-file-alt"></i></span> Custom Pages</a>
@@ -452,6 +457,26 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
         </div>
         <span class="sp-url">/media/</span>
         <a href="/media/" target="_blank" class="sp-view" onclick="event.stopPropagation();event.preventDefault();window.open('/media/',_blank)"><i class="fas fa-external-link-alt"></i></a>
+        <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
+      </a>
+    </div>
+
+    <!-- Site Wide -->
+    <div class="section-hd">
+      <div class="section-hd-left">
+        <h2>Site Wide</h2>
+        <span class="count">Appears on every page</span>
+      </div>
+    </div>
+
+    <div class="site-pages">
+      <a href="/editor/site/footer/" class="site-page-row">
+        <div class="sp-icon footer"><i class="fas fa-shoe-prints"></i></div>
+        <div class="sp-body">
+          <div class="sp-name">Footer</div>
+          <div class="sp-desc">Phone, email, address, social links &amp; footer menus</div>
+        </div>
+        <span class="sp-url">all pages</span>
         <span class="sp-edit"><i class="fas fa-pen"></i> Edit</span>
       </a>
     </div>

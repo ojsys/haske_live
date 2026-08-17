@@ -13,6 +13,7 @@ from .models import (
     VolunteerPage, GoTeam, PrayerPartner, GiveSection,
     MediaPage, YouTubeVideo, SpotifyPodcast,
     DonationPage, BankAccount,
+    FooterSettings, FooterLink, FooterSocial,
 )
 
 
@@ -1072,4 +1073,133 @@ def editor_podcast_save(request, podcast_id):
 @require_http_methods(['POST'])
 def editor_podcast_delete(request, podcast_id):
     get_object_or_404(SpotifyPodcast, id=podcast_id).delete()
+    return JsonResponse({'status': 'ok'})
+
+
+# ---------------------------------------------------------------
+#  Site Footer
+# ---------------------------------------------------------------
+
+@staff_required
+def editor_site_footer(request):
+    return render(request, 'editor/site_footer.html', {
+        'footer_settings': FooterSettings.load(),
+        'quick_links':     list(FooterLink.objects.filter(column='quick')),
+        'involved_links':  list(FooterLink.objects.filter(column='involved')),
+        'socials':         list(FooterSocial.objects.all()),
+    })
+
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_save(request):
+    """Save the singleton footer settings (contact details, headings, bottom bar)."""
+    footer = FooterSettings.load()
+    d = request.POST
+    text_fields = [
+        'brand_text', 'contact_heading', 'email', 'phone', 'phone_alt', 'address',
+        'cta_text', 'cta_link', 'quick_links_heading', 'involved_heading',
+        'copyright_text', 'tagline',
+    ]
+    for f in text_fields:
+        if f in d:
+            setattr(footer, f, d[f].strip())
+    if 'show_cta' in d:
+        footer.show_cta = d['show_cta'] == 'true'
+    footer.last_modified_by = request.user
+    footer.save()
+    return JsonResponse({'status': 'ok'})
+
+
+# ---- Footer links (Quick Links / Get Involved columns) ----
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_link_add(request):
+    column = request.POST.get('column', 'quick')
+    if column not in dict(FooterLink.COLUMN_CHOICES):
+        return JsonResponse({'status': 'error', 'message': 'Invalid column'}, status=400)
+    last = FooterLink.objects.filter(column=column).order_by('-order').first()
+    link = FooterLink.objects.create(
+        column=column,
+        label='New Link',
+        url='/',
+        order=(last.order + 1) if last else 0,
+    )
+    return JsonResponse({
+        'status': 'ok', 'id': link.id, 'column': link.column,
+        'label': link.label, 'url': link.url,
+        'open_in_new_tab': link.open_in_new_tab, 'is_active': link.is_active,
+    })
+
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_link_save(request, link_id):
+    link = get_object_or_404(FooterLink, id=link_id)
+    d = request.POST
+    for f in ['label', 'url']:
+        if f in d:
+            setattr(link, f, d[f].strip())
+    if 'open_in_new_tab' in d:
+        link.open_in_new_tab = d['open_in_new_tab'] == 'true'
+    if 'is_active' in d:
+        link.is_active = d['is_active'] == 'true'
+    if 'order' in d:
+        try:
+            link.order = int(d['order'])
+        except ValueError:
+            pass
+    link.save()
+    return JsonResponse({'status': 'ok'})
+
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_link_delete(request, link_id):
+    get_object_or_404(FooterLink, id=link_id).delete()
+    return JsonResponse({'status': 'ok'})
+
+
+# ---- Footer social icons ----
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_social_add(request):
+    last = FooterSocial.objects.order_by('-order').first()
+    social = FooterSocial.objects.create(
+        name='New Network',
+        icon='fab fa-facebook-f',
+        url='https://',
+        order=(last.order + 1) if last else 0,
+    )
+    return JsonResponse({
+        'status': 'ok', 'id': social.id, 'name': social.name,
+        'icon': social.icon, 'url': social.url, 'is_active': social.is_active,
+    })
+
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_social_save(request, social_id):
+    social = get_object_or_404(FooterSocial, id=social_id)
+    d = request.POST
+    for f in ['name', 'icon', 'url']:
+        if f in d:
+            setattr(social, f, d[f].strip())
+    if 'is_active' in d:
+        social.is_active = d['is_active'] == 'true'
+    if 'order' in d:
+        try:
+            social.order = int(d['order'])
+        except ValueError:
+            pass
+    social.save()
+    return JsonResponse({'status': 'ok'})
+
+
+@staff_required
+@require_http_methods(['POST'])
+def editor_footer_social_delete(request, social_id):
+    get_object_or_404(FooterSocial, id=social_id).delete()
     return JsonResponse({'status': 'ok'})

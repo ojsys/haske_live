@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Footer — HASKE Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b1520;--surface:#111f30;--surface-2:#172840;--surface-3:#1d3050;
+  --border:rgba(255,255,255,0.06);--border-2:rgba(255,255,255,0.11);--border-3:rgba(255,255,255,0.18);
+  --gold:#C8922A;--gold-dim:#b8821f;--gold-glow:rgba(200,146,42,0.12);
+  --green-light:#4dba87;--red:#e74c3c;
+  --text:#d8e8f5;--text-muted:#5e7d9a;--text-dim:#3d5870;
+  --radius:10px;--radius-lg:14px;--radius-xl:18px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 2rem;gap:.75rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.topbar-logo{font-weight:800;font-size:.95rem;letter-spacing:.06em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:.5rem;padding-right:1.25rem;border-right:1px solid var(--border-2)}
+.topbar-logo .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--gold),#f0b740);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;font-weight:800;box-shadow:0 2px 8px rgba(200,146,42,.4)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:.6rem}
+.topbar-link{color:var(--text-muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.4rem;padding:.35rem .7rem;border-radius:6px;transition:all .15s}
+.topbar-link:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.topbar-user{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:.5rem;padding:.3rem .8rem;border-radius:20px;background:var(--surface-2);border:1px solid var(--border)}
+.shell{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sidebar-label{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);padding:.25rem 1.25rem .6rem}
+.sidebar-link{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.25rem;color:var(--text-muted);text-decoration:none;font-size:.835rem;font-weight:500;transition:all .15s;border-left:2px solid transparent}
+.sidebar-link:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sidebar-link.active{color:var(--gold);background:var(--gold-glow);border-left-color:var(--gold)}
+.sidebar-section{margin-bottom:1.5rem}
+.si{width:18px;text-align:center;font-size:.85rem;opacity:.75}
+.main{flex:1;min-width:0;padding:2.25rem 2.5rem;max-width:1000px}
+.page-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;gap:1rem}
+.page-hd-title{display:flex;align-items:center;gap:.75rem}
+.page-hd-icon{width:44px;height:44px;border-radius:12px;background:rgba(200,146,42,.12);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.page-hd h1{font-size:1.35rem;font-weight:800;letter-spacing:-.01em}
+.page-hd p{font-size:.82rem;color:var(--text-muted);margin-top:.2rem}
+.section-tabs{display:flex;gap:.25rem;margin-bottom:1.75rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.35rem}
+.stab{padding:.45rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text-muted);font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:.4rem}
+.stab:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.stab.active{background:var(--gold);color:#fff}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);margin-bottom:1.5rem;overflow:hidden}
+.section-card-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.section-card-header h2{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.55rem}
+.section-card-header h2 i{color:var(--gold)}
+.section-card-body{padding:1.5rem}
+.fgroup{margin-bottom:1.1rem}
+.fgroup label{display:block;font-size:.72rem;font-weight:700;color:var(--text-muted);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+.fgroup input,.fgroup textarea{width:100%;background:var(--surface-2);border:1px solid var(--border-2);border-radius:8px;padding:.6rem .875rem;color:var(--text);font-family:inherit;font-size:.875rem;outline:none;transition:border-color .15s}
+.fgroup input:focus,.fgroup textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-glow)}
+.fgroup textarea{resize:vertical;min-height:90px}
+.fgroup-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.img-hint{font-size:.73rem;color:var(--text-muted);margin-top:.35rem}
+.img-hint a{color:var(--gold)}
+.check{display:flex;align-items:center;gap:.55rem;font-size:.82rem;color:var(--text-muted);cursor:pointer;user-select:none}
+.check input{width:auto;accent-color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:7px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;white-space:nowrap;font-family:inherit}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:var(--gold-dim);color:#fff}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-2)}.btn-outline:hover{background:rgba(255,255,255,.04);border-color:var(--border-3)}
+.btn-ghost{background:transparent;color:var(--text-muted);border:1px solid transparent}.btn-ghost:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.btn-danger{background:transparent;color:var(--red);border:1px solid rgba(231,76,60,.2)}.btn-danger:hover{background:rgba(231,76,60,.08)}
+.btn-sm{padding:.3rem .65rem;font-size:.77rem}
+.btn-xs{padding:.2rem .5rem;font-size:.72rem}
+.item-list{display:flex;flex-direction:column;gap:.75rem}
+.item-row{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:1rem}
+.item-row-body{flex:1;min-width:0}
+.item-row-actions{display:flex;gap:.4rem;flex-shrink:0;padding-top:.1rem}
+.item-icon{width:40px;height:40px;border-radius:8px;background:rgba(200,146,42,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold)}
+.item-title{font-weight:600;font-size:.88rem;margin-bottom:.2rem}
+.item-meta{font-size:.75rem;color:var(--text-muted);word-break:break-all}
+.item-editor{background:var(--surface-3);border:1px solid var(--border-2);border-radius:var(--radius);padding:1.25rem;margin-top:.75rem;display:none}
+.item-editor.open{display:block}
+.muted-note{color:var(--text-muted);font-size:.85rem}
+.pill{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.12rem .45rem;border-radius:20px;margin-left:.4rem;background:rgba(231,76,60,.14);color:var(--red)}
+.toast{position:fixed;bottom:1.75rem;right:1.75rem;background:var(--surface-2);border:1px solid var(--border-2);border-radius:9px;padding:.8rem 1.2rem;font-size:.82rem;z-index:1000;display:flex;align-items:center;gap:.5rem;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(29,106,74,.5);color:var(--green-light)}
+.toast.error{border-color:rgba(231,76,60,.5);color:var(--red)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="/editor/" class="topbar-logo"><div class="dot">H</div> HASKE</a>
+  <div class="topbar-right">
+    <a href="/editor/" class="topbar-link"><i class="fas fa-arrow-left"></i> Dashboard</a>
+    <a href="/editor/blog/" class="topbar-link"><i class="fas fa-newspaper"></i> Blog</a>
+    <a href="/" target="_blank" class="topbar-link"><i class="fas fa-external-link-alt"></i> View Site</a>
+    <a href="/admin/" class="topbar-link"><i class="fas fa-cog"></i> Admin</a>
+    <div class="topbar-user"><i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}</div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site Pages</div>
+      <a href="/editor/site/home/" class="sidebar-link"><span class="si"><i class="fas fa-home"></i></span> Home</a>
+      <a href="/editor/site/about/" class="sidebar-link"><span class="si"><i class="fas fa-info-circle"></i></span> About</a>
+      <a href="/editor/site/projects/" class="sidebar-link"><span class="si"><i class="fas fa-project-diagram"></i></span> Projects</a>
+      <a href="/editor/site/volunteer/" class="sidebar-link"><span class="si"><i class="fas fa-hands-helping"></i></span> Volunteer</a>
+      <a href="/editor/site/give/" class="sidebar-link"><span class="si"><i class="fas fa-hand-holding-heart"></i></span> Give</a>
+      <a href="/editor/site/media/" class="sidebar-link"><span class="si"><i class="fas fa-photo-video"></i></span> Media</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Site Wide</div>
+      <a href="/editor/site/footer/" class="sidebar-link active"><span class="si"><i class="fas fa-shoe-prints"></i></span> Footer</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Content</div>
+      <a href="/editor/blog/" class="sidebar-link"><span class="si"><i class="fas fa-newspaper"></i></span> Blog Posts</a>
+      <a href="/editor/" class="sidebar-link"><span class="si"><i class="fas fa-file-alt"></i></span> Custom Pages</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="page-hd">
+      <div class="page-hd-title">
+        <div class="page-hd-icon"><i class="fas fa-shoe-prints"></i></div>
+        <div>
+          <h1>Site Footer</h1>
+          <p>Edit the contact details, links and text that appear at the bottom of every page</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-tabs">
+      <button class="stab active" onclick="showTab('contact',this)"><i class="fas fa-address-book"></i> Contact &amp; Brand</button>
+      <button class="stab" onclick="showTab('links',this)"><i class="fas fa-link"></i> Link Columns</button>
+      <button class="stab" onclick="showTab('social',this)"><i class="fas fa-share-nodes"></i> Social Links</button>
+      <button class="stab" onclick="showTab('bottom',this)"><i class="fas fa-copyright"></i> Bottom Bar</button>
+    </div>
+
+    <!-- Tab: Contact & Brand -->
+    <div class="tab-panel active" id="tab-contact">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-address-book"></i> Contact Details</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveSettings()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup"><label>Column Heading</label><input type="text" id="f-contact_heading" value="{{ footer_settings.contact_heading }}" placeholder="Contact Us"></div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Email Address</label><input type="email" id="f-email" value="{{ footer_settings.email }}" placeholder="info@example.org"></div>
+            <div class="fgroup"><label>Phone Number</label><input type="text" id="f-phone" value="{{ footer_settings.phone }}" placeholder="+234 800 000 0000"></div>
+          </div>
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Second Phone (optional)</label><input type="text" id="f-phone_alt" value="{{ footer_settings.phone_alt }}" placeholder="Leave blank to hide"></div>
+            <div class="fgroup"><label>Address / Location</label><input type="text" id="f-address" value="{{ footer_settings.address }}" placeholder="Northern Nigeria"></div>
+          </div>
+          <p class="muted-note">Leave any field blank to hide that row from the footer.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-align-left"></i> Brand Text</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveSettings()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup"><label>Paragraph Under The Logo</label><textarea id="f-brand_text">{{ footer_settings.brand_text }}</textarea></div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-heart"></i> Call-To-Action Button</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveSettings()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>Button Text</label><input type="text" id="f-cta_text" value="{{ footer_settings.cta_text }}" placeholder="Support Our Mission"></div>
+            <div class="fgroup"><label>Button Link</label><input type="text" id="f-cta_link" value="{{ footer_settings.cta_link }}" placeholder="/give/" list="url-suggestions"></div>
+          </div>
+          <label class="check"><input type="checkbox" id="f-show_cta" {% if footer_settings.show_cta %}checked{% endif %}> Show the button in the footer</label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tab: Link Columns -->
+    <div class="tab-panel" id="tab-links">
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-heading"></i> Column Headings</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveSettings()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup-row">
+            <div class="fgroup"><label>First Column Heading</label><input type="text" id="f-quick_links_heading" value="{{ footer_settings.quick_links_heading }}" placeholder="Quick Links"></div>
+            <div class="fgroup"><label>Second Column Heading</label><input type="text" id="f-involved_heading" value="{{ footer_settings.involved_heading }}" placeholder="Get Involved"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-list"></i> {{ footer_settings.quick_links_heading|default:"Quick Links" }} Column</h2>
+          <button class="btn btn-gold btn-sm" onclick="addLink('quick')"><i class="fas fa-plus"></i> Add Link</button>
+        </div>
+        <div class="section-card-body">
+          <div class="item-list" id="links-list-quick">
+            {% for link in quick_links %}{% include "editor/_footer_link_row.html" %}{% empty %}
+            <p class="muted-note" id="links-empty-quick">No links yet. Click "Add Link" to create one.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-list"></i> {{ footer_settings.involved_heading|default:"Get Involved" }} Column</h2>
+          <button class="btn btn-gold btn-sm" onclick="addLink('involved')"><i class="fas fa-plus"></i> Add Link</button>
+        </div>
+        <div class="section-card-body">
+          <div class="item-list" id="links-list-involved">
+            {% for link in involved_links %}{% include "editor/_footer_link_row.html" %}{% empty %}
+            <p class="muted-note" id="links-empty-involved">No links yet. Click "Add Link" to create one.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tab: Social Links -->
+    <div class="tab-panel" id="tab-social">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-share-nodes"></i> Social Media Icons</h2>
+          <button class="btn btn-gold btn-sm" onclick="addSocial()"><i class="fas fa-plus"></i> Add Network</button>
+        </div>
+        <div class="section-card-body">
+          <div class="item-list" id="socials-list">
+            {% for social in socials %}
+            <div class="item-row" id="social-row-{{ social.id }}">
+              <div class="item-icon"><i class="{{ social.icon }}" id="social-icon-{{ social.id }}"></i></div>
+              <div class="item-row-body">
+                <div class="item-title">{{ social.name }}{% if not social.is_active %}<span class="pill">Hidden</span>{% endif %}</div>
+                <div class="item-meta">{{ social.url }}</div>
+                <div class="item-editor" id="social-editor-{{ social.id }}">
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Name</label><input type="text" id="s{{ social.id }}-name" value="{{ social.name }}"></div>
+                    <div class="fgroup"><label>Icon Class</label><input type="text" id="s{{ social.id }}-icon" value="{{ social.icon }}" list="icon-suggestions" placeholder="fab fa-facebook-f"></div>
+                  </div>
+                  <div class="fgroup"><label>URL</label><input type="text" id="s{{ social.id }}-url" value="{{ social.url }}" placeholder="https://..."></div>
+                  <div class="fgroup-row">
+                    <div class="fgroup"><label>Order</label><input type="number" id="s{{ social.id }}-order" value="{{ social.order }}"></div>
+                    <div class="fgroup"><label>Visibility</label>
+                      <label class="check"><input type="checkbox" id="s{{ social.id }}-is_active" {% if social.is_active %}checked{% endif %}> Show in footer</label>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:.5rem;margin-top:.5rem">
+                    <button class="btn btn-gold btn-sm" onclick="saveSocial({{ social.id }})"><i class="fas fa-save"></i> Save</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteSocial({{ social.id }})"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </div>
+              </div>
+              <div class="item-row-actions">
+                <button class="btn btn-ghost btn-xs" onclick="toggleEditor('social-editor-{{ social.id }}')"><i class="fas fa-pen"></i></button>
+              </div>
+            </div>
+            {% empty %}
+            <p class="muted-note" id="socials-empty">No social links yet. Click "Add Network" to create one.</p>
+            {% endfor %}
+          </div>
+          <p class="muted-note" style="margin-top:1rem">Icons use <a href="https://fontawesome.com/search?f=brands" target="_blank" style="color:var(--gold)">Font Awesome</a> class names, e.g. <code>fab fa-facebook-f</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Bottom Bar -->
+    <div class="tab-panel" id="tab-bottom">
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2><i class="fas fa-copyright"></i> Bottom Bar</h2>
+          <button class="btn btn-gold btn-sm" onclick="saveSettings()"><i class="fas fa-save"></i> Save</button>
+        </div>
+        <div class="section-card-body">
+          <div class="fgroup"><label>Copyright Text</label><input type="text" id="f-copyright_text" value="{{ footer_settings.copyright_text }}" placeholder="Light of Life / HASKE Project. All rights reserved.">
+            <p class="img-hint">The current year and &copy; are added automatically in front of this text.</p>
+          </div>
+          <div class="fgroup"><label>Tagline</label><input type="text" id="f-tagline" value="{{ footer_settings.tagline }}" placeholder="Shining Yahweh's Light, reconciling lives."></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<datalist id="url-suggestions">
+  <option value="/"></option>
+  <option value="/about/"></option>
+  <option value="/projects/"></option>
+  <option value="/volunteer/"></option>
+  <option value="/media/"></option>
+  <option value="/blog/"></option>
+  <option value="/give/"></option>
+  <option value="/contact/"></option>
+  <option value="/map/"></option>
+</datalist>
+
+<datalist id="icon-suggestions">
+  <option value="fab fa-facebook-f"></option>
+  <option value="fab fa-instagram"></option>
+  <option value="fab fa-x-twitter"></option>
+  <option value="fab fa-youtube"></option>
+  <option value="fab fa-tiktok"></option>
+  <option value="fab fa-telegram-plane"></option>
+  <option value="fab fa-whatsapp"></option>
+  <option value="fab fa-linkedin-in"></option>
+</datalist>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CSRF = '{{ csrf_token }}';
+
+const SETTINGS_FIELDS = [
+  'brand_text','contact_heading','email','phone','phone_alt','address',
+  'cta_text','cta_link','quick_links_heading','involved_heading',
+  'copyright_text','tagline',
+];
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleEditor(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ---------- Footer settings ---------- */
+
+function saveSettings() {
+  const fd = new FormData();
+  SETTINGS_FIELDS.forEach(f => {
+    const el = document.getElementById(`f-${f}`);
+    if (el) fd.append(f, el.value);
+  });
+  fd.append('show_cta', document.getElementById('f-show_cta').checked ? 'true' : 'false');
+
+  fetch('/editor/api/site/footer/save/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r => r.json()).then(() => toast('Footer saved'))
+    .catch(() => toast('Save failed', 'error'));
+}
+
+/* ---------- Link columns ---------- */
+
+function addLink(column) {
+  const fd = new FormData();
+  fd.append('column', column);
+  fetch('/editor/api/site/footer/links/add/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById(`links-empty-${column}`)?.remove();
+      document.getElementById(`links-list-${column}`).insertAdjacentHTML('beforeend', buildLinkRow(d));
+      toast('Link added');
+    })
+    .catch(() => toast('Failed', 'error'));
+}
+
+function buildLinkRow(d) {
+  return `
+  <div class="item-row" id="link-row-${d.id}">
+    <div class="item-icon"><i class="fas fa-link"></i></div>
+    <div class="item-row-body">
+      <div class="item-title">${esc(d.label)}</div>
+      <div class="item-meta">${esc(d.url)}</div>
+      <div class="item-editor open" id="link-editor-${d.id}">
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Label</label><input type="text" id="l${d.id}-label" value="${esc(d.label)}"></div>
+          <div class="fgroup"><label>URL</label><input type="text" id="l${d.id}-url" value="${esc(d.url)}" list="url-suggestions"></div>
+        </div>
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Order</label><input type="number" id="l${d.id}-order" value="0"></div>
+          <div class="fgroup"><label>Options</label>
+            <label class="check"><input type="checkbox" id="l${d.id}-is_active" checked> Show in footer</label>
+            <label class="check" style="margin-top:.4rem"><input type="checkbox" id="l${d.id}-open_in_new_tab"> Open in a new tab</label>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+          <button class="btn btn-gold btn-sm" onclick="saveLink(${d.id})"><i class="fas fa-save"></i> Save</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteLink(${d.id})"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="item-row-actions">
+      <button class="btn btn-ghost btn-xs" onclick="toggleEditor('link-editor-${d.id}')"><i class="fas fa-pen"></i></button>
+    </div>
+  </div>`;
+}
+
+function saveLink(id) {
+  const fd = new FormData();
+  ['label','url','order'].forEach(f => {
+    const el = document.getElementById(`l${id}-${f}`);
+    if (el) fd.append(f, el.value);
+  });
+  fd.append('is_active', document.getElementById(`l${id}-is_active`).checked ? 'true' : 'false');
+  fd.append('open_in_new_tab', document.getElementById(`l${id}-open_in_new_tab`).checked ? 'true' : 'false');
+
+  fetch(`/editor/api/site/footer/links/${id}/save/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r => r.json())
+    .then(() => {
+      const row = document.getElementById(`link-row-${id}`);
+      const active = document.getElementById(`l${id}-is_active`).checked;
+      row.querySelector('.item-title').innerHTML =
+        esc(document.getElementById(`l${id}-label`).value) + (active ? '' : '<span class="pill">Hidden</span>');
+      row.querySelector('.item-meta').textContent = document.getElementById(`l${id}-url`).value;
+      toast('Link saved');
+    })
+    .catch(() => toast('Save failed', 'error'));
+}
+
+function deleteLink(id) {
+  if (!confirm('Delete this footer link?')) return;
+  fetch(`/editor/api/site/footer/links/${id}/delete/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
+    .then(r => r.json())
+    .then(() => { document.getElementById(`link-row-${id}`)?.remove(); toast('Link deleted'); })
+    .catch(() => toast('Delete failed', 'error'));
+}
+
+/* ---------- Social icons ---------- */
+
+function addSocial() {
+  fetch('/editor/api/site/footer/socials/add/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById('socials-empty')?.remove();
+      document.getElementById('socials-list').insertAdjacentHTML('beforeend', buildSocialRow(d));
+      toast('Network added');
+    })
+    .catch(() => toast('Failed', 'error'));
+}
+
+function buildSocialRow(d) {
+  return `
+  <div class="item-row" id="social-row-${d.id}">
+    <div class="item-icon"><i class="${esc(d.icon)}" id="social-icon-${d.id}"></i></div>
+    <div class="item-row-body">
+      <div class="item-title">${esc(d.name)}</div>
+      <div class="item-meta">${esc(d.url)}</div>
+      <div class="item-editor open" id="social-editor-${d.id}">
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Name</label><input type="text" id="s${d.id}-name" value="${esc(d.name)}"></div>
+          <div class="fgroup"><label>Icon Class</label><input type="text" id="s${d.id}-icon" value="${esc(d.icon)}" list="icon-suggestions"></div>
+        </div>
+        <div class="fgroup"><label>URL</label><input type="text" id="s${d.id}-url" value="${esc(d.url)}" placeholder="https://..."></div>
+        <div class="fgroup-row">
+          <div class="fgroup"><label>Order</label><input type="number" id="s${d.id}-order" value="0"></div>
+          <div class="fgroup"><label>Visibility</label>
+            <label class="check"><input type="checkbox" id="s${d.id}-is_active" checked> Show in footer</label>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+          <button class="btn btn-gold btn-sm" onclick="saveSocial(${d.id})"><i class="fas fa-save"></i> Save</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSocial(${d.id})"><i class="fas fa-trash"></i> Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="item-row-actions">
+      <button class="btn btn-ghost btn-xs" onclick="toggleEditor('social-editor-${d.id}')"><i class="fas fa-pen"></i></button>
+    </div>
+  </div>`;
+}
+
+function saveSocial(id) {
+  const fd = new FormData();
+  ['name','icon','url','order'].forEach(f => {
+    const el = document.getElementById(`s${id}-${f}`);
+    if (el) fd.append(f, el.value);
+  });
+  fd.append('is_active', document.getElementById(`s${id}-is_active`).checked ? 'true' : 'false');
+
+  fetch(`/editor/api/site/footer/socials/${id}/save/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r => r.json())
+    .then(() => {
+      const row = document.getElementById(`social-row-${id}`);
+      const active = document.getElementById(`s${id}-is_active`).checked;
+      row.querySelector('.item-title').innerHTML =
+        esc(document.getElementById(`s${id}-name`).value) + (active ? '' : '<span class="pill">Hidden</span>');
+      row.querySelector('.item-meta').textContent = document.getElementById(`s${id}-url`).value;
+      document.getElementById(`social-icon-${id}`).className = document.getElementById(`s${id}-icon`).value;
+      toast('Network saved');
+    })
+    .catch(() => toast('Save failed', 'error'));
+}
+
+function deleteSocial(id) {
+  if (!confirm('Delete this social link?')) return;
+  fetch(`/editor/api/site/footer/socials/${id}/delete/`, { method:'POST', headers:{'X-CSRFToken':CSRF}, body:new FormData() })
+    .then(r => r.json())
+    .then(() => { document.getElementById(`social-row-${id}`)?.remove(); toast('Network deleted'); })
+    .catch(() => toast('Delete failed', 'error'));
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>

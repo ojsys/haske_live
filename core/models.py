@@ -747,5 +747,104 @@ class PageSectionCard(models.Model):
         return f"{self.section} — {self.title}"
 
 
+#################### SITE FOOTER ###################
+
+class FooterSettings(BaseAuditModel):
+    """Singleton holding the editable content of the site-wide footer."""
+    # Brand column
+    brand_text = models.TextField(
+        blank=True,
+        default="Reaching unreached people groups across Nigeria with the light and love of Jesus Christ — one village at a time.",
+        help_text="Short paragraph under the footer logo",
+    )
+
+    # Contact column
+    contact_heading = models.CharField(max_length=100, default="Contact Us", blank=True)
+    email = models.EmailField(max_length=200, default="info@lightoflifeafrica.org", blank=True)
+    phone = models.CharField(max_length=50, default="+234 816 480 7904", blank=True)
+    phone_alt = models.CharField(max_length=50, blank=True, help_text="Optional second phone number")
+    address = models.CharField(max_length=255, default="Northern Nigeria", blank=True)
+
+    # Contact call-to-action button
+    cta_text = models.CharField(max_length=100, default="Support Our Mission", blank=True)
+    cta_link = models.CharField(max_length=200, default="/give/", blank=True)
+    show_cta = models.BooleanField(default=True)
+
+    # Link column headings
+    quick_links_heading = models.CharField(max_length=100, default="Quick Links", blank=True)
+    involved_heading = models.CharField(max_length=100, default="Get Involved", blank=True)
+
+    # Bottom bar
+    copyright_text = models.CharField(
+        max_length=255,
+        default="Light of Life / HASKE Project. All rights reserved.",
+        blank=True,
+        help_text="Shown after '© <year>'",
+    )
+    tagline = models.CharField(
+        max_length=255,
+        default="Shining Yahweh's Light, reconciling lives.",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Footer Settings"
+        verbose_name_plural = "Footer Settings"
+
+    def __str__(self):
+        return "Footer Settings"
+
+    @classmethod
+    def load(cls):
+        """Return the singleton row, creating it with defaults on first access."""
+        obj = cls.objects.first()
+        if obj is None:
+            obj = cls.objects.create()
+        return obj
+
+
+class FooterLink(models.Model):
+    """A single link inside one of the footer's two link columns."""
+    COLUMN_CHOICES = [
+        ('quick', 'Quick Links'),
+        ('involved', 'Get Involved'),
+    ]
+    column = models.CharField(max_length=20, choices=COLUMN_CHOICES, default='quick')
+    label = models.CharField(max_length=100)
+    url = models.CharField(max_length=300, help_text="e.g. /about/ or https://example.com")
+    open_in_new_tab = models.BooleanField(default=False)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['column', 'order', 'id']
+        verbose_name = "Footer Link"
+        verbose_name_plural = "Footer Links"
+
+    def __str__(self):
+        return f"{self.get_column_display()} — {self.label}"
+
+
+class FooterSocial(models.Model):
+    """A social media icon link in the footer."""
+    name = models.CharField(max_length=50, help_text="Accessible label, e.g. Facebook")
+    icon = models.CharField(
+        max_length=100,
+        default="fab fa-facebook-f",
+        help_text="Font Awesome class, e.g. fab fa-facebook-f",
+    )
+    url = models.CharField(max_length=300)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = "Footer Social Link"
+        verbose_name_plural = "Footer Social Links"
+
+    def __str__(self):
+        return self.name
+
+
 
 

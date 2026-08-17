@@ -1,0 +1,28 @@
+{# One editable row in a footer link column. Expects `link` from the enclosing for-loop. #}
+<div class="item-row" id="link-row-{{ link.id }}">
+  <div class="item-icon"><i class="fas fa-link"></i></div>
+  <div class="item-row-body">
+    <div class="item-title">{{ link.label }}{% if not link.is_active %}<span class="pill">Hidden</span>{% endif %}</div>
+    <div class="item-meta">{{ link.url }}</div>
+    <div class="item-editor" id="link-editor-{{ link.id }}">
+      <div class="fgroup-row">
+        <div class="fgroup"><label>Label</label><input type="text" id="l{{ link.id }}-label" value="{{ link.label }}"></div>
+        <div class="fgroup"><label>URL</label><input type="text" id="l{{ link.id }}-url" value="{{ link.url }}" list="url-suggestions"></div>
+      </div>
+      <div class="fgroup-row">
+        <div class="fgroup"><label>Order</label><input type="number" id="l{{ link.id }}-order" value="{{ link.order }}"></div>
+        <div class="fgroup"><label>Options</label>
+          <label class="check"><input type="checkbox" id="l{{ link.id }}-is_active" {% if link.is_active %}checked{% endif %}> Show in footer</label>
+          <label class="check" style="margin-top:.4rem"><input type="checkbox" id="l{{ link.id }}-open_in_new_tab" {% if link.open_in_new_tab %}checked{% endif %}> Open in a new tab</label>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.5rem">
+        <button class="btn btn-gold btn-sm" onclick="saveLink({{ link.id }})"><i class="fas fa-save"></i> Save</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteLink({{ link.id }})"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="item-row-actions">
+    <button class="btn btn-ghost btn-xs" onclick="toggleEditor('link-editor-{{ link.id }}')"><i class="fas fa-pen"></i></button>
+  </div>
+</div>

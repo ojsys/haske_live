@@ -1130,6 +1130,8 @@ select.form-control {
   color: rgba(255,255,255,0.58);
 }
 .footer-contact-row i { color: var(--gold); font-size: 0.88rem; margin-top: 0.22rem; flex-shrink: 0; }
+.footer-contact-row a { color: inherit; transition: color var(--transition); }
+.footer-contact-row a:hover { color: var(--gold-light); }
 
 .footer-divider {
   border-top: 1px solid rgba(255,255,255,0.07);

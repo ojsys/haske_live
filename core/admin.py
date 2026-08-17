@@ -10,6 +10,7 @@ from .models import HeroSlide, Statistics, Achievement, Ministry, MinistrySectio
 from .models import Project, ProjectPage, VolunteerPage, GoTeam, GiveSection, PrayerPartner, VolunteerApplication
 from .models import BlogPost, BlogImage, YouTubeVideo, SpotifyPodcast, MediaPage, DonationPage, BankAccount
 from .models import Page, PageSection, PageSectionCard
+from .models import FooterSettings, FooterLink, FooterSocial
 from import_export.admin import ImportExportModelAdmin
 from import_export.formats import base_formats
 import xlsxwriter
@@ -474,3 +475,36 @@ class PageSectionAdmin(admin.ModelAdmin):
         ('Style', {'fields': ('background', 'css_class')}),
         ('Advanced (JSON)', {'fields': ('extra_data',), 'classes': ('collapse',)}),
     )
+
+##############  SITE FOOTER  ##################
+
+@admin.register(FooterSettings)
+class FooterSettingsAdmin(AuditAdminMixin):
+    list_display = ('__str__', 'email', 'phone', 'address')
+    fieldsets = (
+        ('Brand', {'fields': ('brand_text',)}),
+        ('Contact', {'fields': ('contact_heading', 'email', ('phone', 'phone_alt'), 'address')}),
+        ('Call To Action', {'fields': (('cta_text', 'cta_link'), 'show_cta')}),
+        ('Column Headings', {'fields': (('quick_links_heading', 'involved_heading'),)}),
+        ('Bottom Bar', {'fields': ('copyright_text', 'tagline')}),
+    )
+
+    def has_add_permission(self, request):
+        # Singleton — only one footer configuration row.
+        return not FooterSettings.objects.exists()
+
+
+@admin.register(FooterLink)
+class FooterLinkAdmin(admin.ModelAdmin):
+    list_display  = ('label', 'column', 'url', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('column', 'is_active')
+    search_fields = ('label', 'url')
+
+
+@admin.register(FooterSocial)
+class FooterSocialAdmin(admin.ModelAdmin):
+    list_display  = ('name', 'icon', 'url', 'order', 'is_active')
+    list_editable = ('order', 'is_active')
+    list_filter   = ('is_active',)
+    search_fields = ('name', 'url')

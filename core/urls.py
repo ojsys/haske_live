@@ -78,6 +78,7 @@ urlpatterns = [
     path('editor/site/volunteer/', editor_views.editor_site_volunteer, name='editor_site_volunteer'),
     path('editor/site/give/',      editor_views.editor_site_give,      name='editor_site_give'),
     path('editor/site/media/',     editor_views.editor_site_media,     name='editor_site_media'),
+    path('editor/site/footer/',    editor_views.editor_site_footer,    name='editor_site_footer'),
 
     # Hero Slides
     path('editor/api/site/hero/add/',                  editor_views.editor_hero_slide_add,    name='editor_hero_slide_add'),
@@ -135,6 +136,15 @@ urlpatterns = [
     path('editor/api/site/podcasts/add/',                      editor_views.editor_podcast_add,     name='editor_podcast_add'),
     path('editor/api/site/podcasts/<int:podcast_id>/save/',    editor_views.editor_podcast_save,    name='editor_podcast_save'),
     path('editor/api/site/podcasts/<int:podcast_id>/delete/',  editor_views.editor_podcast_delete,  name='editor_podcast_delete'),
+
+    # Footer
+    path('editor/api/site/footer/save/',                        editor_views.editor_footer_save,          name='editor_footer_save'),
+    path('editor/api/site/footer/links/add/',                   editor_views.editor_footer_link_add,      name='editor_footer_link_add'),
+    path('editor/api/site/footer/links/<int:link_id>/save/',    editor_views.editor_footer_link_save,     name='editor_footer_link_save'),
+    path('editor/api/site/footer/links/<int:link_id>/delete/',  editor_views.editor_footer_link_delete,   name='editor_footer_link_delete'),
+    path('editor/api/site/footer/socials/add/',                 editor_views.editor_footer_social_add,    name='editor_footer_social_add'),
+    path('editor/api/site/footer/socials/<int:social_id>/save/',   editor_views.editor_footer_social_save,   name='editor_footer_social_save'),
+    path('editor/api/site/footer/socials/<int:social_id>/delete/', editor_views.editor_footer_social_delete, name='editor_footer_social_delete'),
 
     # Blog Editor
     path('editor/blog/', editor_views.editor_blog_list, name='editor_blog_list'),
